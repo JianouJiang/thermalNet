@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 
 
 def jianouTest():
-  print("My name is Jianou, good to have everybody here!")
+  print("My name is Jianou, good to have everybody here! Testing plotTest() function below:")
+  plotTest()
   return
 
 def plotTest():
