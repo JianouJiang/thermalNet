@@ -3,7 +3,7 @@
 # TODO for testing:
 # 0. download python: https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe; MUST add Python to PATH in the installation process.
 # 1. clone (download) the repository as thermalNet-main to your local environment, e.g. Desktop.
-# 2. in the thermalNet-main, create a new python file. E.g. yournameTest.py in Sublime Text or Anaconda Jupyter.
+# 2. in the thermalNet-main that you just downloaded/cloned, create a new python file. E.g. yournameTest.py in Sublime Text or Anaconda Jupyter.
 # 3. in yournameTest.py, define a function called yournameTest() that prints out a sentence of self-introduction.
 # 4. uncomment the # yournameTest() in the test() function in test.py to call the function that you just wrote. Don't forget to import the lib!
 # 5. run the code in the command prompt by typing python test.py in the thermalNet-main directory, make sure the code works before pushing and updating it to our repository.
