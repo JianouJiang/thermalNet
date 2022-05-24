@@ -1,7 +1,13 @@
+# importing libs
+from jianouTest import * # importing all function from jianouTest.py
+
 
 def test():
   
   print("Started testing all contributors...")
+  
+  jianouTest()
+  print("Finishing contributor X.")
   
   # contributor A's function here
   
