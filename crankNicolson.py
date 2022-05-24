@@ -1,4 +1,5 @@
 # crank-Nicolson function
+# https://people.sc.fsu.edu/~jpeterson/5-CrankNicolson.pdf
 
 def crankNicolson1D():
   # print("crankNicolson1D()")
