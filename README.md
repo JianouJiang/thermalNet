@@ -1,6 +1,7 @@
 # thermalNet
 # predicting thermal dynamics using a deep learning neural network framework.
 # TODO for testing:
+# 0. download python: https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe; MUST add Python to PATH in the installation process.
 # 1. clone (download) the repository as thermalNet-main to your local environment, e.g. Desktop.
 # 2. in the thermalNet-main, create a new python file. E.g. yournameTest.py in Sublime Text or Anaconda Jupyter.
 # 3. in yournameTest.py, define a function called yournameTest() that prints out a sentence of self-introduction.
