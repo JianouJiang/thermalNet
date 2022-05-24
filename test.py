@@ -1,32 +1,34 @@
 # importing libs
-from jianouTest import * # importing all function from jianouTest.py
-
+from jianouTest import * # importing all functions from jianouTest.py
+# TODO!
+# from chennuoTest import * 
 
 def test():
   
   print("Started testing all contributors...")
   
+  print("Let's welcome Jianou...")
   jianouTest()
-  print("Finishing contributor X.")
   
-  # contributor A's function here
+  print("Then, let's welcome Chen Nuo...")
+  # ChenNuo's function below:
+  # chennuoTest()
   
-  print("Finishing contributor A.")
+  print("Next, let's welcome Xiao Yang...")
+  # Xiao Yang's function below:
+  # xiaoyangTest()
   
-  # contributor B's function here
+  print("Again, let's welcome Kai Yi...")
+  # Kai Yi's function below:
+  # kaiyiTest()
   
-  print("Finishing contributor B.")
-  
-  # contributor C's function here
-  
-  print("Finishing contributor C.")
-  
-  # contributor D's function here
-  
-  print("Finishing contributor D.")
-  
+  print("Finally, let's welcome Zheng Yang...")
+  # Zheng Yang's function below:
+  # zhengyangTest()
+ 
   print("Finished testing all contributors :)")
   
   return
 
+# testing if all contributors can push their codes.
 test()
