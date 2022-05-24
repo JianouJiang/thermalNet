@@ -1,5 +1,7 @@
 # importing libs
 from jianouTest import * # importing all functions from jianouTest.py
+from tools.normalisation import *
+
 # TODO!
 # from chennuoTest import * 
 
@@ -9,6 +11,7 @@ def test():
   
   print("Let's welcome Jianou...")
   jianouTest()
+  normalisation()
   
   print("Then, let's welcome Chen Nuo...")
   # ChenNuo's function below:
