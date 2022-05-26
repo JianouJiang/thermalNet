@@ -5,9 +5,10 @@ from tools.normalisation import *
 # TODO!
 # from chennuoTest import * 
 
+print("Started testing all contributors...")
 def test():
   
-  print("Started testing all contributors...")
+  print("--------test()---------")
   
   print("Let's welcome Jianou...")
   jianouTest()
@@ -28,10 +29,9 @@ def test():
   print("Finally, let's welcome Zheng Yang...")
   # Zheng Yang's function below:
   # zhengyangTest()
- 
-  print("Finished testing all contributors :)")
-  
+     
   return
 
 # testing if all contributors can push their codes.
 test()
+print("Finished testing all contributors :)")
