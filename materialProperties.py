@@ -6,12 +6,12 @@ def rho_steel(T): # input as a temperature scalar field, e.g. 2D array
   
   return # returns a rho scalar field
 
-def Cp(T): # input as a temperature scalar field
+def Cp_steel(T): # input as a temperature scalar field
   
   return
 
 
-def k(T):
+def k_steel(T):
   
   
   return
@@ -19,16 +19,16 @@ def k(T):
 
 # material 2: e.g. coke or coal
 
-def rho(T):
+def rho_coke(T):
   
   return
 
-def Cp(T):
+def Cp_coke(T):
   
   return
 
 
-def k(T):
+def k_coke(T):
   
   
   return
