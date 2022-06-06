@@ -1,5 +1,6 @@
 # importing libs
 from jianouTest import * # importing all functions from jianouTest.py
+from kaiyiTest import *
 from tools.normalisation import *
 
 # TODO!
