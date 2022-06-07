@@ -11,7 +11,7 @@ def test():
   
   print("--------test()---------")
   
-  print("Let's welcome Jianou...")
+  print("First, let's welcome Jianou...")
   jianouTest()
   normalisation()
   
@@ -23,13 +23,17 @@ def test():
   # Xiao Yang's function below:
   # xiaoyangTest()
   
-  print("Again, let's welcome Kai Yi...")
+  print("Now, let's welcome Kai Yi...")
   # Kai Yi's function below:
   # kaiyiTest()
   
-  print("Finally, let's welcome Zheng Yang...")
+  print("Again, let's welcome Zheng Yang...")
   # Zheng Yang's function below:
   # zhengyangTest()
+  
+  print("Finally, let's welcome Yan Lin...")
+  # Yan Lin's function below:
+  # yanlinTest()
      
   return
 
