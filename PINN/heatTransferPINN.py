@@ -517,110 +517,11 @@ if __name__ == "__main__":
     ######################################################################
     ############################# Plotting ###############################
     ######################################################################    
-    print("started plotting")
-    # Load Data
-    data_vort = scipy.io.loadmat('cylinder_nektar_t0_vorticity.mat')
-           
-    x_vort = data_vort['x'] 
-    y_vort = data_vort['y'] 
-    w_vort = data_vort['w'] 
-    modes = np.asscalar(data_vort['modes'])
-    nel = np.asscalar(data_vort['nel'])    
+   
     
-    xx_vort = np.reshape(x_vort, (modes+1,modes+1,nel), order = 'F')
-    yy_vort = np.reshape(y_vort, (modes+1,modes+1,nel), order = 'F')
-    ww_vort = np.reshape(w_vort, (modes+1,modes+1,nel), order = 'F')
-    
-    box_lb = np.array([1.0, -2.0])
-    box_ub = np.array([8.0, 2.0])
-    
-    fig, ax = newfig(1.0, 1.2)
-    ax.axis('off')
-    
-    ####### Row 0: Vorticity ##################    
-    gs0 = gridspec.GridSpec(1, 2)
-    gs0.update(top=1-0.06, bottom=1-2/4 + 0.12, left=0.0, right=1.0, wspace=0)
-    ax = plt.subplot(gs0[:, :])
-    
-    for i in range(0, nel):
-        h = ax.pcolormesh(xx_vort[:,:,i], yy_vort[:,:,i], ww_vort[:,:,i], cmap='seismic',shading='gouraud',  vmin=-3, vmax=3) 
-    divider = make_axes_locatable(ax)
-    cax = divider.append_axes("right", size="5%", pad=0.05)
-    fig.colorbar(h, cax=cax)
-    
-    ax.plot([box_lb[0],box_lb[0]],[box_lb[1],box_ub[1]],'k',linewidth = 1)
-    ax.plot([box_ub[0],box_ub[0]],[box_lb[1],box_ub[1]],'k',linewidth = 1)
-    ax.plot([box_lb[0],box_ub[0]],[box_lb[1],box_lb[1]],'k',linewidth = 1)
-    ax.plot([box_lb[0],box_ub[0]],[box_ub[1],box_ub[1]],'k',linewidth = 1)
-    
-    ax.set_aspect('equal', 'box')
-    ax.set_xlabel('$x$')
-    ax.set_ylabel('$y$')
-    ax.set_title('Vorticity', fontsize = 10)
-    
-    
-    ####### Row 1: Training data ##################
-    ########      u(t,x,y)     ###################        
-    print("u(t,x,y)")
-    gs1 = gridspec.GridSpec(1, 2)
-    gs1.update(top=1-2/4, bottom=0.0, left=0.01, right=0.99, wspace=0)
-    ax = plt.subplot(gs1[:, 0],  projection='3d')
-    ax.axis('off')
-
-    r1 = [x_star.min(), x_star.max()]
-    r2 = [data['t'].min(), data['t'].max()]       
-    r3 = [y_star.min(), y_star.max()]
-    
-    for s, e in combinations(np.array(list(product(r1,r2,r3))), 2):
-        if np.sum(np.abs(s-e)) == r1[1]-r1[0] or np.sum(np.abs(s-e)) == r2[1]-r2[0] or np.sum(np.abs(s-e)) == r3[1]-r3[0]:
-            ax.plot3D(*zip(s,e), color="k", linewidth = 0.5)   
-
-    ax.scatter(x_train, t_train, y_train, s = 0.1)
-    ax.contourf(X,TT_star,Y, zdir = 'y', offset = t_star.mean(), cmap='rainbow', alpha = 0.8)
-              
-    ax.text(x_star.mean(), data['t'].min() - 1, y_star.min() - 1, '$x$')
-    ax.text(x_star.max()+1, data['t'].mean(), y_star.min() - 1, '$t$')
-    ax.text(x_star.min()-1, data['t'].min() - 0.5, y_star.mean(), '$y$')
-    ax.text(x_star.min()-3, data['t'].mean(), y_star.max() + 1, '$u(t,x,y)$')    
-    ax.set_xlim3d(r1)
-    ax.set_ylim3d(r2)
-    ax.set_zlim3d(r3)
-    axisEqual3D(ax)
-    
-    ########      v(t,x,y)     ###################   
-    print("v(t,x,y)")
-    ax = plt.subplot(gs1[:, 1],  projection='3d')
-    ax.axis('off')
-    
-    r1 = [x_star.min(), x_star.max()]
-    r2 = [data['t'].min(), data['t'].max()]       
-    r3 = [y_star.min(), y_star.max()]
-    
-    for s, e in combinations(np.array(list(product(r1,r2,r3))), 2):
-        if np.sum(np.abs(s-e)) == r1[1]-r1[0] or np.sum(np.abs(s-e)) == r2[1]-r2[0] or np.sum(np.abs(s-e)) == r3[1]-r3[0]:
-            ax.plot3D(*zip(s,e), color="k", linewidth = 0.5)   
-
-    ax.scatter(x_train, t_train, y_train, s = 0.1)
-    #ax.contourf(X,VV_star,Y, zdir = 'y', offset = t_star.mean(), cmap='rainbow', alpha = 0.8)
-              
-    ax.text(x_star.mean(), data['t'].min() - 1, y_star.min() - 1, '$x$')
-    ax.text(x_star.max()+1, data['t'].mean(), y_star.min() - 1, '$t$')
-    ax.text(x_star.min()-1, data['t'].min() - 0.5, y_star.mean(), '$y$')
-    ax.text(x_star.min()-3, data['t'].mean(), y_star.max() + 1, '$v(t,x,y)$')    
-    ax.set_xlim3d(r1)
-    ax.set_ylim3d(r2)
-    ax.set_zlim3d(r3)
-    axisEqual3D(ax)
-    
-    savefig('NavierStokes_data') 
-
-    
-    fig, ax = newfig(1.015, 0.8)
-    ax.axis('off')
-    
-    ######## Row 2: Pressure #######################
-    ########      Predicted p(t,x,y)     ########### 
-    print("Predicted p(t,x,y)")
+    ######## Row 2: level-set phi2 #######################
+    ########      Predicted phi2(t,x,y)     ########### 
+    print("Predicted phi2(t,x,y)")
     gs2 = gridspec.GridSpec(1, 2)
     gs2.update(top=1, bottom=1-1/2, left=0.1, right=0.9, wspace=0.5)
     ax = plt.subplot(gs2[:, 0])
@@ -634,9 +535,9 @@ if __name__ == "__main__":
     ax.set_xlabel('$x$')
     ax.set_ylabel('$y$')
     ax.set_aspect('equal', 'box')
-    ax.set_title('Predicted pressure', fontsize = 10)
+    ax.set_title('Predicted phi2', fontsize = 10)
     
-    ########     Exact p(t,x,y)     ########### 
+    ########     Exact phi2(t,x,y)     ########### 
     print("Exact p(t,x,y)")
     ax = plt.subplot(gs2[:, 1])
     h = ax.imshow(Phi2_exact, interpolation='nearest', cmap='rainbow', 
@@ -649,37 +550,8 @@ if __name__ == "__main__":
     ax.set_xlabel('$x$')
     ax.set_ylabel('$y$')
     ax.set_aspect('equal', 'box')
-    ax.set_title('Exact pressure', fontsize = 10)
+    ax.set_title('Exact phi2', fontsize = 10)
     
     
-    ######## Row 3: Table #######################
-    gs3 = gridspec.GridSpec(1, 2)
-    gs3.update(top=1-1/2, bottom=0.0, left=0.0, right=1.0, wspace=0)
-    ax = plt.subplot(gs3[:, :])
-    ax.axis('off')
-    
-    s = r'$\begin{tabular}{|c|c|}';
-    s = s + r' \hline'
-    s = s + r' Correct PDE & $\begin{array}{c}'
-    s = s + r' u_t + (u u_x + v u_y) = -p_x + 0.01 (u_{xx} + u_{yy})\\'
-    s = s + r' v_t + (u v_x + v v_y) = -p_y + 0.01 (v_{xx} + v_{yy})'
-    s = s + r' \end{array}$ \\ '
-    s = s + r' \hline'
-    s = s + r' Identified PDE (clean data) & $\begin{array}{c}'
-    s = s + r' u_t + %.3f (u u_x + v u_y) = -p_x + %.5f (u_{xx} + u_{yy})' % (lambda_1_value, lambda_2_value)
-    s = s + r' \\'
-    s = s + r' v_t + %.3f (u v_x + v v_y) = -p_y + %.5f (v_{xx} + v_{yy})' % (lambda_1_value, lambda_2_value)
-    s = s + r' \end{array}$ \\ '
-    s = s + r' \hline'
-    s = s + r' Identified PDE (1\% noise) & $\begin{array}{c}'
-    s = s + r' u_t + %.3f (u u_x + v u_y) = -p_x + %.5f (u_{xx} + u_{yy})' % (lambda_1_value_noisy, lambda_2_value_noisy)
-    s = s + r' \\'
-    s = s + r' v_t + %.3f (u v_x + v v_y) = -p_y + %.5f (v_{xx} + v_{yy})' % (lambda_1_value_noisy, lambda_2_value_noisy)
-    s = s + r' \end{array}$ \\ '
-    s = s + r' \hline'
-    s = s + r' \end{tabular}$'
- 
-    ax.text(0.015,0.0,s)
-    
-    savefig('NavierStokes_prediction') 
+
     print("finished the whole simulation...")
