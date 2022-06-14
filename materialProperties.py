@@ -15,7 +15,7 @@ def rho_Aluminium(T): # using simple linear interpolation to get the correspondi
       index = i
       break
   
-  rho = (T - T_list[index])/100 * (rho_list[i+1] - rho_list[i])
+  rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
   
   return rho
 
