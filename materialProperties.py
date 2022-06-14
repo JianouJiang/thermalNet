@@ -3,7 +3,7 @@
 # using simple linear interpolation to get the corresponding coefficients
 
 # material 1: Aluminium
-# density
+# density: ADD REFERENCE HERE! Could be a link or the name of the paper or commerical software...
 def rho_Aluminium(T): # using simple linear interpolation to get the corresponding rho
   
   T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
@@ -19,7 +19,7 @@ def rho_Aluminium(T): # using simple linear interpolation to get the correspondi
   
   return rho
 
-# specific heat capacity
+# specific heat capacity: TODO: reference!
 def Cp_Aluminium(T): 
   # TODO
   
