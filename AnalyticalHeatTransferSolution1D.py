@@ -78,7 +78,7 @@ def cos_n_pi_x_L(n,x):
 def integral(f): 
     
     sum_fx = 0
-    for i in range(0，(len(f)-1)):
+    for i in range(0,(len(f)-1)):
         fi = (f[i]+f[i+1] )/2 # central differencing
         sum_fx = sum_fx + fi*dx
     return sum_fx

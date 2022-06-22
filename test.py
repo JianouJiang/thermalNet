@@ -10,6 +10,7 @@ print("Started testing all contributors...")
 def test():
   
   print("--------test()---------")
+  print("just testing from chennuo")
   
   print("First, let's welcome Jianou...")
   jianouTest()
