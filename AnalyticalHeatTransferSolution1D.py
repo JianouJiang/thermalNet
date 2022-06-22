@@ -4,7 +4,7 @@
 
 
 # the initial condition:
-def unitPulse(x, t=0): 
+def unitPulse_Dirichlet(x, t=0): 
   
   # TODO I will do something later
   print("---------unitPulse()-----")
@@ -20,3 +20,6 @@ def Temperature_Analytical_1D(x,t): # input a single float value x and t
   
   
   return T # returns a single value of T
+
+
+# plot the function at the end
