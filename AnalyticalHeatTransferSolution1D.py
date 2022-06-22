@@ -3,7 +3,8 @@
 # importing libs:
 print("importing libs")
 import numpy as np
-
+from math import *
+import matplotlib.pyplot as plt
 # setting parameters:
 print("setting parameters")
 L = 1
@@ -89,12 +90,6 @@ def unitPulse_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# sines_Dirichlet_T
-
-
-# linear_Dirichlet_T
-
-
 # plotting:
 print("plotting")
 
@@ -120,18 +115,124 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('unitPulse_Dirichlet_T.jpeg')  
+plt.savefig('unitPulse_Dirichlet_T.png')  
 plt.show()
 print("finished plotting unitPulse_Dirichlet_T")
 
-# TODO:
+
+# sines_Dirichlet_T
+
+# sines function:
+def sines(x): # input x is a np array
+    T0 = np.arange(0,L+dx,dx) 
+    m = 1 # magnitude of the unit pulse function
+    for i in range(len(x)):
+        xi = x[i]
+        T0[i] = np.sin(np.pi*xi/L)
+    return T0 # output T0 is a np array
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# sines_Dirichlet_T
+def sines_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f = sin_n_pi_x_L(n,x) * sines(x)
+        #print(f)
+        A_n = 2/L * integral(f)
+        time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
+        space_part = np.sin(n*np.pi*xi/L)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
 # plotting sines_Dirichlet_T:
+print("plotting sines_Dirichlet_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = sines_Dirichlet_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+    #print(u)
+    #if ti==dt:
+    plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of sines function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('sines_Dirichlet_T.png')  
+plt.show()
+print("finished plotting sines_Dirichlet_T")
+
+# linear_Dirichlet_T
 
 
+# Liner function:
+def linear(x): # input x is a np array
+    T0 = np.arange(0,L+dx,dx) 
+    for i in range(len(x)):
+        xi = x[i]
+        T0[i] = xi
+    return T0 # output T0 is a np array    
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# linear_Dirichlet_T
+def linear_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f = sin_n_pi_x_L(n,x) * linear(x)
+        #print(f)
+        A_n = 2/L * integral(f)
+        time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
+        space_part = np.sin(n*np.pi*xi/L)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
 
 
+# plotting:
+print("plotting")
 
 
+# plotting linear_Dirichlet_T:
+print("plotting sines_Dirichlet_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = linear_Dirichlet_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+    #print(u)
+    #if ti==dt:
+    plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of linear Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('linear_Dirichlet_T.png')  
+plt.show()
+print("finished plotting linear_Dirichlet_T")
 
 
 
