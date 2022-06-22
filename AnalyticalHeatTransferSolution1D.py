@@ -94,6 +94,7 @@ print("deriving analytical solutions")
 def unitPulse_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
     sum_n = 0
     N = 100
+    m = 1 # magnitude of the unit pulse function
     A_0 = m/2 
     sum_n = sum_n + A_0
     for n in range(1,N):
@@ -345,7 +346,7 @@ print("finished plotting sines_Neumann_T")
 # deriving analytical solutions:
 print("deriving analytical solutions")
 # linear_Neumann_T
-def linaer_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
+def linear_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
     for n in range(1,N):
