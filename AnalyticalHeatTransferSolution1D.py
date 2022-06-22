@@ -34,7 +34,7 @@ def unitPulse(x): # input x is a np array
             T0[i] = 0
     return T0 # output T0 is a np array
 
-T0 = unitPulse(x)
+#T0 = unitPulse(x)
 #print(T0)
 
 # TODO:
@@ -119,13 +119,18 @@ for ti in plot_times:
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
-plt.title('Analytic Solution in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
 plt.savefig('unitPulse_Dirichlet_T.jpeg')  
 plt.show()
 print("finished plotting unitPulse_Dirichlet_T")
 
 # TODO:
 # plotting sines_Dirichlet_T:
+
+
+
+
+
 
 
 
