@@ -38,21 +38,26 @@ def unitPulse(x): # input x is a np array
 #T0 = unitPulse(x)
 #print(T0)
 
-# TODO:
+# TODO: @zhengyang
 # sines function: 
 def sines(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
     m1 = 1 # magnitude of the sine function
-    m2 = 1 
+    m2 = 1 # 
     for i in range(len(x)):
         xi = x[i]
         sin1 = m1*np.sin(np.pi*xi/L)
-        sin2 = 0
+        sin2 = 0 # TODO: the sines function should be the sum of two sine waves
         T0[i] = sin1 + sin2
     return T0 # output T0 is a np array
 
-# linear function:
-
+# Liner function:
+def linear(x): # input x is a np array
+    T0 = np.arange(0,L+dx,dx) 
+    for i in range(len(x)):
+        xi = x[i]
+        T0[i] = xi
+    return T0 # output T0 is a np array    
 
 
 
@@ -182,13 +187,7 @@ print("finished plotting sines_Dirichlet_T")
 # linear_Dirichlet_T
 
 
-# Liner function:
-def linear(x): # input x is a np array
-    T0 = np.arange(0,L+dx,dx) 
-    for i in range(len(x)):
-        xi = x[i]
-        T0[i] = xi
-    return T0 # output T0 is a np array    
+
 
 # deriving analytical solutions:
 print("deriving analytical solutions")
