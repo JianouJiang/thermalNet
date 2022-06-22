@@ -241,7 +241,7 @@ print("finished plotting linear_Dirichlet_T")
 
 # Neumann conditions:
 
-
+# unitPulse_Neumann_T:
 
 # deriving analytical solutions:
 print("deriving analytical solutions")
@@ -250,11 +250,11 @@ def unitPulse_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
     for n in range(1,N):
-        f = sin_n_pi_x_L(n,x) * unitPulse(x)
+        f = cos_n_pi_x_L(n,x) * unitPulse(x)
         #print(f)
         A_n = 2/L * integral(f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
-        space_part = np.sin(n*np.pi*xi/L)
+        space_part = np.cos(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
         sum_n = sum_n + T_n
     return sum_n
@@ -264,8 +264,8 @@ def unitPulse_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
 print("plotting")
 
 
-# plotting unitPulse_Dirichlet_T:
-print("plotting unitPulse_Dirichlet_T")
+# plotting unitPulse_Neumann_T:
+print("plotting unitPulse_Neumann_T")
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -275,7 +275,7 @@ for ti in plot_times:
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
     for i in range(len(x)):
         xi = 0 + i*dx
-        T[i] = unitPulse_Dirichlet_T(xi,ti)
+        T[i] = unitPulse_Neumann_T(xi,ti)
     colori = 'o'+ color_list[index]
     plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
     #print(u)
@@ -284,10 +284,108 @@ for ti in plot_times:
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
-plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('unitPulse_Dirichlet_T.png')  
+plt.title('Analytic Solution of Unit Pulse Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('unitPulse_Neumann_T.png')  
 plt.show()
-print("finished plotting unitPulse_Dirichlet_T")
+print("finished plotting unitPulse_Neumann_T")
 
+
+# sines_Neumann_T:
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# sines_Neumann_T
+def sines_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f = cos_n_pi_x_L(n,x) * sines(x)
+        #print(f)
+        A_n = 2/L * integral(f)
+        time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
+        space_part = np.cos(n*np.pi*xi/L)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
+# plotting sines_Neumann_T:
+print("plotting sines_Neumann_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = sines_Neumann_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+    #print(u)
+    #if ti==dt:
+    plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of sine Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('sines_Neumann_T.png')  
+plt.show()
+print("finished plotting sines_Neumann_T")
+
+
+# linear_Neumann_T
+
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# linear_Neumann_T
+def linaer_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f = cos_n_pi_x_L(n,x) * linear(x)
+        #print(f)
+        A_n = 2/L * integral(f)
+        time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
+        space_part = np.cos(n*np.pi*xi/L)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
+# plotting linear_Neumann_T:
+print("plotting linear_Neumann_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = linear_Neumann_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+    #print(u)
+    #if ti==dt:
+    plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of linear Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('linear_Neumann_T.png')  
+plt.show()
+print("finished plotting linear_Neumann_T")
 
 
