@@ -39,8 +39,17 @@ def unitPulse(x): # input x is a np array
 #print(T0)
 
 # TODO:
-# sines function:
-
+# sines function: 
+def sines(x): # input x is a np array
+    T0 = np.arange(0,L+dx,dx) 
+    m1 = 1 # magnitude of the sine function
+    m2 = 1 
+    for i in range(len(x)):
+        xi = x[i]
+        sin1 = m1*np.sin(np.pi*xi/L)
+        sin2 = 0
+        T0[i] = sin1 + sin2
+    return T0 # output T0 is a np array
 
 # linear function:
 
@@ -122,14 +131,7 @@ print("finished plotting unitPulse_Dirichlet_T")
 
 # sines_Dirichlet_T
 
-# sines function:
-def sines(x): # input x is a np array
-    T0 = np.arange(0,L+dx,dx) 
-    m = 1 # magnitude of the unit pulse function
-    for i in range(len(x)):
-        xi = x[i]
-        T0[i] = np.sin(np.pi*xi/L)
-    return T0 # output T0 is a np array
+
 
 # deriving analytical solutions:
 print("deriving analytical solutions")
