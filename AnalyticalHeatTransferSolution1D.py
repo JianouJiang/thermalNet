@@ -7,7 +7,7 @@ import numpy as np
 # setting parameters:
 print("setting parameters")
 L = 1
-_lambda = 1
+_lambda = 1 # https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
 dx = 0.01
 t_max = 0.01
 dt = 0.002
@@ -119,13 +119,16 @@ for ti in plot_times:
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
-plt.title('Analytic Solution in 1D')
+plt.title('Analytic Solution in 1D with $\lambda$={} m2/s'.format(_lambda))
 plt.savefig('unitPulse_Dirichlet_T.jpeg')  
 plt.show()
 print("finished plotting unitPulse_Dirichlet_T")
 
 # TODO:
 # plotting sines_Dirichlet_T:
+
+
+
 
 
 
