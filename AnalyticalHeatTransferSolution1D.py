@@ -122,10 +122,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = unitPulse_Dirichlet_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -173,10 +175,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = sines_Dirichlet_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -212,7 +216,7 @@ print("plotting")
 
 
 # plotting linear_Dirichlet_T:
-print("plotting sines_Dirichlet_T")
+print("plotting linea_Dirichlet_T")
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -224,10 +228,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = linear_Dirichlet_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -275,10 +281,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = unitPulse_Neumann_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -324,10 +332,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = sines_Neumann_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -374,10 +384,12 @@ for ti in plot_times:
         xi = 0 + i*dx
         T[i] = linear_Neumann_T(xi,ti)
     colori = 'o'+ color_list[index]
-    plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-    #print(u)
-    #if ti==dt:
-    plt.legend(fontsize=12)
+    if ti == 0.0:
+        plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
