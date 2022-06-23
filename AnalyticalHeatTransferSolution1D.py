@@ -94,15 +94,12 @@ print("deriving analytical solutions")
 def unitPulse_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
     sum_n = 0
     N = 100
-    m = 1 # magnitude of the unit pulse function
-    A_0 = m/2 
-    sum_n = sum_n + A_0
     for n in range(1,N):
-        f = cos_n_pi_x_L(n,x) * unitPulse(x)
+        f = sin_n_pi_x_L(n,x) * unitPulse(x)
         #print(f)
         A_n = 2/L * integral(f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda * ti/(L**2))
-        space_part = np.cos(n*np.pi*xi/L)
+        space_part = np.sin(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
         sum_n = sum_n + T_n
     return sum_n
