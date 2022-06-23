@@ -24,12 +24,12 @@ t = np.arange(0,t_max+dt,dt)
 print("defining initial conditions")
 
 # unit pulse function:
+m = 1 # magnitude of the unit pulse function
 def unitPulse(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
-    m = 1 # magnitude of the unit pulse function
     for i in range(len(x)):
         xi = x[i]
-        if 0.25<=xi<=0.75:
+        if 0.25*L<=xi<=0.75*L:
             T0[i] = m
         else:
             T0[i] = 0
@@ -253,7 +253,6 @@ print("deriving analytical solutions")
 def unitPulse_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
-    m = 1
     A0 = m/2
     sum_n = sum_n + A0 
     for n in range(1,N):
