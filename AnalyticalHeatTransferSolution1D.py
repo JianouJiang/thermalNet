@@ -253,6 +253,9 @@ print("deriving analytical solutions")
 def unitPulse_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
+    m = 1
+    A0 = m/2
+    sum_n = sum_n + A0 
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * unitPulse(x)
         #print(f)
