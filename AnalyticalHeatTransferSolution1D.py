@@ -5,6 +5,8 @@ print("importing libs")
 import numpy as np
 from math import *
 import matplotlib.pyplot as plt
+from scipy.optimize import fsolve
+
 # setting parameters:
 print("setting parameters")
 L = 1
@@ -15,7 +17,14 @@ dt = 0.002
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
-
+func = lambda tau : np.tan(tau*L) + (tau)
+list1 = []
+tau = np.linspace(0, 200, 201)
+for n in range(1, 101):
+    tau_initial_guess = (2*n-1)*np.pi/2
+    tau_solution = fsolve(func, tau_initial_guess)
+    list1.append(tau_solution)
+mu= np.array(list1)
 
 
 
@@ -47,7 +56,7 @@ def sines(x): # input x is a np array
     for i in range(len(x)):
         xi = x[i]
         sin1 = m1*np.sin(np.pi*xi/L)
-        sin2 = 0 # TODO: the sines function should be the sum of two sine waves
+        sin2 = m2*np.sin(20*np.pi*xi/L) # TODO: the sines function should be the sum of two sine waves
         T0[i] = sin1 + sin2
     return T0 # output T0 is a np array
 
@@ -306,6 +315,8 @@ print("deriving analytical solutions")
 def sines_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
+    A0 = 2*m/np.pi
+    sum_n = sum_n + A0 
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * sines(x)
         #print(f)
@@ -358,6 +369,8 @@ print("deriving analytical solutions")
 def linear_Neumann_T(xi,ti): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     sum_n = 0
     N = 100
+    A0 = L/2
+    sum_n = sum_n + A0 
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * linear(x)
         #print(f)
@@ -399,5 +412,57 @@ plt.title('Analytic Solution of linear Function with Neumann B.C in 1D with $\la
 plt.savefig('linear_Neumann_T.png')  
 plt.show()
 print("finished plotting linear_Neumann_T")
+
+
+# Mixed conditions:
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# unitPulse_Mixed_T
+def unitPulse_Mixed_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f1 = np.sin(mu[n-1]*x) * unitPulse(x)
+        f2 = (np.sin(mu[n-1]*x))**2
+        A_n = integral(f1) / integral(f2)
+        time_part = np.exp((-1)*_lambda* ((mu[n-1])**2) * ti)
+        space_part = np.sin(mu[n-1]*x)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
+# plotting unitPulse_Mixed_T:
+print("plotting unitPulse_Mixed_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = unitPulse_Mixed_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    if ti == 0.0:
+        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of Unit Pulse Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('unitPulse_Mixed_T.png')  
+plt.show()
+print("finished plotting unitPulse_Mixed_T")
+
 
 
