@@ -132,7 +132,8 @@ for ti in plot_times:
         T[i] = unitPulse_Dirichlet_T(xi,ti)
     colori = 'o'+ color_list[index]
     if ti == 0.0:
-        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3) # plot in dots
+        plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -186,6 +187,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -239,6 +241,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -294,6 +297,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -347,6 +351,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -401,6 +406,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -454,6 +460,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -505,6 +512,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -557,6 +565,7 @@ for ti in plot_times:
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -568,10 +577,3 @@ plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lamb
 plt.savefig('linear_Mixed_T.png')  
 plt.show()
 print("finished plotting linear_Mixed_T")
-
-
-
-
-
-
-
