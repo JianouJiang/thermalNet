@@ -142,7 +142,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('unitPulse_Dirichlet_T.png')  
+plt.savefig('img/unitPulse_Dirichlet_T.png')  
 plt.show()
 print("finished plotting unitPulse_Dirichlet_T")
 
@@ -196,7 +196,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('sines_Dirichlet_T.png')  
+plt.savefig('img/sines_Dirichlet_T.png')  
 plt.show()
 print("finished plotting sines_Dirichlet_T")
 
@@ -250,7 +250,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('linear_Dirichlet_T.png')  
+plt.savefig('img/linear_Dirichlet_T.png')  
 plt.show()
 print("finished plotting linear_Dirichlet_T")
 
@@ -306,7 +306,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('unitPulse_Neumann_T.png')  
+plt.savefig('img/unitPulse_Neumann_T.png')  
 plt.show()
 print("finished plotting unitPulse_Neumann_T")
 
@@ -360,7 +360,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sine Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('sines_Neumann_T.png')  
+plt.savefig('img/sines_Neumann_T.png')  
 plt.show()
 print("finished plotting sines_Neumann_T")
 
@@ -415,7 +415,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('linear_Neumann_T.png')  
+plt.savefig('img/linear_Neumann_T.png')  
 plt.show()
 print("finished plotting linear_Neumann_T")
 
@@ -469,7 +469,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('unitPulse_Mixed_T.png')  
+plt.savefig('img/unitPulse_Mixed_T.png')  
 plt.show()
 print("finished plotting unitPulse_Mixed_T")
 
@@ -521,7 +521,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('sines_Mixed_T.png')  
+plt.savefig('img/sines_Mixed_T.png')  
 plt.show()
 print("finished plotting sines_Mixed_T")
 
@@ -574,6 +574,6 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('linear_Mixed_T.png')  
+plt.savefig('img/linear_Mixed_T.png')  
 plt.show()
 print("finished plotting linear_Mixed_T")
