@@ -18,13 +18,13 @@ x = np.arange(0,L+dx,dx)
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
 func = lambda tau : np.tan(tau*L) + (tau)
-list1 = []
+mu = []
 tau = np.linspace(0, 200, 201)
 for n in range(1, 101):
     tau_initial_guess = (2*n-1)*np.pi/2
     tau_solution = fsolve(func, tau_initial_guess)
-    list1.append(tau_solution)
-mu= np.array(list1)
+    mu.append(tau_solution)
+
 
 
 
@@ -416,6 +416,8 @@ print("finished plotting linear_Neumann_T")
 
 # Mixed conditions:
 
+
+# unitPulse_Mixed_T:
 # deriving analytical solutions:
 print("deriving analytical solutions")
 # unitPulse_Mixed_T
@@ -427,7 +429,7 @@ def unitPulse_Mixed_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
         f2 = (np.sin(mu[n-1]*x))**2
         A_n = integral(f1) / integral(f2)
         time_part = np.exp((-1)*_lambda* ((mu[n-1])**2) * ti)
-        space_part = np.sin(mu[n-1]*x)
+        space_part = np.sin(mu[n-1]*xi)
         T_n = A_n * time_part * space_part
         sum_n = sum_n + T_n
     return sum_n
@@ -463,6 +465,113 @@ plt.title('Analytic Solution of Unit Pulse Function with Mixed B.C in 1D with $\
 plt.savefig('unitPulse_Mixed_T.png')  
 plt.show()
 print("finished plotting unitPulse_Mixed_T")
+
+
+# Sines_Mixed_T:
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# sines_Mixed_T
+def sines_Mixed_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f1 = np.sin(mu[n-1]*x) * sines(x)
+        f2 = (np.sin(mu[n-1]*x))**2
+        A_n = integral(f1) / integral(f2)
+        time_part = np.exp((-1)*_lambda* ((mu[n-1])**2) * ti)
+        space_part = np.sin(mu[n-1]*xi)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
+# plotting sines_Mixed_T:
+print("plotting sines_Mixed_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = sines_Mixed_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    if ti == 0.0:
+        plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of sines Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('sines_Mixed_T.png')  
+plt.show()
+print("finished plotting sines_Mixed_T")
+
+
+
+# Linear_Mixed_T:
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# linear_Mixed_T
+def linear_Mixed_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
+    sum_n = 0
+    N = 100
+    for n in range(1,N):
+        f1 = np.sin(mu[n-1]*x) * linear(x)
+        f2 = (np.sin(mu[n-1]*x))**2
+        A_n = integral(f1) / integral(f2)
+        time_part = np.exp((-1)*_lambda* ((mu[n-1])**2) * ti)
+        space_part = np.sin(mu[n-1]*xi)
+        T_n = A_n * time_part * space_part
+        sum_n = sum_n + T_n
+    return sum_n
+
+
+# plotting:
+print("plotting")
+
+
+# plotting linear_Mixed_T:
+print("plotting linear_Mixed_T")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    for i in range(len(x)):
+        xi = 0 + i*dx
+        T[i] = linear_Mixed_T(xi,ti)
+    colori = 'o'+ color_list[index]
+    if ti == 0.0:
+        plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    else:
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
+plt.savefig('linear_Mixed_T.png')  
+plt.show()
+print("finished plotting linear_Mixed_T")
+
+
+
+
 
 
 
