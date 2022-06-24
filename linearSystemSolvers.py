@@ -20,16 +20,16 @@ def Jacobi(A, b, N, x= None , r=10**-6): #Ax=b,we are finding x, N = number of i
     D= diag(A)
     R= A-diagflat(D)
     residual =1000
-    xn_minus1=x
+    xn_minus1=x  #store  the last iteration's x to calculate residue
     #iterate for N times
     for i in range(N) :
         if residual <r:
             print(residual)
             break
         x= (b-dot(R,x))/D
-        difference= xn_minus1-x
-        magnitude= np.linalg.norm(difference)
-        residual =magnitude/len(x) # TODO: check the grammar
+        difference= xn_minus1-x #this is a vector
+        magnitude= np.linalg.norm(difference)   #magnitude of the vector difference
+        residual =magnitude/len(x) # TODO: check the grammar : need to have large enough 
         xn_minus1=x
         print (residual)
     return x
