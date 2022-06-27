@@ -53,7 +53,7 @@ def unitPulse(x): # input x is a np array
 def sines(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
     m1 = 1 # magnitude of the 1st sine function
-    m2 = 1 # 
+    m2 = 0.5 # 
     f1 = 1 # frequency of the 1st sine function
     f2 = 5
     for i in range(len(x)):
