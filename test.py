@@ -16,6 +16,11 @@ def xiaoyangTest():
     print("I love playing guitar and are thrilled to work with you guys : )")
     return
 
+def yanlinTest():
+    print("Hey guys, I'm Yanlin or you may call me Philip, just graduated from Imperial College last year with Msci Physics.")
+    print("Currently I'm a system testing engineer at Huawei.")
+    return
+
 def jianouTest():
   print("My name is Jianou, good to have everybody here! Testing plotTest() function below:")
   plotTest()
