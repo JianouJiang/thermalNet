@@ -1,7 +1,8 @@
 # importing libs
-from jianouTest import * # importing all functions from jianouTest.py
-from kaiyiTest import *
+#from jianouTest import * # importing all functions from jianouTest.py
+#from kaiyiTest import *
 from tools.normalisation import *
+import matplotlib.pyplot as plt
 
 # TODO!
 # from chennuoTest import * 
@@ -9,6 +10,23 @@ def kaiyiTest():
     print("Howdy friends, my name is Kaiyi Dai, a 3rd Earth & Planetary science undergraduate student in IC.")
     print("I'm interested in Mars rover missions and don't hesitate to speak to me if you enjoy planetary stuff too!")
     return
+def jianouTest():
+  print("My name is Jianou, good to have everybody here! Testing plotTest() function below:")
+  plotTest()
+  return
+
+def plotTest():
+  print("--------plotTest()---------")
+  pred_Benchmark = [1,2,3,4,5,6,7,8,9]
+  predList_test_predictions = [9,8,7,6,5,4,3,2,1]
+  plt.plot(pred_Benchmark, label='Benchmark')
+  plt.plot(predList_test_predictions, label='thermalNet 3.0')
+  plt.xlabel('X-axis') 
+  plt.legend(loc='upper right')
+  plt.title('Normalised Thickness H Comparison')
+  #fig.savefig('Normalised_Thickness_H_Comparison.pdf', bbox_inches='tight', dpi=150)
+  plt.show()
+  return
 
 print("Started testing all contributors...")
 def test():
