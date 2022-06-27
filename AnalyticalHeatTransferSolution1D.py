@@ -11,23 +11,19 @@ import os
 # setting parameters:
 print("setting parameters")
 L = 1
-# https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
-_lambda1 = 1.5
-_lambda2 = 0.5
-_lambda_list = _lambda(x)
 dx = 0.01
 t_max = 0.01
 dt = 0.002
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
-func = lambda tau : np.tan(tau*L) + (tau)
-mu = []
-tau = np.linspace(0, 200, 201)
-for n in range(1, 101):
-    tau_initial_guess = (2*n-1)*np.pi/2
-    tau_solution = fsolve(func, tau_initial_guess)
-    mu.append(tau_solution)
+# https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
+_lambda1 = 1.5
+_lambda2 = 0.5
+print(x)
+_lambda_list = _lambda(x)
+
+
 
 
 
@@ -84,14 +80,27 @@ def sin_n_pi_x_L(n,x):
 def cos_n_pi_x_L(n,x):
     return np.cos(n*np.pi*x/L)
 
-
-def _lambda(xi, Ti=1): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
+# the following is for mixed B.C
+func = lambda tau : np.tan(tau*L) + (tau)
+mu = []
+tau = np.linspace(0, 200, 201)
+for n in range(1, 101):
+    tau_initial_guess = (2*n-1)*np.pi/2
+    tau_solution = fsolve(func, tau_initial_guess)
+    mu.append(tau_solution)
+    
+# this is for a two-diffusivity (lambda) situation (e.g. steel at the left and copper at the right of the 1D rod)
+def _lambda(x, Ti=1): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
     interface_xi = 0.5
-    if xi<interface_xi:
-        return _lambda1*Ti # the lambda as a function of T is needed to add
-    else:
-        return _lambda2*Ti # the lambda as a function of T is needed to add
-
+    _lambda_list = []
+    print("here")
+    for xi in x:
+        print(xi)
+        if xi<interface_xi:
+            _lambda_list.append(_lambda1*Ti) # the lambda as a function of T is needed to add
+        else:
+            _lambda_list.append(_lambda2*Ti) # the lambda as a function of T is needed to add
+    return _lambda_list
 
 # tool box:
 # integrating from start to end
