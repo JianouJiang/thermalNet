@@ -110,7 +110,7 @@ print(solution_SOR)
 
 # plotting residual to show convergence
 plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
-plt.plot(residual_list_SOR,"og",label="SOR")
+plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
 plt.xlabel('iterations')
 plt.ylabel('Residual')
 plt.yscale('log')
