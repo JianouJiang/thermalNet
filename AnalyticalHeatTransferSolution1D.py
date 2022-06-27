@@ -92,8 +92,18 @@ def integral(f):
         sum_fx = sum_fx + fi*dx
     return sum_fx
     
+# open file in write mode and write data
+def writeData(directory, ti, T, _lambda_i): # note T here is a list, whereas time t and _lambda are single values
     
-    
+    with open(directory, 'a') as fp:
+        index = 0
+        for Ti in T:
+            xi = 0 + dx * index
+            # write each ti, xi, Ti, lambda on a new line
+            line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + "\n"
+            fp.write(line)
+            index = index + 1
+    return
     
     
     
@@ -118,8 +128,11 @@ def unitPulse_Dirichlet_T(xi,ti): # dirichlet bc: T(0,t)=0; T(L,t)=0
 print("plotting")
 
 
+    
+    
 # plotting unitPulse_Dirichlet_T:
 print("plotting unitPulse_Dirichlet_T")
+directory = "data/unitPulse_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -127,17 +140,24 @@ index = 0
 for ti in plot_times:
     
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
-    for i in range(len(x)):
-        xi = 0 + i*dx
-        T[i] = unitPulse_Dirichlet_T(xi,ti)
+    
     colori = 'o'+ color_list[index]
     if ti == 0.0:
-        plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3) # plot in dots
-        plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
+        T = unitPulse(x)
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3) # plot in dots
+        plt.plot(x,T,'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
+        
     else:
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            T[i] = unitPulse_Dirichlet_T(xi,ti)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -174,6 +194,7 @@ print("plotting")
 
 # plotting sines_Dirichlet_T:
 print("plotting sines_Dirichlet_T")
+directory = "data/sines_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -189,9 +210,13 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -227,7 +252,8 @@ print("plotting")
 
 
 # plotting linear_Dirichlet_T:
-print("plotting linea_Dirichlet_T")
+print("plotting linear_Dirichlet_T")
+directory = "data/linear_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -243,9 +269,13 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -284,6 +314,7 @@ print("plotting")
 
 # plotting unitPulse_Neumann_T:
 print("plotting unitPulse_Neumann_T")
+directory = "data/unitPulse_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -299,9 +330,13 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -338,6 +373,7 @@ print("plotting")
 
 # plotting sines_Neumann_T:
 print("plotting sines_Neumann_T")
+directory = "data/sines_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -353,9 +389,13 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -393,6 +433,7 @@ print("plotting")
 
 # plotting linear_Neumann_T:
 print("plotting linear_Neumann_T")
+directory = "data/linear_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -408,9 +449,13 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -447,6 +492,7 @@ print("plotting")
 
 # plotting unitPulse_Mixed_T:
 print("plotting unitPulse_Mixed_T")
+directory = "data/unitPulse_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -462,9 +508,13 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -499,6 +549,7 @@ print("plotting")
 
 # plotting sines_Mixed_T:
 print("plotting sines_Mixed_T")
+directory = "data/sines_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -514,9 +565,13 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -552,6 +607,7 @@ print("plotting")
 
 # plotting linear_Mixed_T:
 print("plotting linear_Mixed_T")
+directory = "data/linear_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -567,9 +623,13 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
+        _lambda_i = _lambda
+        writeData(directory, ti, T, _lambda_i)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
