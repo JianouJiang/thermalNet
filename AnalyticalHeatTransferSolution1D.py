@@ -6,6 +6,7 @@ import numpy as np
 from math import *
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
+import os
 
 # setting parameters:
 print("setting parameters")
@@ -51,12 +52,14 @@ def unitPulse(x): # input x is a np array
 # sines function: 
 def sines(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
-    m1 = 1 # magnitude of the sine function
+    m1 = 1 # magnitude of the 1st sine function
     m2 = 1 # 
+    f1 = 1 # frequency of the 1st sine function
+    f2 = 5
     for i in range(len(x)):
         xi = x[i]
-        sin1 = m1*np.sin(np.pi*xi/L)
-        sin2 = m2*np.sin(20*np.pi*xi/L) # TODO: the sines function should be the sum of two sine waves
+        sin1 = m1*np.sin(f1*np.pi*xi/L)
+        sin2 = m2*np.sin(f2*np.pi*xi/L) 
         T0[i] = sin1 + sin2
     return T0 # output T0 is a np array
 
@@ -94,7 +97,7 @@ def integral(f):
     
 # open file in write mode and write data
 def writeData(directory, ti, T, _lambda_i): # note T here is a list, whereas time t and _lambda are single values
-    
+    isFile = os.path.isfile(directory) 
     with open(directory, 'a') as fp:
         index = 0
         for Ti in T:
