@@ -37,6 +37,18 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
     return x, residual_list
 
 
+
+
+# TODO: chen nuo: Gauss-Seidel
+
+
+
+
+
+
+
+
+
 # kaiyi: Successive over-relaxation (SOR)
 # x0 = our initial guess, N = number of iterations, r = tolerance
 # w = relaxation factor, 1<w<2. If w=1, it's same as Gauss-Seidel Method
@@ -62,6 +74,17 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
         x0 = x 
         
     return x, residual_list
+
+
+
+# xiao yang: Conjugate Gradient
+
+
+
+
+
+
+
 
 # linear system:  5x1-x2+2x3=12
 #                 3x1+8x2-2x3=-25
