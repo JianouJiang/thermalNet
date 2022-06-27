@@ -22,7 +22,7 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
     residual =1000
     xn_minus1=x
     #iterate for N times
-    for i in range(N) :
+    for Ni in range(N):
         
         x= (b-dot(R,x))/D
         difference= xn_minus1-x
@@ -30,7 +30,7 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
         residual =magnitude/len(x) 
         residual_list.append(residual)
         if residual <r:
-            print("The number of iterations is: {}".format(i))
+            print("Jacobi: The number of iterations is: {}".format(Ni))
             break
         xn_minus1=x
         
@@ -57,9 +57,9 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
     residual_list = []
     n = b.shape
     if (x0 is None):
-        x0=zeros(n)
+        x0=zeros(len(A[0]))
     x = x0
-    for i in range (1, N): 
+    for Ni in range (1, N): 
         for i in range(n[0]): 
             new_values_sum = dot(A[i, :i], x[:i])
             old_values_sum = dot(A[i, i+1 :], x0[ i+1: ]) 
@@ -69,7 +69,7 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
         residual = np.linalg.norm(dot(A, x)-b )
         residual_list.append(residual)
         if (residual < r):
-            print("The number of iterations is: {}".format(i))
+            print("SOR: The number of iterations is: {}".format(Ni))
             break 
         x0 = x 
         
@@ -100,8 +100,10 @@ w=1.1
 r=10**-7
 
 solution_Jacobi, residual_list_Jacobi = Jacobi(A, b,x0, N, r)
+print("Solution by Jacobi:")
 print(solution_Jacobi)
 solution_SOR, residual_list_SOR = SOR(A, b,x0, N, r)
+print("Solution by SOR:")
 print(solution_SOR)
 
 
