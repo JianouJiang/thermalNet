@@ -20,8 +20,7 @@ t = np.arange(0,t_max+dt,dt)
 # https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
 _lambda1 = 1.5
 _lambda2 = 0.5
-print(x)
-_lambda_list = _lambda(x)
+
 
 
 
@@ -90,17 +89,20 @@ for n in range(1, 101):
     mu.append(tau_solution)
     
 # this is for a two-diffusivity (lambda) situation (e.g. steel at the left and copper at the right of the 1D rod)
-def _lambda(x, Ti=1): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
+def _lambda(x): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
+    Ti = 1
     interface_xi = 0.5
     _lambda_list = []
-    print("here")
-    for xi in x:
-        print(xi)
+    
+    for i in range(len(x)):
+        xi = x[i]
         if xi<interface_xi:
             _lambda_list.append(_lambda1*Ti) # the lambda as a function of T is needed to add
         else:
             _lambda_list.append(_lambda2*Ti) # the lambda as a function of T is needed to add
     return _lambda_list
+
+_lambda_list = _lambda(x)
 
 # tool box:
 # integrating from start to end
@@ -224,7 +226,8 @@ for ti in plot_times:
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
     for i in range(len(x)):
         xi = 0 + i*dx
-        T[i] = sines_Dirichlet_T(xi,ti)
+        _lambda_i = _lambda_list[i]
+        T[i] = sines_Dirichlet_T(xi,ti,_lambda_i)
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
