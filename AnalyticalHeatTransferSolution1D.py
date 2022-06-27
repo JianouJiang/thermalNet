@@ -46,7 +46,7 @@ def unitPulse(x): # input x is a np array
 #T0 = unitPulse(x)
 #print(T0)
 
-# TODO: @zhengyang
+
 # sines function: 
 def sines(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
@@ -61,12 +61,12 @@ def sines(x): # input x is a np array
         T0[i] = sin1 + sin2
     return T0 # output T0 is a np array
 
-# Liner function:
+# Linear function:
 def linear(x): # input x is a np array
     T0 = np.arange(0,L+dx,dx) 
     for i in range(len(x)):
         xi = x[i]
-        T0[i] = xi
+        T0[i] = m*xi
     return T0 # output T0 is a np array    
 
 
