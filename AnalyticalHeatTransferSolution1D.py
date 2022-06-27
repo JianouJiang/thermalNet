@@ -283,10 +283,7 @@ index = 0
 for ti in plot_times:
     
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
-    for i in range(len(x)):
-        xi = 0 + i*dx
-        _lambda_i = _lambda_list[i]
-        T[i] = linear_Dirichlet_T(xi,ti,_lambda_i)
+    
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -294,6 +291,10 @@ for ti in plot_times:
         plt.legend(fontsize=12)
         writeData(directory, ti, T, _lambda_list)
     else:
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = linear_Dirichlet_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
         writeData(directory, ti, T, _lambda_list)
@@ -461,10 +462,7 @@ index = 0
 for ti in plot_times:
     
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
-    for i in range(len(x)):
-        xi = 0 + i*dx
-        _lambda_i = _lambda_list[i]
-        T[i] = linear_Neumann_T(xi,ti,_lambda_i)
+    
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
@@ -472,6 +470,10 @@ for ti in plot_times:
         plt.legend(fontsize=12)
         writeData(directory, ti, T, _lambda_list)
     else:
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = linear_Neumann_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
         writeData(directory, ti, T, _lambda_list)
@@ -584,12 +586,10 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        _lambda_i = _lambda
         writeData(directory, ti, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        _lambda_i = _lambda
         writeData(directory, ti, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
@@ -634,21 +634,20 @@ index = 0
 for ti in plot_times:
     
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
-    for i in range(len(x)):
-        xi = 0 + i*dx
-        _lambda_i = _lambda_list[i]
-        T[i] = linear_Mixed_T(xi,ti,_lambda_i)
+    
     colori = 'o'+ color_list[index]
     if ti == 0.0:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        _lambda_i = _lambda
         writeData(directory, ti, T, _lambda_list)
     else:
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = linear_Mixed_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        _lambda_i = _lambda
         writeData(directory, ti, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
