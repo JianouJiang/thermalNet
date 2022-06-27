@@ -656,3 +656,25 @@ plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lamb
 plt.savefig('img/linear_Mixed_T.png')  
 plt.show()
 print("finished plotting linear_Mixed_T")
+
+
+
+
+
+# TODO: @zhengyang
+# two layer heat transfer
+
+# deriving analytical solutions:
+
+
+
+# plotting linear_Mixed_T:
+print("plotting twoLayer_linear_Dirichlet_T")
+directory = "data/twoLayer_linear_Dirichlet_T.txt"
+
+
+
+
+
+
+print("finished plotting twoLayer_linear_Dirichlet_T")
