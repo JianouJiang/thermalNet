@@ -4,17 +4,16 @@
 #importing libraries
 import numpy as np
 from numpy import array, zeros, diag, diagflat, dot
+import matplotlib.pyplot as plt
 
 
-def Jacobi(x): #Ax=b,we are finding x
-    y = 2 * x
-    return y
+# defining linear system solver functions
 
-y = Jacobi(2)
-#print(y)
 
-# xiao yang:
-def Jacobi(A, b,x= None, N, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+# xiao yang: Jacobi
+# x0 = our initial guess, N = number of iterations, r = tolerance
+
+def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
     residual_list = []
     if (x is None) :
         x=zeros(len(A[0]))
@@ -38,11 +37,11 @@ def Jacobi(A, b,x= None, N, r=10**-6): #Ax=b,we are finding x, N = number of ite
     return x, residual_list
 
 
-# kaiyi, Successive over-relaxation (SOR)
+# kaiyi: Successive over-relaxation (SOR)
 # x0 = our initial guess, N = number of iterations, r = tolerance
 # w = relaxation factor, 1<w<2. If w=1, it's same as Gauss-Seidel Method
 
-def SOR(A, b, x0, N, r=10**-6, w=1.5): 
+def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5): 
     residual_list = []
     n = b.shape
     if (x0 is None):
@@ -87,10 +86,10 @@ print(solution_SOR)
 
 
 # plotting residual to show convergence
-import matplotlib.pyplot as plt
 plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
 plt.plot(residual_list_SOR,"og",label="SOR")
 plt.xlabel('iterations')
 plt.ylabel('Residual')
+plt.yscale('log')
 plt.legend()
 plt.show()
