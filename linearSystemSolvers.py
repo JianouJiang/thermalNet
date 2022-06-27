@@ -14,7 +14,8 @@ y = Jacobi(2)
 #print(y)
 
 # xiao yang:
-def Jacobi(A, b, N, x= None , r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+def Jacobi(A, b,x= None, N, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+    residual_list = []
     if (x is None) :
         x=zeros(len(A[0]))
     D= diag(A)
@@ -23,40 +24,45 @@ def Jacobi(A, b, N, x= None , r=10**-6): #Ax=b,we are finding x, N = number of i
     xn_minus1=x
     #iterate for N times
     for i in range(N) :
-        if residual <r:
-            print(residual)
-            break
+        
         x= (b-dot(R,x))/D
         difference= xn_minus1-x
         magnitude= np.linalg.norm(difference)
-        residual =magnitude/len(x) # TODO: check the grammar
+        residual =magnitude/len(x) 
+        residual_list.append(residual)
+        if residual <r:
+            print("The number of iterations is: {}".format(i))
+            break
         xn_minus1=x
-        print (residual)
-    return x
+        
+    return x, residual_list
 
 
-# kaiyi, Successive over-relaxation
-# x0 = our initial guess, N = number of iterations, T = tolerance
+# kaiyi, Successive over-relaxation (SOR)
+# x0 = our initial guess, N = number of iterations, r = tolerance
 # w = relaxation factor, 1<w<2. If w=1, it's same as Gauss-Seidel Method
 
-def SOR(A, b, x0, N, T, w): 
+def SOR(A, b, x0, N, r=10**-6, w=1.5): 
+    residual_list = []
     n = b.shape
-    x = x0 
-    for step in range (1, N): 
+    if (x0 is None):
+        x0=zeros(n)
+    x = x0
+    for i in range (1, N): 
         for i in range(n[0]): 
             new_values_sum = dot(A[i, :i], x[:i])
             old_values_sum = dot(A[i, i+1 :], x0[ i+1: ]) 
             x[i] = (b[i] - (old_values_sum + new_values_sum)) / A[i, i] 
             x[i] = dot(x[i], w) + dot(x0[i], (1 - w))  
  
-        if (np.linalg.norm(dot(A, x)-b ) < T):
-            print(step) 
+        residual = np.linalg.norm(dot(A, x)-b )
+        residual_list.append(residual)
+        if (residual < r):
+            print("The number of iterations is: {}".format(i))
             break 
-        x0 = x
+        x0 = x 
         
-    print("X = {}".format(x)) 
-    print("The number of iterations is: {}".format(step))
-    return x
+    return x, residual_list
 
 # linear system:  5x1-x2+2x3=12
 #                 3x1+8x2-2x3=-25
@@ -69,6 +75,22 @@ x0=array([1000.0,1000.0,1000.0])
 N= 100
 r= 10**-9
 w=1.1
-T=10**-7
-solution = Jacobi(A, b, N,x0, r)
-print(solution)
+r=10**-7
+
+solution_Jacobi, residual_list_Jacobi = Jacobi(A, b,x0, N, r)
+print(solution_Jacobi)
+solution_SOR, residual_list_SOR = SOR(A, b,x0, N, r)
+print(solution_SOR)
+
+
+
+
+
+# plotting residual to show convergence
+import matplotlib.pyplot as plt
+plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
+plt.plot(residual_list_SOR,"og",label="SOR")
+plt.xlabel('iterations')
+plt.ylabel('Residual')
+plt.legend()
+plt.show()
