@@ -70,6 +70,21 @@ $ python
 For more examples, see the
 [thermalNet tutorials](https://www.thermalnet.org/tutorials/).
 
+
+## Citation
+
+    @article{author2022physics,
+      title={Physics-informed neural networks: n/a},
+      journal={Journal of Computational Physics},
+      volume={n/a},
+      pages={n/a-n/a},
+      year={2022},
+      publisher={Elsevier}
+    }
+
+  - Author et al. "[Physics-informed neural networks: n/a](https://www.sciencedirect.com/science/article/pii/n/a)." Journal of Computational Physics n/a (2022): n/a-n/a.
+  
+
 ## Contribution guidelines
 
 **If you want to contribute to thermalNet, be sure to review the
@@ -90,20 +105,6 @@ open-source software development:
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1486/badge)](https://bestpractices.coreinfrastructure.org/projects/1486)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
-
-
-## Citation
-
-    @article{author2022physics,
-      title={Physics-informed neural networks: n/a},
-      journal={Journal of Computational Physics},
-      volume={n/a},
-      pages={n/a-n/a},
-      year={2022},
-      publisher={Elsevier}
-    }
-
-  - Author et al. "[Physics-informed neural networks: n/a](https://www.sciencedirect.com/science/article/pii/n/a)." Journal of Computational Physics n/a (2022): n/a-n/a.
 
 ### Official Builds
 
