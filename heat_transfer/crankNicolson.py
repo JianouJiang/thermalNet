@@ -1,12 +1,13 @@
 # importing libs
 import numpy as np
-
+from boundaryConditions import *
+from initialConditions import *
 
 # crank-Nicolson function
 # https://people.sc.fsu.edu/~jpeterson/5-CrankNicolson.pdf
 
 # crankNicolson1D_Dirichlet
-def crankNicolson1D_Dirichlet(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   # print("crankNicolson1D_Dirichlet()")
   # TODO
   length_T = len(T)
@@ -23,19 +24,32 @@ def crankNicolson1D_Dirichlet(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=
     mask_i = mask[i]
     mask_ip1 = mask[i+1]
     mask_im1 = mask[i-1]
+    _lambda_i = _lambda[i]
     
     if mask_i == 0:
       # at the ghost cell
-      pass
+      A[i][i] = 1
+      b[i] = T[i] 
+
     else:
       # in the domain
-      if mask_ip1==0 or mask_im1==0:
-        # at the boundary, but in the domain
-        pass
-      else:
-        # inside the domain
-        pass
-    
+      if mask_im1==0: # at the left boundary, but in the domain
+        A[i][i] = 1
+        b[i] = T[i] 
+
+      elif mask_ip1==0: # at the right boundary, but in the domain
+        A[i][i] = 1
+        b[i] = T[i] 
+
+      else: # inside the domain
+        ai = 
+        bi = 
+        ci = 
+        fi = 
+        A[i][i] = ai
+        A[i][i+1] = bi
+        A[i][i-1] = ci
+        b[i] = fi * T[i] - ci * T[i-1] - bi * T[i+1]
   
   return A, b
 

@@ -27,7 +27,6 @@ _lambda2 = 0.5
 
 
 
-
 # defining initial conditions:
 print("defining initial conditions")
 
