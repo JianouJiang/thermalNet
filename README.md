@@ -142,8 +142,8 @@ Build Type                    | Status                                          
 *   [Multigrid solver for 2D heat conduction problems](https://www.researchgate.net/publication/334774068_Multigrid_solver_for_2D_heat_conduction_problems)
 
 Learn more about the
-[TensorFlow community](https://www.tensorflow.org/community) and how to
-[contribute](https://www.tensorflow.org/community/contribute).
+[ThermalNet community](https://www.thermalnet.org/community) and how to
+[contribute](https://www.thermalnet.org/community/contribute).
 
 ## License
 
