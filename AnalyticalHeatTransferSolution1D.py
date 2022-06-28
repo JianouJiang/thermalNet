@@ -155,7 +155,7 @@ print("plotting")
     
 # plotting unitPulse_Dirichlet_T:
 print("plotting unitPulse_Dirichlet_T")
-directory = "data/unitPulse_Dirichlet_T.txt"
+directory = "data/exact_unitPulse_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -216,7 +216,7 @@ print("plotting")
 
 # plotting sines_Dirichlet_T:
 print("plotting sines_Dirichlet_T")
-directory = "data/sines_Dirichlet_T.txt"
+directory = "data/exact_sines_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -275,7 +275,7 @@ print("plotting")
 
 # plotting linear_Dirichlet_T:
 print("plotting linear_Dirichlet_T")
-directory = "data/linear_Dirichlet_T.txt"
+directory = "data/exact_linear_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -336,7 +336,7 @@ print("plotting")
 
 # plotting unitPulse_Neumann_T:
 print("plotting unitPulse_Neumann_T")
-directory = "data/unitPulse_Neumann_T.txt"
+directory = "data/exact_unitPulse_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -395,7 +395,7 @@ print("plotting")
 
 # plotting sines_Neumann_T:
 print("plotting sines_Neumann_T")
-directory = "data/sines_Neumann_T.txt"
+directory = "data/exact_sines_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -454,7 +454,7 @@ print("plotting")
 
 # plotting linear_Neumann_T:
 print("plotting linear_Neumann_T")
-directory = "data/linear_Neumann_T.txt"
+directory = "data/exact_linear_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -513,7 +513,7 @@ print("plotting")
 
 # plotting unitPulse_Mixed_T:
 print("plotting unitPulse_Mixed_T")
-directory = "data/unitPulse_Mixed_T.txt"
+directory = "data/exact_unitPulse_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -569,7 +569,7 @@ print("plotting")
 
 # plotting sines_Mixed_T:
 print("plotting sines_Mixed_T")
-directory = "data/sines_Mixed_T.txt"
+directory = "data/exact_sines_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -626,7 +626,7 @@ print("plotting")
 
 # plotting linear_Mixed_T:
 print("plotting linear_Mixed_T")
-directory = "data/linear_Mixed_T.txt"
+directory = "data/exact_linear_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -670,7 +670,7 @@ print("finished plotting linear_Mixed_T")
 
 # plotting linear_Mixed_T:
 print("plotting twoLayer_linear_Dirichlet_T")
-directory = "data/twoLayer_linear_Dirichlet_T.txt"
+directory = "data/exact_twoLayer_linear_Dirichlet_T.txt"
 
 
 
