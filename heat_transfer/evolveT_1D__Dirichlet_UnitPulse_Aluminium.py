@@ -15,7 +15,7 @@ def evolveT_1D__Dirichlet_UnitPulse_Aluminium():
     # making boundary conditions
     T = BC_1D_Dirichlet(T, x, mask)
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)
+    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)
 
     # saving Temperature at t=n to .txt under /data
     writeData(directory, ti, T, _lambda)
