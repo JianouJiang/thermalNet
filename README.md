@@ -20,7 +20,7 @@ researchers and developers pull the framework of this PINN to validate and
 upgrade their optimised numerical methods.
 
 ThermalNet was originally developed by researchers and engineers working on the
-osneyLab team within top UK universities to conduct a physically constrained
+[osneyNet](https://github.com/osneyNet) team within top UK universities to conduct a physically constrained
  deep neural networks research. The system is general enough to be applicable 
  in a other physics-informed problems beyond heat transfer problem too.
 
