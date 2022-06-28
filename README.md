@@ -94,7 +94,7 @@ open-source software development:
 
 ## Citation
 
-    @article{jianou2022physics,
+    @article{author2022physics,
       title={Physics-informed neural networks: n/a},
       journal={Journal of Computational Physics},
       volume={n/a},
@@ -103,7 +103,7 @@ open-source software development:
       publisher={Elsevier}
     }
 
-  - Jianou et al. "[Physics-informed neural networks: n/a](https://www.sciencedirect.com/science/article/pii/n/a)." Journal of Computational Physics n/a (2022): n/a-n/a.
+  - Author et al. "[Physics-informed neural networks: n/a](https://www.sciencedirect.com/science/article/pii/n/a)." Journal of Computational Physics n/a (2022): n/a-n/a.
 
 ### Official Builds
 
