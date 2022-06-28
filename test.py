@@ -42,7 +42,7 @@ def plotTest():
 print("Started testing all contributors...")
 def test():
   
-  print("--------test()---------")
+  print("Contributors introduction...")
   print("just testing from chennuo")
   
   print("First, let's welcome Jianou...")
