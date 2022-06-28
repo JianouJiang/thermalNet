@@ -155,7 +155,7 @@ print("plotting")
     
 # plotting unitPulse_Dirichlet_T:
 print("plotting unitPulse_Dirichlet_T")
-directory = "data/exact_unitPulse_Dirichlet_T.txt"
+directory = "../data/exact_unitPulse_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -184,7 +184,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/unitPulse_Dirichlet_T.png')  
+plt.savefig('../img/unitPulse_Dirichlet_T.png')
 plt.show()
 print("finished plotting unitPulse_Dirichlet_T")
 
@@ -216,7 +216,7 @@ print("plotting")
 
 # plotting sines_Dirichlet_T:
 print("plotting sines_Dirichlet_T")
-directory = "data/exact_sines_Dirichlet_T.txt"
+directory = "../data/exact_sines_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -243,7 +243,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/sines_Dirichlet_T.png')  
+plt.savefig('../img/sines_Dirichlet_T.png')
 plt.show()
 print("finished plotting sines_Dirichlet_T")
 
@@ -275,7 +275,7 @@ print("plotting")
 
 # plotting linear_Dirichlet_T:
 print("plotting linear_Dirichlet_T")
-directory = "data/exact_linear_Dirichlet_T.txt"
+directory = "../data/exact_linear_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -302,7 +302,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/linear_Dirichlet_T.png')  
+plt.savefig('../img/linear_Dirichlet_T.png')
 plt.show()
 print("finished plotting linear_Dirichlet_T")
 
@@ -336,7 +336,7 @@ print("plotting")
 
 # plotting unitPulse_Neumann_T:
 print("plotting unitPulse_Neumann_T")
-directory = "data/exact_unitPulse_Neumann_T.txt"
+directory = "../data/exact_unitPulse_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -363,7 +363,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/unitPulse_Neumann_T.png')  
+plt.savefig('../img/unitPulse_Neumann_T.png')
 plt.show()
 print("finished plotting unitPulse_Neumann_T")
 
@@ -395,7 +395,7 @@ print("plotting")
 
 # plotting sines_Neumann_T:
 print("plotting sines_Neumann_T")
-directory = "data/exact_sines_Neumann_T.txt"
+directory = "../data/exact_sines_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -421,7 +421,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sine Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/sines_Neumann_T.png')  
+plt.savefig('../img/sines_Neumann_T.png')
 plt.show()
 print("finished plotting sines_Neumann_T")
 
@@ -454,7 +454,7 @@ print("plotting")
 
 # plotting linear_Neumann_T:
 print("plotting linear_Neumann_T")
-directory = "data/exact_linear_Neumann_T.txt"
+directory = "../data/exact_linear_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -481,7 +481,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/linear_Neumann_T.png')  
+plt.savefig('../img/linear_Neumann_T.png')
 plt.show()
 print("finished plotting linear_Neumann_T")
 
@@ -513,7 +513,7 @@ print("plotting")
 
 # plotting unitPulse_Mixed_T:
 print("plotting unitPulse_Mixed_T")
-directory = "data/exact_unitPulse_Mixed_T.txt"
+directory = "../data/exact_unitPulse_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -539,7 +539,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/unitPulse_Mixed_T.png')  
+plt.savefig('../img/unitPulse_Mixed_T.png')
 plt.show()
 print("finished plotting unitPulse_Mixed_T")
 
@@ -569,7 +569,7 @@ print("plotting")
 
 # plotting sines_Mixed_T:
 print("plotting sines_Mixed_T")
-directory = "data/exact_sines_Mixed_T.txt"
+directory = "../data/exact_sines_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -595,7 +595,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/sines_Mixed_T.png')  
+plt.savefig('../img/sines_Mixed_T.png')
 plt.show()
 print("finished plotting sines_Mixed_T")
 
@@ -626,7 +626,7 @@ print("plotting")
 
 # plotting linear_Mixed_T:
 print("plotting linear_Mixed_T")
-directory = "data/exact_linear_Mixed_T.txt"
+directory = "../data/exact_linear_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt)
 color_list = ['k','r','b','g','y']
@@ -653,7 +653,7 @@ for ti in plot_times:
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
-plt.savefig('img/linear_Mixed_T.png')  
+plt.savefig('../img/linear_Mixed_T.png')
 plt.show()
 print("finished plotting linear_Mixed_T")
 
