@@ -42,10 +42,10 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
         b[i] = T[i] 
 
       else: # inside the domain
-        ai = 
-        bi = 
-        ci = 
-        fi = 
+        ai = 1/dt + _lambda_i / (dx*dx)
+        bi = - _lambda_i/(2*dx*dx)
+        ci = - _lambda_i/(2*dx*dx)
+        fi = 1/dt - _lambda_i/(dx*dx)
         A[i][i] = ai
         A[i][i+1] = bi
         A[i][i-1] = ci
