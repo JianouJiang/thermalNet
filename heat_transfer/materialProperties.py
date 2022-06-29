@@ -18,7 +18,7 @@ def rho_Aluminium(T): # using simple linear interpolation to get the correspondi
       rho_min = 2700
       return rho_min
     elif T > T_list[-1]:
-      rho_max = 
+      rho_max = 2300
       return rho_max
   rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
   
