@@ -1,7 +1,5 @@
 # setting up boundary conditions
 
-# L = 1
-
 def BC_1D_Dirichlet(T, x, mask):
 	Tbl = 0 # temperature at the left boundary
 	Tbr = 0 # temperature at the right boundary
