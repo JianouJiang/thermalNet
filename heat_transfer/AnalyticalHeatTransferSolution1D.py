@@ -10,20 +10,22 @@ import os
 
 # setting parameters:
 print("setting parameters")
+'''
 L = 1
 dx = 0.01
 t_max = 0.01
 dt = 0.002
-
+_lambda1 = 1.5
+_lambda2 = 0.5
+'''
 parameters_directory = "parameters.txt"
-L, dx, t_max, dt = readParameters(parameters_directory)
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters(parameters_directory)
 
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
 # https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
-_lambda1 = 1.5
-_lambda2 = 0.5
+
 
 
 
@@ -46,8 +48,6 @@ def unitPulse(x): # input x is a np array
             T0[i] = 0
     return T0 # output T0 is a np array
 
-#T0 = unitPulse(x)
-#print(T0)
 
 
 # sines function: 
