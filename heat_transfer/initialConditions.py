@@ -1,6 +1,6 @@
 # setting up initial conditions:
 # importing libs:
-print("importing libs")
+print("importing libs for initialConditions.py")
 import numpy as np
 from math import *
 import matplotlib.pyplot as plt
@@ -66,7 +66,7 @@ def IC_1D_UnitPulse_Aluminium():
 
     T = unitPulse(x) # temperature
     
-    rho = np.array([1.0 for i in range(len(T))])  # rho_Aluminium(T) # density
+    rho = np.array([1.0 for i in range(len(T))]) # rho_Aluminium(T) # density 
     Cp = np.array([1.0 for i in range(len(T))]) # Cp_Aluminium(T) # specific heat capacity
     k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
     _lambda = k/(Cp*rho)

@@ -26,8 +26,7 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
   
   for i in range(len(T)):
     mask_i = mask[i]
-    mask_ip1 = mask[i+1]
-    mask_im1 = mask[i-1]
+
     _lambda_i = _lambda[i]
     
     if mask_i == 0:
@@ -37,6 +36,8 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
 
     else:
       # in the domain
+      mask_ip1 = mask[i+1]
+      mask_im1 = mask[i-1]
       if mask_im1==0: # at the left boundary, but in the domain
         A[i][i] = 1
         b[i] = T[i] 
