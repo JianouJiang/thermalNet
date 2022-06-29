@@ -28,7 +28,12 @@ def readParameters(parameters_directory):
   parameter_list = []  
   with open(parameters_directory) as fp:
     Lines = fp.readlines()
+
     for line in Lines:
+      line_strip = line.replace('\n', "")
+      line_strip = line.replace(' ', "")
+      print(type(line_strip))
+      parameter_list.append(line_strip[2])     
       print(line)
       parameter_list.append(line[2])     
   L, dx, t_max, dt, _lambda1, _lambda2 = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5]
