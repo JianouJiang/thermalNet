@@ -40,7 +40,7 @@ def writeData(directory, ti, T, _lambda): # note T and lambda here are lists, wh
     with open(directory, 'a') as fp:
         index = 0
         for Ti in T:
-            xi = 0 + dx * index
+            xi = -dx + dx * index
             _lambda_i = _lambda[index]
             # write each ti, xi, Ti, lambda on a new line
             line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + "\n"

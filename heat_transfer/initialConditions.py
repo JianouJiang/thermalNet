@@ -61,6 +61,8 @@ def linear(x): # input x is a np array
 def IC_1D_UnitPulse_Aluminium(): 
 
     x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+    print(x)
+    print(len(x))
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
 
