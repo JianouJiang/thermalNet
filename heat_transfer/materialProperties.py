@@ -7,29 +7,49 @@
 def rho_Aluminium(T): # using simple linear interpolation to get the corresponding rho
   
   T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
-  rho_list = [...] # 10 values here as well
-  
+  rho_list = [2700, 2675, 2650, 2625, 2600, 2575, 2550, 2400, 2350, 2300] # 10 values here as well
+  rho = 0
   index = 0
-  for t in range(len(T_list)):
+  for i in range(len(T_list)):
     if T_list[i] <= T <= T_list[i+1]:
       index = i
       break
-  
+    elif T < T_list[0]:
+      rho_min = 2700
+      return rho_min
+    elif T > T_list[-1]:
+      rho_max = 
+      return rho_max
   rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
   
   return rho
 
 # specific heat capacity: TODO: reference!
 def Cp_Aluminium(T): 
-  # TODO
+  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
+  rho_list = [...] # 10 values here as well
   
-  return
+  index = 0
+  for T in range(len(T_list)):
+    if T_list[i] <= T <= T_list[i+1]:
+      index = i
+      break
+    elif T
+  rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
+  
+  return rho
 
 
 def k_Aluminium(T):
   # TODO
   
   return
+
+def _lambda_Aluminium(T):
+  # TODO
+  
+  return
+
 
 # heat transfer coefficient
 def h_Aluminium(T):
