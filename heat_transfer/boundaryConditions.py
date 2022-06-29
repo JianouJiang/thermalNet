@@ -21,4 +21,4 @@ def BC_1D_Dirichlet(T, x, mask):
 				T[i] = Tbl
 			if mask_ip1==0: # right boundary of the domain
 				T[i] = Tbr
-    return T
+	return T
