@@ -642,7 +642,61 @@ print("finished plotting linear_Mixed_T")
 # two layer heat transfer
 
 # deriving analytical solutions:
+import numpy as np
+import matplotlib.pyplot as plt
+k1 = 1
+k2 = 1
+d1 = 1
+d2 = 1
+l1 = 1
+l2 = 1
+H = 1
+a = 1
+b = 1
 
+def J2m(lambda_m):
+    return k1/k2*d2/d1*np.cos(lambda_m*l1/d1)
+
+def K2m(lambda_m):
+    return np.sin(lambda_m*l1/d1) + k1/d1 * lambda_m/H*np.cos(lambda_m*l1/d1)
+
+def f(lambda_m):
+    return J2m(lambda_m)*(a*np.sin(lambda_m*l2/d2) + lambda_m*b/d2 * np.cos(lambda_m*l2/d2)) + K2m(lambda_m)*(-lambda_m*b/d2*np.sin(lambda_m*l2/d2) + a*np.cos(lambda_m*l2/d2))
+
+
+lambda_start = -200
+lambda_end = 200
+dlambda = 0.1
+    
+def findLambdasWhenFunctionEqualZero(lambda_start, lambda_end, dlambda):   
+    lambda_m = np.arange(lambda_start,lambda_end,dlambda)
+    lambda_solution = []
+    func = f(lambda_m)
+    for i in range((len(func)-1)):
+        lambda_i = lambda_m[i]
+        fi = func[i]
+        fip1 = func[i+1]
+        if fi*fip1<0:
+            # we are at the cross point, get y=ax+b based on the two points, then get x when y=0
+            _a = (fip1 - fi) / dlambda
+            _b = fi - _a*lambda_i
+            lambda_sol_i = - _b/_a
+            lambda_solution.append(lambda_sol_i)
+            
+    print("number of lambdas: "+str(len(lambda_solution)))        
+    return lambda_solution
+
+lambda_solution=findLambdasWhenFunctionEqualZero(lambda_start,lambda_end,dlambda)
+
+
+lambda_m = np.arange(lambda_start,lambda_end,dlambda)
+print(lambda_solution)
+
+func = f(lambda_m)
+plt.plot(lambda_m, func)
+
+plt.xlabel('$\lambda$')
+plt.show()
 
 
 # plotting linear_Mixed_T:
