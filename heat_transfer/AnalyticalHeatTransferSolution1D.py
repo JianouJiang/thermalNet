@@ -677,7 +677,7 @@ def findLambdasWhenFunctionEqualZero(lambda_start, lambda_end, dlambda):
         fi = func[i]
         fip1 = func[i+1]
         if fi*fip1<0:
-            # we are at the cross point
+            # we are at the cross point, get y=ax+b based on the two points, then get x when y=0
             _a = (fip1 - fi) / dlambda
             _b = fi - _a*lambda_i
             lambda_sol_i = - _b/_a
