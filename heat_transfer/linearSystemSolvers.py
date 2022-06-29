@@ -1,6 +1,4 @@
 # different solvers for system of equations
-# chennuo: complicated tested function
-
 #importing libraries
 import numpy as np
 from numpy import array, zeros, diag, diagflat, dot
@@ -39,11 +37,27 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
 
 
 
-# TODO: chen nuo: Gauss-Seidel
+# chen nuo: Gauss-Seidel method
+# import libraries
+import numpy as np
+from scipy.linalg import solve
 
+def GaussSeidel (A,B,x,n):
+    L = np.tril(A) # define the lower triangular matrix (L) for A
+    U = A - L # define the upper triangular matrix (U)
+    for i in range (n): # create a "for" loop
+        # define x as the dot product of inverse L and B mins the dot product of U and x
+        x = np.dot(np.linalg.inv(L),B-np.dot(U,x))
+        print(x)
+    return x
 
-
-
+# define matrix A,B,x,and n as evalute arbitrary python expressions from a string based or compiled course code based input
+A = eval(input('Enter the matrix A: ')) # as np.array ([[a11,a12,a13],[a21,a22,a23],[a31,a32,a33]])
+B = eval(input('Enter the matrix B: ')) # as [b1,b2,b3]
+x = eval(input('Enter the guess of x: ') ) # as [x1,x2,x3]
+n = eval(input('Enter the number of iterations: '))
+x = GaussSeidel(A,B,x,n)
+print('Solution using the solve syntax: \n', solve(A,B))
 
 
 
