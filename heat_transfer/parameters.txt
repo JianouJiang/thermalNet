@@ -1,2 +1,6 @@
-# TODO
+L = 1
 dx = 0.01
+t_max = 0.01
+dt = 0.002
+_lambda1 = 1.5
+_lambda2 = 0.5
