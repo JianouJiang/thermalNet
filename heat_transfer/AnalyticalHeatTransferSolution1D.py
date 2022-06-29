@@ -22,7 +22,7 @@ _lambda1 = 1.5
 _lambda2 = 0.5
 '''
 
-L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 

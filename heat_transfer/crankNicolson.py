@@ -6,7 +6,7 @@ from tools import *
 from boundaryConditions import *
 from initialConditions import *
 
-L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 # crank-Nicolson function
 # https://people.sc.fsu.edu/~jpeterson/5-CrankNicolson.pdf
 
