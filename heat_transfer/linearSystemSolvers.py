@@ -37,12 +37,12 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
 
 
 
-# chen nuo: Gauss-Seidel method
+# chen nuo: LU Decomposition method
 # import libraries
 import numpy as np
 from scipy.linalg import solve
 
-def GaussSeidel(A,b,x=None,N=100, r=10**-6):
+def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
     residual_list = []
     if (x is None) :
         x=zeros(len(A[0]))
@@ -53,12 +53,14 @@ def GaussSeidel(A,b,x=None,N=100, r=10**-6):
     for Ni in range (N): # create a "for" loop
         # define x as the dot product of inverse L and B mins the dot product of U and x
         x = np.dot(np.linalg.inv(L),b-np.dot(U,xn_minus1))
+        print(x)
         difference = xn_minus1 - x
         magnitude = np.linalg.norm(difference)
         residual = magnitude / len(x)
+        #print(residual)
         residual_list.append(residual)
         if residual < r:
-            print("GaussSeidel: The number of iterations is: {}".format(Ni))
+            print("LU_Decomposition: The number of iterations is: {}".format(Ni))
             break
         xn_minus1 = x
 
@@ -112,7 +114,7 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
 
 b=array([12,-25,6])
 A=array([[5,-1,2],[3,8,-2],[1,1,4]])
-x0=array([1000.0,1000.0,1000.0])
+x0=array([10000.0,10000.0,10000.0])
 N= 100
 r= 10**-15
 w=1.1
@@ -123,15 +125,13 @@ print(solution_Jacobi)
 solution_SOR, residual_list_SOR = SOR(A, b,x0, N, r)
 print("Solution by SOR:")
 print(solution_SOR)
-solution_GaussSeidel, residual_list_GaussSeidel = GaussSeidel(A,b,x0,N, r)
-print("Solution by GaussSeidel:")
-print(solution_GaussSeidel)
+solution_LU_Decomposition, residual_list_LU_Decomposition = LU_Decomposition(A,b,x0,N, r)
+
 
 
 
 # plotting residual to show convergence
 plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
-plt.plot(residual_list_GaussSeidel,"or",label="Gauss-Seidel")
 plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
 plt.xlabel('iterations')
 plt.ylabel('Residual')
