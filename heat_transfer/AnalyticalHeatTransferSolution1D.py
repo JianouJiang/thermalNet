@@ -14,6 +14,10 @@ L = 1
 dx = 0.01
 t_max = 0.01
 dt = 0.002
+
+parameters_directory = "parameters.txt"
+L, dx, t_max, dt = readParameters(parameters_directory)
+
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
