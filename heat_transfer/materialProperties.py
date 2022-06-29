@@ -4,8 +4,7 @@
 
 # material 1: Aluminium
 # density: ADD REFERENCE HERE! Could be a link or the name of the paper or commerical software...
-def rho_Aluminium(T): # using simple linear interpolation to get the corresponding rho
-  
+def rho_Aluminium(T): # Kg/m3
   T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
   rho_list = [2700, 2675, 2650, 2625, 2600, 2575, 2550, 2400, 2350, 2300] # 10 values here as well
   rho = 0
@@ -15,35 +14,48 @@ def rho_Aluminium(T): # using simple linear interpolation to get the correspondi
       index = i
       break
     elif T < T_list[0]:
-      rho_min = 2700
-      return rho_min
+      return rho_list[0]
     elif T > T_list[-1]:
-      rho_max = 2300
-      return rho_max
+      return rho_list[-1]
   rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
   
   return rho
 
 # specific heat capacity: TODO: reference!
-def Cp_Aluminium(T): 
+def Cp_Aluminium(T):  # J/Kg-K
   T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
-  rho_list = [...] # 10 values here as well
-  
+  Cp_list = [900, 955.5, 994.8, 1034, 1088, 1136, 1190, 1238, 1281, 1321] # 10 values here as well
+  Cp = 0
   index = 0
-  for T in range(len(T_list)):
+  for i in range(len(T_list)):
     if T_list[i] <= T <= T_list[i+1]:
       index = i
       break
-    elif T
-  rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
-  
-  return rho
+    elif T < T_list[0]:
+      return Cp_list[0]
+    elif T > T_list[-1]:
+      return Cp_list[-1]
+  Cp = (T - T_list[index])/100 * (Cp_list[index+1] - Cp_list[index])
+
+  return Cp
 
 
-def k_Aluminium(T):
-  # TODO
-  
-  return
+def k_Aluminium(T): # W/m-K
+  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
+  k_list = [150, 160, 165, 170, 170, 170, 170, 170, 170, 170] # 10 values here as well
+  k = 0
+  index = 0
+  for i in range(len(T_list)):
+    if T_list[i] <= T <= T_list[i+1]:
+      index = i
+      break
+    elif T < T_list[0]:
+      return k_list[0]
+    elif T > T_list[-1]:
+      return k_list[-1]
+  k = (T - T_list[index])/100 * (k_list[index+1] - k_list[index])
+
+  return k
 
 def _lambda_Aluminium(T):
 

@@ -1,16 +1,14 @@
 # import libs
-from initialConditions import *
-from boundaryConditions import *
-from linearSystemSolvers import *
-from AnalyticalHeatTransferSolution1D import *
-from materialProperties import *
+
+from initialConditions import IC_1D_UnitPulse_Aluminium
+from boundaryConditions import BC_1D_Dirichlet
+from linearSystemSolvers import Jacobi, SOR
+from crankNicolson import crankNicolson1D_Dirichlet
+from materialProperties import _lambda_Aluminium
 import sys
 sys.path.insert(0, '../tools/')
 from tools import *
-
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
-x = np.arange(0,L+dx,dx) 
-T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
 
 # evolve temperature
