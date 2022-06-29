@@ -32,8 +32,8 @@ def readParameters(parameters_directory):
     for line in Lines:
       line_strip = line.replace('\n', "")
       line_strip = line.replace(' ', "")
-      print(type(line_strip))
-      parameter_list.append(line_strip[2])     
-  L, dx, t_max, dt, _lambda1, _lambda2 = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5]
+      #print(type(line_strip))
+      parameter_list.append(line_strip[0]) 
+  L, dx, t_max, dt, _lambda1, _lambda2 = parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5], parameter_list[6]
   print("L="+str(L)+" dx="+str(dx)+" t_max="+str(t_max)+" dt="+str(dt) + " _lambda1="+str(_lambda1)+" _lambda2="+str(_lambda2))
   return L, dx, t_max, dt, _lambda1, _lambda2
