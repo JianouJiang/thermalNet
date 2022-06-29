@@ -1,8 +1,12 @@
 # importing libs
 import numpy as np
+import sys
+sys.path.insert(0, '../tools/')
+from tools import *
 from boundaryConditions import *
 from initialConditions import *
 
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
 # crank-Nicolson function
 # https://people.sc.fsu.edu/~jpeterson/5-CrankNicolson.pdf
 

@@ -4,8 +4,14 @@ from boundaryConditions import *
 from linearSystemSolvers import *
 from AnalyticalHeatTransferSolution1D import *
 from materialProperties import *
+import sys
+sys.path.insert(0, '../tools/')
+from tools import *
 
-
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
+x = np.arange(0,L+dx,dx) 
+T = np.arange(0,L+dx,dx) 
+t = np.arange(0,t_max+dt,dt)
 
 # evolve temperature
 def evolveT_1D__Dirichlet_UnitPulse_Aluminium():

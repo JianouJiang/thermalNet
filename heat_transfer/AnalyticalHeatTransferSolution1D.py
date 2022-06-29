@@ -2,7 +2,6 @@
 # with the initial conitions of unit pulse function, the double sine waves and the linear function.
 # importing libs:
 print("importing libs")
-# importing sys
 import sys
 sys.path.insert(0, '../tools/')
 import numpy as np
@@ -22,17 +21,13 @@ dt = 0.002
 _lambda1 = 1.5
 _lambda2 = 0.5
 '''
-parameters_directory = "parameters.txt"
-L, dx, t_max, dt, _lambda1, _lambda2 = readParameters(parameters_directory)
+
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
 
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
 # https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
-
-
-
-
 
 
 
@@ -96,8 +91,7 @@ for n in range(1, 101):
     mu.append(tau_solution)
     
 # this is for a two-diffusivity (lambda) situation (e.g. steel at the left and copper at the right of the 1D rod)
-def _lambda(x): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
-    Ti = 1
+def _lambda(x,Ti=1): # thermal diffusivity is related to space (e.g. steel for x<0.5 and copper for x>0.5) and temperature Ti, which is 1 by default
     interface_xi = 0.5
     _lambda_list = []
     

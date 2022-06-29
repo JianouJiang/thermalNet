@@ -1,4 +1,30 @@
+import os
 # tool box:
+
+# read parameters
+def readParameters():
+  parameters_directory = "parameters.txt"
+  parameter_list = []  
+  with open(parameters_directory) as fp:
+    Lines = fp.readlines()
+
+    for i in range(len(Lines)):
+      line = Lines[i]
+      if i==0: # skipping the first line: L, dx, dt...
+        continue
+      else:
+        line_strip = line.replace('\n', "")
+        line_strip = line.replace(' ', "")
+      
+        parameter_list.append(float(line_strip)) 
+  L, dx, t_max, dt, _lambda1, _lambda2 = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5]
+  print("L="+str(L)+" dx="+str(dx)+" t_max="+str(t_max)+" dt="+str(dt) + " _lambda1="+str(_lambda1)+" _lambda2="+str(_lambda2))
+  return L, dx, t_max, dt, _lambda1, _lambda2
+
+
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
+
+
 # integrating from start to end
 def integral(f): 
     
@@ -23,21 +49,3 @@ def writeData(directory, ti, T, _lambda): # note T and lambda here are lists, wh
     return
     
  
-# read parameters
-def readParameters(parameters_directory):
-  parameter_list = []  
-  with open(parameters_directory) as fp:
-    Lines = fp.readlines()
-
-    for i in range(len(Lines)):
-      line = Lines[i]
-      if i==0: # skipping the first line: L, dx, dt...
-        continue
-      else:
-        line_strip = line.replace('\n', "")
-        line_strip = line.replace(' ', "")
-      
-        parameter_list.append(float(line_strip)) 
-  L, dx, t_max, dt, _lambda1, _lambda2 = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5]
-  print("L="+str(L)+" dx="+str(dx)+" t_max="+str(t_max)+" dt="+str(dt) + " _lambda1="+str(_lambda1)+" _lambda2="+str(_lambda2))
-  return L, dx, t_max, dt, _lambda1, _lambda2

@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0, '../tools/')
+from tools import *
+L, dx, t_max, dt, _lambda1, _lambda2 = readParameters()
 # setting up boundary conditions
 
 def BC_1D_Dirichlet(T, x, mask):
