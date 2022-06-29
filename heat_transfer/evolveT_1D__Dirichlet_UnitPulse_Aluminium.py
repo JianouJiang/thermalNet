@@ -3,6 +3,7 @@ from initialConditions import *
 from boundaryConditions import *
 from linearSystemSolvers import *
 from AnalyticalHeatTransferSolution1D import *
+from materialProperties import *
 
 
 
@@ -22,6 +23,8 @@ def evolveT_1D__Dirichlet_UnitPulse_Aluminium():
 
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
+    # getting the lambda based on the newly obtained temperature
+    _lambda = _lambda_Aluminium(T)
 
     return
 
