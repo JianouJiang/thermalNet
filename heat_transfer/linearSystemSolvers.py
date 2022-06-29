@@ -50,9 +50,9 @@ def GaussSeidel(A,b,x=None,N=100, r=10**-6):
     L = np.tril(A) # define the lower triangular matrix (L) for A
     U = A - L # define the upper triangular matrix (U)
     residual = 1000
-    for i in range (N): # create a "for" loop
+    for Ni in range (N): # create a "for" loop
         # define x as the dot product of inverse L and B mins the dot product of U and x
-        x = np.dot(np.linalg.inv(L),b-np.dot(U,x))
+        x = np.dot(np.linalg.inv(L),b-np.dot(U,xn_minus1))
         difference = xn_minus1 - x
         magnitude = np.linalg.norm(difference)
         residual = magnitude / len(x)
@@ -60,6 +60,8 @@ def GaussSeidel(A,b,x=None,N=100, r=10**-6):
         if residual < r:
             print("GaussSeidel: The number of iterations is: {}".format(Ni))
             break
+        xn_minus1 = x
+
     return x, residual_list
 
 
@@ -112,7 +114,7 @@ b=array([12,-25,6])
 A=array([[5,-1,2],[3,8,-2],[1,1,4]])
 x0=array([1000.0,1000.0,1000.0])
 N= 100
-r= 10**-9
+r= 10**-15
 w=1.1
 
 solution_Jacobi, residual_list_Jacobi = Jacobi(A, b,x0, N, r)
@@ -135,5 +137,5 @@ plt.xlabel('iterations')
 plt.ylabel('Residual')
 plt.yscale('log')
 plt.legend()
-plt.savefig("../img/linearSystemSolverConvergence.png")
+# plt.savefig("../img/linearSystemSolverConvergence.png")
 plt.show()
