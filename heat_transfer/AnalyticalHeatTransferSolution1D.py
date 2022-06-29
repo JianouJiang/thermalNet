@@ -664,8 +664,8 @@ def f(lambda_m):
     return J2m(lambda_m)*(a*np.sin(lambda_m*l2/d2) + lambda_m*b/d2 * np.cos(lambda_m*l2/d2)) + K2m(lambda_m)*(-lambda_m*b/d2*np.sin(lambda_m*l2/d2) + a*np.cos(lambda_m*l2/d2))
 
 
-lambda_start = -2
-lambda_end = 2
+lambda_start = -200
+lambda_end = 200
 dlambda = 0.1
     
 def findLambdasWhenFunctionEqualZero(lambda_start, lambda_end, dlambda):   
@@ -683,7 +683,7 @@ def findLambdasWhenFunctionEqualZero(lambda_start, lambda_end, dlambda):
             lambda_sol_i = - _b/_a
             lambda_solution.append(lambda_sol_i)
             
-            
+    print("number of lambdas: "+str(len(lambda_solution)))        
     return lambda_solution
 
 lambda_solution=findLambdasWhenFunctionEqualZero(lambda_start,lambda_end,dlambda)
