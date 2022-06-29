@@ -42,22 +42,25 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
 import numpy as np
 from scipy.linalg import solve
 
-def GaussSeidel (A,B,x,n):
+def GaussSeidel(A,b,x=None,N=100, r=10**-6):
+    residual_list = []
+    if (x is None) :
+        x=zeros(len(A[0]))
+    xn_minus1 = x
     L = np.tril(A) # define the lower triangular matrix (L) for A
     U = A - L # define the upper triangular matrix (U)
-    for i in range (n): # create a "for" loop
+    residual = 1000
+    for i in range (N): # create a "for" loop
         # define x as the dot product of inverse L and B mins the dot product of U and x
-        x = np.dot(np.linalg.inv(L),B-np.dot(U,x))
-        print(x)
-    return x
-
-# define matrix A,B,x,and n as evalute arbitrary python expressions from a string based or compiled course code based input
-A = eval(input('Enter the matrix A: ')) # as np.array ([[a11,a12,a13],[a21,a22,a23],[a31,a32,a33]])
-B = eval(input('Enter the matrix B: ')) # as [b1,b2,b3]
-x = eval(input('Enter the guess of x: ') ) # as [x1,x2,x3]
-n = eval(input('Enter the number of iterations: '))
-x = GaussSeidel(A,B,x,n)
-print('Solution using the solve syntax: \n', solve(A,B))
+        x = np.dot(np.linalg.inv(L),b-np.dot(U,x))
+        difference = xn_minus1 - x
+        magnitude = np.linalg.norm(difference)
+        residual = magnitude / len(x)
+        residual_list.append(residual)
+        if residual < r:
+            print("GaussSeidel: The number of iterations is: {}".format(Ni))
+            break
+    return x, residual_list
 
 
 
@@ -99,7 +102,7 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
 
 
 
-'''
+
 # linear system:  5x1-x2+2x3=12
 #                 3x1+8x2-2x3=-25
 #                 x1+x2+4x3=6
@@ -111,7 +114,6 @@ x0=array([1000.0,1000.0,1000.0])
 N= 100
 r= 10**-9
 w=1.1
-r=10**-7
 
 solution_Jacobi, residual_list_Jacobi = Jacobi(A, b,x0, N, r)
 print("Solution by Jacobi:")
@@ -119,13 +121,15 @@ print(solution_Jacobi)
 solution_SOR, residual_list_SOR = SOR(A, b,x0, N, r)
 print("Solution by SOR:")
 print(solution_SOR)
-
-
+solution_GaussSeidel, residual_list_GaussSeidel = GaussSeidel(A,b,x0,N, r)
+print("Solution by GaussSeidel:")
+print(solution_GaussSeidel)
 
 
 
 # plotting residual to show convergence
 plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
+plt.plot(residual_list_GaussSeidel,"or",label="Gauss-Seidel")
 plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
 plt.xlabel('iterations')
 plt.ylabel('Residual')
@@ -133,4 +137,3 @@ plt.yscale('log')
 plt.legend()
 plt.savefig("../img/linearSystemSolverConvergence.png")
 plt.show()
-'''
