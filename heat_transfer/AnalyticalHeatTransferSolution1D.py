@@ -7,6 +7,7 @@ from math import *
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 import os
+from tools.readParameters import *
 
 # setting parameters:
 print("setting parameters")
