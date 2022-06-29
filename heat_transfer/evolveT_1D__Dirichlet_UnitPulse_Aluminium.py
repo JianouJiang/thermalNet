@@ -14,6 +14,7 @@ T = np.arange(0,L+dx,dx)
 t = np.arange(0,t_max+dt,dt)
 
 # evolve temperature
+print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
 def evolveT_1D__Dirichlet_UnitPulse_Aluminium():
   directory = "../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
   # importing initial conditions
@@ -35,4 +36,4 @@ def evolveT_1D__Dirichlet_UnitPulse_Aluminium():
     return
 
 evolveT_1D__Dirichlet_UnitPulse_Aluminium()
-print("finished evolveTemperature().")
+print("finished evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
