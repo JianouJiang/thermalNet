@@ -69,6 +69,37 @@ def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
 
 
 
+# chennuo: Gauss-Seidel method
+# By using Gauss-Seidel method, we have 3 elements - matrix a, matrix b and solution X
+def seidel (a,X,b):
+    n = len(a) # find length of matrix a(3)
+    for j in range(0,n):
+        d = b[j] #temp variable d to store b[j]
+
+        for i in range(0,n): # calculate respective xi, yi, zi
+            if(j!=i):
+                d-=a[j][i] * X[i]
+        X[j] = d / a[j][j]
+    return X # return the updated solution
+
+#input as number of variable to be solved 
+n=3
+a=[]
+b=[]
+#initial solution depending on n (n=3)
+X = [0,0,0]
+a = [[4,1,2],[3,5,1],[1,1,3]]
+b = [4,7,3]
+print(X)
+
+#loop run for m times depending on m the error value 
+for i in range(0,25):
+    X = seidel(a,X,b)
+    print(X)
+
+
+
+
 
 # kaiyi: Successive over-relaxation (SOR)
 # x0 = our initial guess, N = number of iterations, r = tolerance
