@@ -645,9 +645,7 @@ print("finished plotting linear_Mixed_T")
 
 # Dirichlet boundary condition:
 import numpy as np
-import sympy as sp
 import matplotlib.pyplot as plt
-x = sp.symbols('x')
 k1 = 1
 k2 = 1
 d1 = 1
@@ -670,14 +668,14 @@ x_2 = 1
 
 # initial conditions:
 def f(i, x):
-    if i =1:
+    if i ==1:
         return 0
     else:
         return 0
 
 # steady state:
 def w(i, x):
-    if i=1:
+    if i==1:
         return 1 - ((k2*H*(a-d)*x)/(b*k1*H + a*k2*l1*H + a*k1*l2*H + a*k1*k2))
     else:
         return 1 - (((a - d)*(k1*H*(x-x_1) + k2*(l1*H + k1)))/(b*k1*H + a*k2*l1*H + a*k1*l2*H + a*k1*k2))
