@@ -22,6 +22,7 @@ def readParameters():
   return L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points
 
 
+
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
 

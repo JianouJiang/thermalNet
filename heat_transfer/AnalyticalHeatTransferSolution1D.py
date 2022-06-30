@@ -642,60 +642,88 @@ print("finished plotting linear_Mixed_T")
 # two layer heat transfer
 
 # deriving analytical solutions:
+
+# Dirichlet boundary condition:
 import numpy as np
+import sympy as sp
 import matplotlib.pyplot as plt
+x = sp.symbols('x')
 k1 = 1
 k2 = 1
 d1 = 1
 d2 = 1
 l1 = 1
 l2 = 1
-H = 1
+rho1 = 1
+rho2 = 1
+c1 = 1
+c2 = 1
+D1 = 1
+D2 = 1
+H = 0.5
 a = 1
-b = 1
+b = 0
+d = 0
+x_0 = 0
+x_1 = 0.5
+x_2 = 1
 
-def J2m(lambda_m):
-    return k1/k2*d2/d1*np.cos(lambda_m*l1/d1)
-
-def K2m(lambda_m):
-    return np.sin(lambda_m*l1/d1) + k1/d1 * lambda_m/H*np.cos(lambda_m*l1/d1)
-
-def f(lambda_m):
-    return J2m(lambda_m)*(a*np.sin(lambda_m*l2/d2) + lambda_m*b/d2 * np.cos(lambda_m*l2/d2)) + K2m(lambda_m)*(-lambda_m*b/d2*np.sin(lambda_m*l2/d2) + a*np.cos(lambda_m*l2/d2))
+# steady state:
+def w(i, x):
+    if i=1:
+        return 1 - ((k2*H*(a-d)*x)/(b*k1*H + a*k2*l1*H + a*k1*l2*H + a*k1*k2))
+    else:
+        return 1 - (((a - d)*(k1*H*(x-x_1) + k2*(l1*H + k1)))/(b*k1*H + a*k2*l1*H + a*k1*l2*H + a*k1*k2))
 
 
-lambda_start = -200
-lambda_end = 200
-dlambda = 0.1
+# space function X_i_m(x):
+def X(i, m, x):
+    return J(i, m)*np.sin(mu_m*(x-))
+
+# coefficients C_m:
+
+def J2m(mu_m):
+    return k1/k2*d2/d1*np.cos(mu_m*l1/d1)
+
+def K2m(mu_m):
+    return np.sin(mu_m*l1/d1) + k1/d1 * mu_m/H*np.cos(mu_m*l1/d1)
+
+def h(mu_m):
+    return J2m(mu_m)*(a*np.sin(mu_m*l2/d2) + mu_m*b/d2 * np.cos(mu_m*l2/d2)) + K2m(mu_m)*(-mu_m*b/d2*np.sin(mu_m*l2/d2) + a*np.cos(mu_m*l2/d2))
+
+
+mu_start = -200
+mu_end = 200
+dmu = 0.1
     
-def findLambdasWhenFunctionEqualZero(lambda_start, lambda_end, dlambda):   
-    lambda_m = np.arange(lambda_start,lambda_end,dlambda)
-    lambda_solution = []
-    func = f(lambda_m)
+def findMusWhenFunctionEqualZero(mu_start, mu_end, dmu):   
+    mu_m = np.arange(mu_start,mu_end,dmu)
+    mu_solution = []
+    func = h(mu_m)
     for i in range((len(func)-1)):
-        lambda_i = lambda_m[i]
+        mu_i = mu_m[i]
         fi = func[i]
         fip1 = func[i+1]
         if fi*fip1<0:
             # we are at the cross point, get y=ax+b based on the two points, then get x when y=0
-            _a = (fip1 - fi) / dlambda
-            _b = fi - _a*lambda_i
-            lambda_sol_i = - _b/_a
-            lambda_solution.append(lambda_sol_i)
+            _a = (fip1 - fi) / dmu
+            _b = fi - _a*mu_i
+            mu_sol_i = - _b/_a
+            mu_solution.append(mu_sol_i)
             
-    print("number of lambdas: "+str(len(lambda_solution)))        
-    return lambda_solution
+    print("number of mus: "+str(len(mu_solution)))        
+    return mu_solution
 
-lambda_solution=findLambdasWhenFunctionEqualZero(lambda_start,lambda_end,dlambda)
+mu_solution=findMusWhenFunctionEqualZero(mu_start,mu_end,dmu)
 
 
-lambda_m = np.arange(lambda_start,lambda_end,dlambda)
-print(lambda_solution)
+mu_m = np.arange(mu_start,mu_end,dmu)
+print(mu_solution)
 
-func = f(lambda_m)
-plt.plot(lambda_m, func)
+func = h(mu_m)
+plt.plot(mu_m, func)
 
-plt.xlabel('$\lambda$')
+plt.xlabel('$\mu$')
 plt.show()
 
 
