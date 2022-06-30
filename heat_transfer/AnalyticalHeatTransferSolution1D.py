@@ -668,6 +668,13 @@ x_0 = 0
 x_1 = 0.5
 x_2 = 1
 
+# initial conditions:
+def f(i, x):
+    if i =1:
+        return 0
+    else:
+        return 0
+
 # steady state:
 def w(i, x):
     if i=1:
@@ -676,12 +683,7 @@ def w(i, x):
         return 1 - (((a - d)*(k1*H*(x-x_1) + k2*(l1*H + k1)))/(b*k1*H + a*k2*l1*H + a*k1*l2*H + a*k1*k2))
 
 
-# space function X_i_m(x):
-def X(i, m, x):
-    return J(i, m)*np.sin(mu_m*(x-))
-
-# coefficients C_m:
-
+# find \mu_m:
 def J2m(mu_m):
     return k1/k2*d2/d1*np.cos(mu_m*l1/d1)
 
@@ -692,8 +694,8 @@ def h(mu_m):
     return J2m(mu_m)*(a*np.sin(mu_m*l2/d2) + mu_m*b/d2 * np.cos(mu_m*l2/d2)) + K2m(mu_m)*(-mu_m*b/d2*np.sin(mu_m*l2/d2) + a*np.cos(mu_m*l2/d2))
 
 
-mu_start = -200
-mu_end = 200
+mu_start = 0
+mu_end = 1000000
 dmu = 0.1
     
 def findMusWhenFunctionEqualZero(mu_start, mu_end, dmu):   
@@ -725,6 +727,113 @@ plt.plot(mu_m, func)
 
 plt.xlabel('$\mu$')
 plt.show()
+
+# space function X_i_m(x):
+def J_1(m):
+    return 1
+
+def J_2(m):
+    return k1/k2*d2/d1*np.cos(mu_solution[m-1]*l1/d1)
+
+def K_1(m):
+    return 0
+
+def K_2(m):
+    return np.sin(mu_solution[m-1]*l1/d1) + k1/d1 * mu_solution[m-1]/H*np.cos(mu_solution[m-1]*l1/d1)
+
+def X_1(m, x):
+    return J_1(m)*np.sin(mu_solution[m-1]*(x- x_0)) + K_1(m)*np.cos(mu_solution[m-1]*(x- x_0))
+
+def X_2(m, x):
+    return J_2(m)*np.sin(mu_solution[m-1]*(x- x_0)) + K_2(m)*np.cos(mu_solution[m-1]*(x- x_0))
+
+# coefficients C_m:
+def N_1(x):
+    return (f(1, x) - w(1, x))*X_1(m, x)
+
+def N_2(x):
+    return (f(2, x) - w(2, x))*X_2(m, x)
+
+def P_1(x):
+    return (X_1(m, x))**2
+
+def P_2(x):
+    return (X_2(m, x))**2
+
+def C(m):
+    numerator = rho1*c1*integral(x, N_1, x_0, x_1) + rho2*c2*integral(x, N_2, x_1, x_2)
+    denominator = rho1*c1*integral(x, P_1, x_0, x_1) + rho1*c1*integral(x, P_2, x_1, x_2)
+    return numerator/denominator
+
+
+# deriving analytical solutions:
+print("deriving analytical solutions")
+# two layer example:
+def twolayer_transient_T(xi,ti):
+    sum_n = 0
+    N = 80
+    if xi<=x_1:
+        for n in range(1,N):
+            C_n = C(n)
+            time_part = np.exp((-1)*((mu[n-1])**2) * ti)
+            space_part = X_1(n, xi)
+            T_n = C_n * time_part * space_part
+            sum_n = sum_n + T_n
+        return sum_n
+    else:
+        for n in range(1,N):
+            C_n = C(n)
+            time_part = np.exp((-1)*((mu[n-1])**2) * ti)
+            space_part = X_2(n, xi)
+            T_n = C_n * time_part * space_part
+            sum_n = sum_n + T_n
+        return sum_n
+
+# function of temperature:
+def U(xi, ti):
+    if xi<=x_1:
+        return w(1, xi) + twolayer_transient_T(xi, ti)
+    else:
+        return w(2, xi) + twolayer_transient_T(xi, ti)
+
+
+# plotting:
+print("plotting")
+
+def f_initial(x):
+    return 0
+
+# plotting U:
+print("plotting U")
+plt.figure(figsize=(7,5))
+plot_times = np.arange(0.0,t_max,dt)
+color_list = ['k','r','b','g','y']
+index = 0
+for ti in plot_times:
+    
+    #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
+    
+    colori = 'o'+ color_list[index]
+    if ti == 0.0:
+        plt.plot(x,f_initial(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x,f_initial(x),'-k',markersize=3) # also plot in line
+        plt.legend(fontsize=12)
+        writeData(directory, ti, T, _lambda_list)
+    else:
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = U(xi,ti)
+        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=12)
+        writeData(directory, ti, T, _lambda_list)
+    index = index + 1
+plt.xlabel('x (m)',fontsize=12)
+plt.ylabel('T (k)',fontsize=12)
+plt.title('Analytic Solution of two layer example')
+plt.savefig('../img/two_layer_example.png')
+plt.show()
+print("finished plotting two layer example")
 
 
 # plotting linear_Mixed_T:
