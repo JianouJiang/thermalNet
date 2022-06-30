@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, '../tools/')
 import numpy as np
 from math import *
+from tools import *
 import matplotlib.pyplot as plt
 
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
