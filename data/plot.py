@@ -10,7 +10,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
 # plot function
 # exact solution, numerical solution, ansys solution, neural network solution
-def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName3=None):  
+def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
     # appending data from fileName1 to x, T and _lambda at time in plot_times
     x_exact = []
     T_exact = []
@@ -37,63 +37,63 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName3=None):
     _lambda_numerical = []
     if (fileName2!=None):
         with open(fileName2) as fp:
-        Lines = fp.readlines()
-        for i in range(len(Lines)):
-            line = Lines[i]
-            ti = line[0]
-            xi = line[1]
-            Ti = line[2]
-            _lambda_i = line[3]
-            
-            index = 0
-            ti_plot = plot_times[index]
-            if ti==ti_plot:
-                x_numerical.append(xi)
-                T_numerical.append(Ti)
-                _lambda_numerical.append(_lambda_i)
-                index = index + 1
-      
+            Lines = fp.readlines()
+            for i in range(len(Lines)):
+                line = Lines[i]
+                ti = line[0]
+                xi = line[1]
+                Ti = line[2]
+                _lambda_i = line[3]
+
+                index = 0
+                ti_plot = plot_times[index]
+                if ti==ti_plot:
+                    x_numerical.append(xi)
+                    T_numerical.append(Ti)
+                    _lambda_numerical.append(_lambda_i)
+                    index = index + 1
+
     x_ansys = []
     T_ansys = []
     _lambda_ansys = []    
     if (fileName3!=None):
         with open(fileName3) as fp:
-        Lines = fp.readlines()
-        for i in range(len(Lines)):
-            line = Lines[i]
-            ti = line[0]
-            xi = line[1]
-            Ti = line[2]
-            _lambda_i = line[3]
-            
-            index = 0
-            ti_plot = plot_times[index]
-            if ti==ti_plot:
-                x_ansys.append(xi)
-                T_ansys.append(Ti)
-                _lambda_ansys.append(_lambda_i)
-                index = index + 1
+            Lines = fp.readlines()
+            for i in range(len(Lines)):
+                line = Lines[i]
+                ti = line[0]
+                xi = line[1]
+                Ti = line[2]
+                _lambda_i = line[3]
+
+                index = 0
+                ti_plot = plot_times[index]
+                if ti==ti_plot:
+                    x_ansys.append(xi)
+                    T_ansys.append(Ti)
+                    _lambda_ansys.append(_lambda_i)
+                    index = index + 1
                 
     x_PINN = []
     T_PINN = []
     _lambda_PINN = []    
     if (fileName4!=None):
-        with open(fileName3) as fp:
-        Lines = fp.readlines()
-        for i in range(len(Lines)):
-            line = Lines[i]
-            ti = line[0]
-            xi = line[1]
-            Ti = line[2]
-            _lambda_i = line[3]
-            
-            index = 0
-            ti_plot = plot_times[index]
-            if ti==ti_plot:
-                x_PINN.append(xi)
-                T_PINN.append(Ti)
-                _lambda_PINN.append(_lambda_i)
-                index = index + 1
+        with open(fileName4) as fp:
+            Lines = fp.readlines()
+            for i in range(len(Lines)):
+                line = Lines[i]
+                ti = line[0]
+                xi = line[1]
+                Ti = line[2]
+                _lambda_i = line[3]
+
+                index = 0
+                ti_plot = plot_times[index]
+                if ti==ti_plot:
+                    x_PINN.append(xi)
+                    T_PINN.append(Ti)
+                    _lambda_PINN.append(_lambda_i)
+                    index = index + 1
     
                 
     # plot the figure
@@ -116,7 +116,7 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName3=None):
     index = index + 1
     plt.xlabel('x (m)',fontsize=12)
     plt.ylabel('T (k)',fontsize=12)
-    plt.title('Temperature Evolution in 1D Aluminium Rod'.format(_lambda))
+    plt.title('Temperature Evolution in 1D Aluminium Rod')
     plt.savefig('../img/Temperature_Evolution_in_1D_Aluminium_Rod.png')
     plt.show()
     return

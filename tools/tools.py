@@ -3,7 +3,7 @@ import os
 
 # read parameters
 def readParameters():
-  parameters_directory = "parameters.txt"
+  parameters_directory = "../heat_transfer/parameters.txt"
   parameter_list = []  
   with open(parameters_directory) as fp:
     Lines = fp.readlines()
