@@ -27,12 +27,14 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
 
 # integrating from start to end
-def integral(f): 
-    
+def integral(x, f, x_start=0, x_end=L): # by default
+    dx = x[1] - x[0]
     sum_fx = 0
     for i in range(0,(len(f)-1)):
-        fi = (f[i]+f[i+1] )/2 # central differencing
-        sum_fx = sum_fx + fi*dx
+        xi = x[i]
+        if x_start<=xi<=x_end:
+            fi = (f[i]+f[i+1] )/2 # central differencing
+            sum_fx = sum_fx + fi*dx
     return sum_fx
     
 # open file in write mode and write data

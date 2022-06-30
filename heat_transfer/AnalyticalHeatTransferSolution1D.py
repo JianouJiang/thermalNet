@@ -116,7 +116,7 @@ def unitPulse_Dirichlet_T(xi,ti, _lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f = sin_n_pi_x_L(n,x) * unitPulse(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x, f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.sin(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -179,7 +179,7 @@ def sines_Dirichlet_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f = sin_n_pi_x_L(n,x) * sines(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x, f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.sin(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -238,7 +238,7 @@ def linear_Dirichlet_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f = sin_n_pi_x_L(n,x) * linear(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x,f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.sin(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -299,7 +299,7 @@ def unitPulse_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * unitPulse(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x, f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.cos(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -358,7 +358,7 @@ def sines_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * sines(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x, f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.cos(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -417,7 +417,7 @@ def linear_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     for n in range(1,N):
         f = cos_n_pi_x_L(n,x) * linear(x)
         #print(f)
-        A_n = 2/L * integral(f)
+        A_n = 2/L * integral(x,f)
         time_part = np.exp(-n**2 * np.pi**2 * _lambda_i * ti/(L**2))
         space_part = np.cos(n*np.pi*xi/L)
         T_n = A_n * time_part * space_part
@@ -476,7 +476,7 @@ def unitPulse_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f1 = np.sin(mu[n-1]*x) * unitPulse(x)
         f2 = (np.sin(mu[n-1]*x))**2
-        A_n = integral(f1) / integral(f2)
+        A_n = integral(x,f1) / integral(x,f2)
         time_part = np.exp((-1)*_lambda_i* ((mu[n-1])**2) * ti)
         space_part = np.sin(mu[n-1]*xi)
         T_n = A_n * time_part * space_part
@@ -532,7 +532,7 @@ def sines_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f1 = np.sin(mu[n-1]*x) * sines(x)
         f2 = (np.sin(mu[n-1]*x))**2
-        A_n = integral(f1) / integral(f2)
+        A_n = integral(x,f1) / integral(x,f2)
         time_part = np.exp((-1)*_lambda_i* ((mu[n-1])**2) * ti)
         space_part = np.sin(mu[n-1]*xi)
         T_n = A_n * time_part * space_part
@@ -589,7 +589,7 @@ def linear_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     for n in range(1,N):
         f1 = np.sin(mu[n-1]*x) * linear(x)
         f2 = (np.sin(mu[n-1]*x))**2
-        A_n = integral(f1) / integral(f2)
+        A_n = integral(x,f1) / integral(x,f2)
         time_part = np.exp((-1)*_lambda_i* ((mu[n-1])**2) * ti)
         space_part = np.sin(mu[n-1]*xi)
         T_n = A_n * time_part * space_part
