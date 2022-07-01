@@ -17,13 +17,13 @@ def readParameters():
         line_strip = line.replace(' ', "")
       
         parameter_list.append(float(line_strip)) 
-  L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5], parameter_list[6]
+  L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = parameter_list[0], parameter_list[1], parameter_list[2], parameter_list[3], parameter_list[4], parameter_list[5], parameter_list[6], parameter_list[7]
   print("L="+str(L)+" dx="+str(dx)+" t_max="+str(t_max)+" dt="+str(dt) + " _lambda1="+str(_lambda1)+" _lambda2="+str(_lambda2)+" number_of_ghost_points="+str(number_of_ghost_points))
-  return L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points
+  return L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting
 
 
 
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
 
 
 # integrating from start to end

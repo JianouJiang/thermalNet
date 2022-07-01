@@ -15,11 +15,12 @@ from tools import *
 print("setting parameters")
 
 
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
 
 x = np.arange(0,L+dx,dx) 
 T = np.arange(0,L+dx,dx) 
 t = np.arange(0,t_max+dt,dt)
+dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 # https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
 
 
@@ -124,33 +125,38 @@ print("plotting")
     
     
 # plotting unitPulse_Dirichlet_T:
-print("plotting unitPulse_Dirichlet_T")
+
 directory = "../data/exact_unitPulse_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting unitPulse_Dirichlet_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
-for ti in plot_times:
+for ti in t:
     
     #plt.plot(y,V[int(t/dt),:],'Gray',label='numerical')
     colori = 'o'+ color_list[index]
-    if ti == 0.0:
+    if ti == 0:
         T = unitPulse(x)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3) # plot in dots
         plt.plot(x,T,'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
-        
+        index = index + 1
     else:
         
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
             T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12) 
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -188,7 +194,7 @@ print("plotting")
 print("plotting sines_Dirichlet_T")
 directory = "../data/exact_sines_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -204,12 +210,22 @@ for ti in plot_times:
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index =index+1
     else:
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
-        _lambda_i = _lambda_list[i]
+                
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -247,7 +263,7 @@ print("plotting")
 print("plotting linear_Dirichlet_T")
 directory = "../data/exact_linear_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -260,15 +276,22 @@ for ti in plot_times:
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
+        
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = linear_Dirichlet_T(xi,ti,_lambda_i)
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Dirichlet B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -308,7 +331,7 @@ print("plotting")
 print("plotting unitPulse_Neumann_T")
 directory = "../data/exact_unitPulse_Neumann_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -324,12 +347,22 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
-        _lambda_i = _lambda
+        
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -367,7 +400,7 @@ print("plotting")
 print("plotting sines_Neumann_T")
 directory = "../data/exact_sines_Neumann_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -383,11 +416,22 @@ for ti in plot_times:
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+        
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sine Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -426,7 +470,7 @@ print("plotting")
 print("plotting linear_Neumann_T")
 directory = "../data/exact_linear_Neumann_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -439,15 +483,22 @@ for ti in plot_times:
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
+        
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = linear_Neumann_T(xi,ti,_lambda_i)
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Neumann B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -485,7 +536,7 @@ print("plotting")
 print("plotting unitPulse_Mixed_T")
 directory = "../data/exact_unitPulse_Mixed_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -501,11 +552,22 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+        
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of Unit Pulse Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -541,7 +603,7 @@ print("plotting")
 print("plotting sines_Mixed_T")
 directory = "../data/exact_sines_Mixed_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -557,11 +619,22 @@ for ti in plot_times:
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+        
+        for i in range(len(x)):
+            xi = 0 + i*dx
+            _lambda_i = _lambda_list[i]
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of sines Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -598,7 +671,7 @@ print("plotting")
 print("plotting linear_Mixed_T")
 directory = "../data/exact_linear_Mixed_T.txt"
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -611,15 +684,22 @@ for ti in plot_times:
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
         writeData(directory, ti, x, T, _lambda_list)
+        index = index + 1
     else:
+        
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = linear_Mixed_T(xi,ti,_lambda_i)
-        plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12)
+            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
-    index = index + 1
+        
+        try:
+            if ti==plot_times[index]:
+                plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
+                plt.legend(fontsize=12) 
+                index = index + 1
+        except IndexError:
+            pass
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
 plt.title('Analytic Solution of linear Function with Mixed B.C in 1D with $\lambda$={} m2/s'.format(_lambda))
@@ -797,7 +877,7 @@ def f_initial(x):
 # plotting U:
 print("plotting U")
 plt.figure(figsize=(7,5))
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:

@@ -6,8 +6,8 @@ from math import *
 from tools import *
 import matplotlib.pyplot as plt
 
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
-
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
+dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 # plot function
 # exact solution, numerical solution, ansys solution, neural network solution
 def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
@@ -150,7 +150,7 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
     return
 
 
-plot_times = np.arange(0.0,t_max,dt)
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 fileName1 = "exact_unitPulse_Dirichlet_T.txt"
 fileName2 = "crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
 plot_1D(plot_times, fileName1, fileName2)
