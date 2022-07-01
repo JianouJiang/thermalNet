@@ -31,7 +31,7 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
                 T_exact.append(Ti)
                 _lambda_exact.append(_lambda_i)
                 index = index + 1
-      
+
     x_numerical = []
     T_numerical = []
     _lambda_numerical = []
@@ -123,6 +123,6 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
 
 
 plot_times = np.arange(0.0,t_max,dt)
-fileName1 =  "exact_unitPulse_Neumann_T.txt"
+fileName1 = "exact_unitPulse_Neumann_T.txt"
 plot(plot_times, fileName1)
 print("finished plotting...")
