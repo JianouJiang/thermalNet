@@ -133,16 +133,15 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
         cross_color = "x" + color_list[index]
         circle_color = "o" + color_list[index]
         plt.plot(x_exact[index],T_exact[index],dot_color,label='analytic at t={}s'.format(ti),markersize=3)
-        if len(x_numerical)!=0:
+        if len(x_numerical[index])!=0:
             plt.plot(x_numerical[index],T_numerical[index],star_color,label='numerical at t={}s'.format(ti),markersize=3)
-        if len(x_ansys)!=0:
+        if len(x_ansys[index])!=0:
             plt.plot(x_ansys[index],T_ansys[index],cross_color,label='ansys at t={}s'.format(ti),markersize=3)
-        if len(x_PINN)!=0:
+        if len(x_PINN[index])!=0:
             plt.plot(x_PINN[index],T_PINN[index],circle_color,label='PINN at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=5)
         index = index + 1
-   
-    index = index + 1
+        
     plt.xlabel('x (m)',fontsize=12)
     plt.ylabel('T (k)',fontsize=12)
     plt.title('Temperature Evolution in 1D Aluminium Rod')
@@ -152,6 +151,7 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
 
 
 plot_times = np.arange(0.0,t_max,dt)
-fileName1 = "exact_unitPulse_Neumann_T.txt"
-plot_1D(plot_times, fileName1)
+fileName1 = "exact_unitPulse_Dirichlet_T.txt"
+fileName2 = "crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
+plot_1D(plot_times, fileName1, fileName2)
 print("finished plotting...")

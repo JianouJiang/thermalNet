@@ -136,7 +136,7 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
 
 
 
-
+'''
 
 # linear system:  5x1-x2+2x3=12
 #                 3x1+8x2-2x3=-25
@@ -170,3 +170,5 @@ plt.yscale('log')
 plt.legend()
 # plt.savefig("../img/linearSystemSolverConvergence.png")
 plt.show()
+
+'''
