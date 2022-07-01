@@ -125,13 +125,13 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
                 
     # plot the figure
     plt.figure(figsize=(7,5))
-    color_list = ['k','r','b','g','y']
+    color_list = ['k','r','b','y','g']
     index = 0
     for ti in plot_times:
-        dot_color = '.'+ color_list[index]
-        star_color = "*" + color_list[index]
-        cross_color = "x" + color_list[index]
-        circle_color = "o" + color_list[index]
+        dot_color = '.'+ "k"#color_list[index]
+        star_color = "*" + "r"#color_list[index]
+        cross_color = "x" + "b"#color_list[index]
+        circle_color = "o" + "y"#color_list[index]
         plt.plot(x_exact[index],T_exact[index],dot_color,label='analytic at t={}s'.format(ti),markersize=3)
         if len(x_numerical[index])!=0:
             plt.plot(x_numerical[index],T_numerical[index],star_color,label='numerical at t={}s'.format(ti),markersize=3)

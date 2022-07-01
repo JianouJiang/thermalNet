@@ -13,14 +13,7 @@ from tools import *
 
 # setting parameters:
 print("setting parameters")
-'''
-L = 1
-dx = 0.01
-t_max = 0.01
-dt = 0.002
-_lambda1 = 1.5
-_lambda2 = 0.5
-'''
+
 
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
