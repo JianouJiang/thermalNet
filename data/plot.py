@@ -12,88 +12,115 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 # exact solution, numerical solution, ansys solution, neural network solution
 def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
     # appending data from fileName1 to x, T and _lambda at time in plot_times
-    x_exact = []
-    T_exact = []
-    _lambda_exact = []
-    with open(fileName1) as fp:
-        Lines = fp.readlines()
-        for i in range(len(Lines)):
-            line = Lines[i]
-            ti = line[0]
-            xi = line[1]
-            Ti = line[2]
-            _lambda_i = line[3]
-            
-            index = 0
-            ti_plot = plot_times[index]
+    len_t_plot = len(plot_times)
+    x_exact = [[]] * len_t_plot
+    T_exact = [[]] * len_t_plot
+    _lambda_exact = [[]] * len_t_plot
+    r_plotting = 10*-6
+
+    with open(fileName1, 'r+') as fp:
+        lines = fp.read().splitlines()
+        index = 0
+        for i in range(len(lines)):
+            line = lines[i]
+            values = line.split()
+
+            ti = float(values[0])
+            xi = float(values[1])
+            Ti = float(values[2])
+            _lambda_i = float(values[3])
+
+
+            ti_plot = float(plot_times[index])
+
             if ti==ti_plot:
-                x_exact.append(xi)
-                T_exact.append(Ti)
-                _lambda_exact.append(_lambda_i)
+
+                x_exact[index].append(xi)
+                T_exact[index].append(Ti)
+                _lambda_exact[index].append(_lambda_i)
+            else:
                 index = index + 1
+                x_exact[index].append(xi)
+                T_exact[index].append(Ti)
+                _lambda_exact[index].append(_lambda_i)
 
-    x_numerical = []
-    T_numerical = []
-    _lambda_numerical = []
+    x_numerical = [[]] * len_t_plot
+    T_numerical = [[]] * len_t_plot
+    _lambda_numerical = [[]] * len_t_plot
     if (fileName2!=None):
-        with open(fileName2) as fp:
-            Lines = fp.readlines()
-            for i in range(len(Lines)):
-                line = Lines[i]
-                ti = line[0]
-                xi = line[1]
-                Ti = line[2]
-                _lambda_i = line[3]
+        with open(fileName2, 'r+') as fp:
+            lines = fp.read().splitlines()
+            index = 0
+            for i in range(len(lines)):
+                line = lines[i]
+                values = line.split()
+                ti = float(values[0])
+                xi = float(values[1])
+                Ti = float(values[2])
+                _lambda_i = float(values[3])
 
-                index = 0
-                ti_plot = plot_times[index]
+                ti_plot = float(plot_times[index])
                 if ti==ti_plot:
-                    x_numerical.append(xi)
-                    T_numerical.append(Ti)
-                    _lambda_numerical.append(_lambda_i)
+                    x_numerical[index].append(xi)
+                    T_numerical[index].append(Ti)
+                    _lambda_numerical[index].append(_lambda_i)
+                else:
                     index = index + 1
+                    x_numerical[index].append(xi)
+                    T_numerical[index].append(Ti)
+                    _lambda_numerical[index].append(_lambda_i)
 
-    x_ansys = []
-    T_ansys = []
-    _lambda_ansys = []    
+    x_ansys = [[]] * len_t_plot
+    T_ansys = [[]] * len_t_plot
+    _lambda_ansys = [[]] * len_t_plot
     if (fileName3!=None):
-        with open(fileName3) as fp:
-            Lines = fp.readlines()
-            for i in range(len(Lines)):
-                line = Lines[i]
-                ti = line[0]
-                xi = line[1]
-                Ti = line[2]
-                _lambda_i = line[3]
+        with open(fileName3, 'r+') as fp:
+            lines = fp.read().splitlines()
+            index = 0
+            for i in range(len(lines)):
+                line = lines[i]
+                values = line.split()
+                ti = float(values[0])
+                xi = float(values[1])
+                Ti = float(values[2])
+                _lambda_i = float(values[3])
 
-                index = 0
-                ti_plot = plot_times[index]
+                ti_plot = float(plot_times[index])
                 if ti==ti_plot:
-                    x_ansys.append(xi)
-                    T_ansys.append(Ti)
-                    _lambda_ansys.append(_lambda_i)
+                    x_ansys[index].append(xi)
+                    x_ansys[index].append(Ti)
+                    _lambda_ansys[index].append(_lambda_i)
+                else:
                     index = index + 1
+                    x_ansys[index].append(xi)
+                    x_ansys[index].append(Ti)
+                    _lambda_ansys[index].append(_lambda_i)
                 
-    x_PINN = []
-    T_PINN = []
-    _lambda_PINN = []    
+    x_PINN = [[]] * len_t_plot
+    T_PINN = [[]] * len_t_plot
+    _lambda_PINN = [[]] * len_t_plot
     if (fileName4!=None):
-        with open(fileName4) as fp:
-            Lines = fp.readlines()
-            for i in range(len(Lines)):
-                line = Lines[i]
-                ti = line[0]
-                xi = line[1]
-                Ti = line[2]
-                _lambda_i = line[3]
+        with open(fileName4, 'r+') as fp:
+            lines = fp.read().splitlines()
+            index = 0
+            for i in range(len(lines)):
+                line = lines[i]
+                values = line.split()
+                ti = float(values[0])
+                xi = float(values[1])
+                Ti = float(values[2])
+                _lambda_i = float(values[3])
 
-                index = 0
-                ti_plot = plot_times[index]
+                ti_plot = float(plot_times[index])
                 if ti==ti_plot:
-                    x_PINN.append(xi)
-                    T_PINN.append(Ti)
-                    _lambda_PINN.append(_lambda_i)
+                    x_PINN[index].append(xi)
+                    T_PINN[index].append(Ti)
+                    _lambda_PINN[index].append(_lambda_i)
+                else:
                     index = index + 1
+                    x_PINN[index].append(xi)
+                    T_PINN[index].append(Ti)
+                    _lambda_PINN[index].append(_lambda_i)
     
                 
     # plot the figure
@@ -101,16 +128,18 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
     color_list = ['k','r','b','g','y']
     index = 0
     for ti in plot_times:
-        dot_color = 'o'+ color_list[index]
+        dot_color = '.'+ color_list[index]
         star_color = "*" + color_list[index]
-        plt.plot(x_exact,T_exact,dot_color,label='analytic at t={}s'.format(ti),markersize=3)
+        cross_color = "x" + color_list[index]
+        circle_color = "o" + color_list[index]
+        plt.plot(x_exact[index],T_exact[index],dot_color,label='analytic at t={}s'.format(ti),markersize=3)
         if len(x_numerical)!=0:
-            plt.plot(x_numerical,T_numerical,colori,label='numerical at t={}s'.format(ti),markersize=3)
+            plt.plot(x_numerical[index],T_numerical[index],star_color,label='numerical at t={}s'.format(ti),markersize=3)
         if len(x_ansys)!=0:
-            plt.plot(x_numerical,T_numerical,colori,label='ansys at t={}s'.format(ti),markersize=3)
+            plt.plot(x_ansys[index],T_ansys[index],cross_color,label='ansys at t={}s'.format(ti),markersize=3)
         if len(x_PINN)!=0:
-            plt.plot(x_numerical,T_numerical,colori,label='PINN at t={}s'.format(ti),markersize=3)
-        plt.legend(fontsize=12) 
+            plt.plot(x_PINN[index],T_PINN[index],circle_color,label='PINN at t={}s'.format(ti),markersize=3)
+        plt.legend(fontsize=5)
         index = index + 1
    
     index = index + 1
