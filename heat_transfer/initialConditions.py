@@ -12,7 +12,7 @@ from tools import *
 
 # setting parameters:
 print("setting parameters")
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()# https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()# https://en.wikipedia.org/wiki/Thermal_diffusivity, lambda = k/(cp*rho) with the unit m2/s
 
 
 

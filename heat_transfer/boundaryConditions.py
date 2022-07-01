@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, '../tools/')
 from tools import *
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
 # setting up boundary conditions
 
 def BC_1D_Dirichlet(T, x, mask):

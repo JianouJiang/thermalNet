@@ -20,7 +20,6 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
 
     with open(fileName1, 'r+') as fp:
         lines = fp.read().splitlines()
-        index = 0
         for i in range(len(lines)):
             line = lines[i]
             values = line.split()
@@ -31,18 +30,14 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
             _lambda_i = float(values[3])
 
 
-            ti_plot = float(plot_times[index])
 
-            if ti==ti_plot:
+            if ti in plot_times:
 
+                index = plot_times.tolist().index(ti)
                 x_exact[index].append(xi)
                 T_exact[index].append(Ti)
                 _lambda_exact[index].append(_lambda_i)
-            else:
-                index = index + 1
-                x_exact[index].append(xi)
-                T_exact[index].append(Ti)
-                _lambda_exact[index].append(_lambda_i)
+                
 
     x_numerical = [[]] * len_t_plot
     T_numerical = [[]] * len_t_plot
@@ -50,7 +45,6 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
     if (fileName2!=None):
         with open(fileName2, 'r+') as fp:
             lines = fp.read().splitlines()
-            index = 0
             for i in range(len(lines)):
                 line = lines[i]
                 values = line.split()
@@ -59,16 +53,12 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
                 Ti = float(values[2])
                 _lambda_i = float(values[3])
 
-                ti_plot = float(plot_times[index])
-                if ti==ti_plot:
+                if ti in plot_times:
+                    index = plot_times.tolist().index(ti)
                     x_numerical[index].append(xi)
                     T_numerical[index].append(Ti)
                     _lambda_numerical[index].append(_lambda_i)
-                else:
-                    index = index + 1
-                    x_numerical[index].append(xi)
-                    T_numerical[index].append(Ti)
-                    _lambda_numerical[index].append(_lambda_i)
+                
 
     x_ansys = [[]] * len_t_plot
     T_ansys = [[]] * len_t_plot
@@ -76,7 +66,6 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
     if (fileName3!=None):
         with open(fileName3, 'r+') as fp:
             lines = fp.read().splitlines()
-            index = 0
             for i in range(len(lines)):
                 line = lines[i]
                 values = line.split()
@@ -85,16 +74,12 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
                 Ti = float(values[2])
                 _lambda_i = float(values[3])
 
-                ti_plot = float(plot_times[index])
-                if ti==ti_plot:
+                if ti in plot_times:
+                    index = plot_times.tolist().index(ti)
                     x_ansys[index].append(xi)
                     x_ansys[index].append(Ti)
                     _lambda_ansys[index].append(_lambda_i)
-                else:
-                    index = index + 1
-                    x_ansys[index].append(xi)
-                    x_ansys[index].append(Ti)
-                    _lambda_ansys[index].append(_lambda_i)
+               
                 
     x_PINN = [[]] * len_t_plot
     T_PINN = [[]] * len_t_plot
@@ -102,7 +87,6 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
     if (fileName4!=None):
         with open(fileName4, 'r+') as fp:
             lines = fp.read().splitlines()
-            index = 0
             for i in range(len(lines)):
                 line = lines[i]
                 values = line.split()
@@ -111,17 +95,12 @@ def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=Non
                 Ti = float(values[2])
                 _lambda_i = float(values[3])
 
-                ti_plot = float(plot_times[index])
-                if ti==ti_plot:
+                if ti==plot_times:
+                    index = plot_times.tolist().index(ti)
                     x_PINN[index].append(xi)
                     T_PINN[index].append(Ti)
                     _lambda_PINN[index].append(_lambda_i)
-                else:
-                    index = index + 1
-                    x_PINN[index].append(xi)
-                    T_PINN[index].append(Ti)
-                    _lambda_PINN[index].append(_lambda_i)
-    
+                
                 
     # plot the figure
     plt.figure(figsize=(7,5))

@@ -10,7 +10,7 @@ from materialProperties import _lambda_Aluminium
 import sys
 sys.path.insert(0, '../tools/')
 from tools import *
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
 
 # evolve temperature
 print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
@@ -35,7 +35,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     # getting the lambda based on the newly obtained temperature
     for i in range(len(T)):
       Ti = T[i]
-      _lambda[i] = _lambda_Aluminium(Ti)
+      _lambda[i] = 1#_lambda_Aluminium(Ti)
   
   return
 
