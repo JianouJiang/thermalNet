@@ -146,7 +146,7 @@ for ti in plot_times:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3) # plot in dots
         plt.plot(x,T,'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
         
     else:
         
@@ -156,7 +156,7 @@ for ti in plot_times:
             T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12) 
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -210,12 +210,12 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
         _lambda_i = _lambda_list[i]
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -266,7 +266,7 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         for i in range(len(x)):
             xi = 0 + i*dx
@@ -274,7 +274,7 @@ for ti in plot_times:
             T[i] = linear_Dirichlet_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -330,12 +330,12 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
         _lambda_i = _lambda
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -389,11 +389,11 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -445,7 +445,7 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         for i in range(len(x)):
             xi = 0 + i*dx
@@ -453,7 +453,7 @@ for ti in plot_times:
             T[i] = linear_Neumann_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -507,11 +507,11 @@ for ti in plot_times:
         plt.plot(x,unitPulse(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,unitPulse(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -563,11 +563,11 @@ for ti in plot_times:
         plt.plot(x,sines(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,sines(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -617,7 +617,7 @@ for ti in plot_times:
         plt.plot(x,linear(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,linear(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         for i in range(len(x)):
             xi = 0 + i*dx
@@ -625,7 +625,7 @@ for ti in plot_times:
             T[i] = linear_Mixed_T(xi,ti,_lambda_i)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)
@@ -816,7 +816,7 @@ for ti in plot_times:
         plt.plot(x,f_initial(x),colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.plot(x,f_initial(x),'-k',markersize=3) # also plot in line
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     else:
         for i in range(len(x)):
             xi = 0 + i*dx
@@ -824,7 +824,7 @@ for ti in plot_times:
             T[i] = U(xi,ti)
         plt.plot(x,T,colori,label='analytic at t={}s'.format(ti),markersize=3)
         plt.legend(fontsize=12)
-        writeData(directory, ti, T, _lambda_list)
+        writeData(directory, ti, x, T, _lambda_list)
     index = index + 1
 plt.xlabel('x (m)',fontsize=12)
 plt.ylabel('T (k)',fontsize=12)

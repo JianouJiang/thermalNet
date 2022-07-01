@@ -38,12 +38,12 @@ def integral(x, f, x_start=0, x_end=L): # by default
     return sum_fx
     
 # open file in write mode and write data
-def writeData(directory, ti, T, _lambda): # note T and lambda here are lists, whereas time t is single value
+def writeData(directory, ti, x, T, _lambda): # note T and lambda here are lists, whereas time t is single value
     isFile = os.path.isfile(directory) 
     with open(directory, 'a') as fp:
         index = 0
         for Ti in T:
-            xi = -dx + dx * index
+            xi = x[index]
             _lambda_i = _lambda[index]
             # write each ti, xi, Ti, lambda on a new line
             line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + "\n"

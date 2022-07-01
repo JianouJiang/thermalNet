@@ -10,7 +10,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points = readParameters()
 
 # plot function
 # exact solution, numerical solution, ansys solution, neural network solution
-def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
+def plot_1D(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
     # appending data from fileName1 to x, T and _lambda at time in plot_times
     len_t_plot = len(plot_times)
     x_exact = [[]] * len_t_plot
@@ -153,5 +153,5 @@ def plot(plot_times, fileName1, fileName2=None, fileName3=None, fileName4=None):
 
 plot_times = np.arange(0.0,t_max,dt)
 fileName1 = "exact_unitPulse_Neumann_T.txt"
-plot(plot_times, fileName1)
+plot_1D(plot_times, fileName1)
 print("finished plotting...")
