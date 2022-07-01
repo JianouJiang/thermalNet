@@ -186,15 +186,13 @@ def sines_Dirichlet_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
 
 # plotting sines_Dirichlet_T:
-print("plotting sines_Dirichlet_T")
+
 directory = "../data/exact_sines_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting sines_Dirichlet_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -216,7 +214,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = sines_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -255,15 +253,13 @@ def linear_Dirichlet_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
 
 # plotting linear_Dirichlet_T:
-print("plotting linear_Dirichlet_T")
+
 directory = "../data/exact_linear_Dirichlet_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting linear_Dirichlet_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -282,7 +278,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = linear_Dirichlet_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -323,15 +319,13 @@ def unitPulse_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
 
 # plotting unitPulse_Neumann_T:
 print("plotting unitPulse_Neumann_T")
 directory = "../data/exact_unitPulse_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting unitPulse_Neumann_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -353,7 +347,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = unitPulse_Neumann_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -392,15 +386,12 @@ def sines_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
-
 # plotting sines_Neumann_T:
-print("plotting sines_Neumann_T")
+
 directory = "../data/exact_sines_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting sines_Neumann_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -422,7 +413,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = sines_Neumann_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -462,15 +453,12 @@ def linear_Neumann_T(xi,ti,_lambda_i): # Neumann bc: T_x(0,t)=0; T_x(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
-
 # plotting linear_Neumann_T:
-print("plotting linear_Neumann_T")
+
 directory = "../data/exact_linear_Neumann_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting linear_Neumann_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -489,7 +477,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = linear_Neumann_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -528,15 +516,13 @@ def unitPulse_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
 
 # plotting unitPulse_Mixed_T:
-print("plotting unitPulse_Mixed_T")
+
 directory = "../data/exact_unitPulse_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting unitPulse_Mixed_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -558,7 +544,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = unitPulse_Mixed_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -595,15 +581,13 @@ def sines_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
 
 # plotting sines_Mixed_T:
-print("plotting sines_Mixed_T")
+
 directory = "../data/exact_sines_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting sines_Mixed_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -625,7 +609,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = sines_Mixed_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
@@ -663,15 +647,12 @@ def linear_Mixed_T(xi,ti,_lambda_i): # dirichlet bc: T(0,t)=0; T(L,t)=0
     return sum_n
 
 
-# plotting:
-print("plotting")
-
-
 # plotting linear_Mixed_T:
-print("plotting linear_Mixed_T")
+
 directory = "../data/exact_linear_Mixed_T.txt"
 plt.figure(figsize=(7,5))
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+print("plotting linear_Mixed_T at t="+str(plot_times))
 color_list = ['k','r','b','g','y']
 index = 0
 for ti in plot_times:
@@ -690,7 +671,7 @@ for ti in plot_times:
         for i in range(len(x)):
             xi = 0 + i*dx
             _lambda_i = _lambda_list[i]
-            T[i] = unitPulse_Dirichlet_T(xi,ti,_lambda_i)
+            T[i] = linear_Mixed_T(xi,ti,_lambda_i)
         writeData(directory, ti, x, T, _lambda_list)
         
         try:
