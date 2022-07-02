@@ -13,7 +13,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 # crankNicolson1D_Dirichlet
 def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   # print("crankNicolson1D_Dirichlet()")
-  # TODO
+
   length_T = len(T)
   length_mask = len(mask)
   

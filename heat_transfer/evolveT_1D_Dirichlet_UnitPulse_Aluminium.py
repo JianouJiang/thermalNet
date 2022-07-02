@@ -35,7 +35,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     # getting the lambda based on the newly obtained temperature
     for i in range(len(T)):
       Ti = T[i]
-      _lambda[i] = 1#_lambda_Aluminium(Ti)
+      _lambda[i] = 1 #_lambda_Aluminium(Ti)
   
   return
 

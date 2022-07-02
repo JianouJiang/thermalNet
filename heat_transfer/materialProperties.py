@@ -5,7 +5,7 @@
 # material 1: Aluminium
 # density: ADD REFERENCE HERE! Could be a link or the name of the paper or commerical software...
 def rho_Aluminium(T): # Kg/m3
-  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
+  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # kelvin, 10 values here
   rho_list = [2700, 2675, 2650, 2625, 2600, 2575, 2550, 2400, 2350, 2300] # 10 values here as well
   rho = 0
   index = 0
@@ -23,7 +23,7 @@ def rho_Aluminium(T): # Kg/m3
 
 # specific heat capacity: TODO: reference!
 def Cp_Aluminium(T):  # J/Kg-K
-  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
+  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # kelvin 10 values here
   Cp_list = [900, 955.5, 994.8, 1034, 1088, 1136, 1190, 1238, 1281, 1321] # 10 values here as well
   Cp = 0
   index = 0
@@ -41,7 +41,7 @@ def Cp_Aluminium(T):  # J/Kg-K
 
 
 def k_Aluminium(T): # W/m-K
-  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # 10 values here
+  T_list = [300,400,500,600,700,800,900,1000,1100,1200] # kelvin 10 values here
   k_list = [150, 160, 165, 170, 170, 170, 170, 170, 170, 170] # 10 values here as well
   k = 0
   index = 0
