@@ -23,7 +23,7 @@ print("defining initial conditions for temperature")
 # unit pulse function:
 m = 1 # magnitude of the unit pulse function
 def unitPulse(x): # input x is a np array
-    T0 = np.arange(0-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+    T0 = np.zeros(len(x))
     for i in range(len(x)):
         xi = x[i]
         if 0.25*L<=xi<=0.75*L:
@@ -36,7 +36,7 @@ def unitPulse(x): # input x is a np array
 
 # sines function: 
 def sines(x): # input x is a np array
-    T0 = np.arange(0,L+dx,dx) 
+    T0 = np.zeros(len(x))
     m1 = 1 # magnitude of the 1st sine function
     m2 = 0.5 # 
     f1 = 1 # frequency of the 1st sine function
@@ -50,12 +50,18 @@ def sines(x): # input x is a np array
 
 # Linear function:
 def linear(x): # input x is a np array
-    T0 = np.arange(0,L+dx,dx) 
+    T0 = np.zeros(len(x))
     for i in range(len(x)):
         xi = x[i]
         T0[i] = m*xi
     return T0 # output T0 is a np array    
 
+def linear0(x): # input x is a np array
+    T0 = np.zeros(len(x))
+    for i in range(len(x)):
+        xi = x[i]
+        T0[i] = 0.0
+    return T0 # output T0 is a np array
 
 # generate meshes first:
 def IC_1D_UnitPulse_Aluminium(): 
@@ -71,6 +77,24 @@ def IC_1D_UnitPulse_Aluminium():
     Cp = np.array([1.0 for i in range(len(T))]) # Cp_Aluminium(T) # specific heat capacity
     k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
     _lambda = k/(Cp*rho)
+
+    return t, x, T, mask, _lambda
+
+
+def IC_1D_Linear0_TwoMaterials():
+    x_interface = 0.5*L
+
+    x = np.arange(-number_of_ghost_points * dx, L + dx + number_of_ghost_points * dx, dx)
+
+    mask = np.array([1 if 0 <= xi <= L else 0 for xi in x])
+    t = np.arange(0, t_max + dt, dt)
+
+    T = linear0(x)  # temperature
+
+    rho = np.array([1.0 for i in range(len(T))])  # rho_Aluminium(T) # density
+    Cp = np.array([1.0 for i in range(len(T))])  # Cp_Aluminium(T) # specific heat capacity
+    k = np.array([1.0 for i in range(len(T))])  # k_Aluminium(T) # thermal conductivity
+    _lambda = np.array([1.0 if xi < x_interface else 0.1 for xi in x])
 
     return t, x, T, mask, _lambda
 

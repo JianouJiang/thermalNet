@@ -59,6 +59,8 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
   return A, b
 
 
+
+
 # crankNicolson1D_Neumann
 
 def crankNicolson1D_Neumann(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]

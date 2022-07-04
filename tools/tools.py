@@ -2,8 +2,11 @@ import os
 # tool box:
 
 # read parameters
-def readParameters():
-  parameters_directory = "../../heat_transfer/parameters.txt"
+def readParameters(parameters_directory):
+  default_parameters_directory = "../../heat_transfer/parameters.txt"
+  if parameters_directory==default_parameters_directory:
+      print("reading default parameters from: "+parameters_directory)
+
   parameter_list = []  
   with open(parameters_directory) as fp:
     Lines = fp.readlines()
