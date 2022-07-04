@@ -2,8 +2,8 @@ import os
 # tool box:
 
 # read parameters
+default_parameters_directory = "../heat_transfer/parameters.txt"
 def readParameters(parameters_directory):
-  default_parameters_directory = "../../heat_transfer/parameters.txt"
   if parameters_directory==default_parameters_directory:
       print("reading default parameters from: "+parameters_directory)
 
@@ -26,10 +26,9 @@ def readParameters(parameters_directory):
 
 
 
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
-
 
 # integrating from start to end
+L=1
 def integral(x, f, x_start=0, x_end=L): # by default
     dx = x[1] - x[0]
     sum_fx = 0

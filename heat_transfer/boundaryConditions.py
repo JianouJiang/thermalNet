@@ -1,7 +1,8 @@
 import sys
 sys.path.insert(0, '../../')
 from tools.tools import *
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
+parameters_directory="../../heat_transfer/parameters.txt"
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 # setting up boundary conditions
 
 def BC_1D_Dirichlet(T, x, mask):

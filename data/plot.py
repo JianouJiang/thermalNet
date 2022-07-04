@@ -6,7 +6,7 @@ from math import *
 from tools.tools import *
 import matplotlib.pyplot as plt
 
-parameters_directory="heat_transfer/parameters.txt"
+parameters_directory="../heat_transfer/parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 # plot function

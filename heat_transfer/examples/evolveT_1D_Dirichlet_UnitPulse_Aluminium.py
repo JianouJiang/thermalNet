@@ -10,7 +10,8 @@ from heat_transfer.crankNicolson import crankNicolson1D_Dirichlet
 from heat_transfer.materialProperties import _lambda_Aluminium
 
 from tools.tools import *
-L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
+parameters_directory="../parameters.txt"
+L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 # evolve temperature
 print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
