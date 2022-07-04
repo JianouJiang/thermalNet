@@ -3,13 +3,13 @@
 # importing libs:
 print("importing libs")
 import sys
-sys.path.insert(0, '../tools/')
+sys.path.insert(0, '../../')
 import numpy as np
 from math import *
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 import os
-from tools import *
+from tools.tools import *
 
 # setting parameters:
 print("setting parameters")

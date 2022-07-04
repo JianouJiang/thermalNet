@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 import os
 import sys
-sys.path.insert(0, '../tools/')
-from tools import *
+sys.path.insert(0, '../../')
+from tools.tools import *
 
 # setting parameters:
 print("setting parameters")

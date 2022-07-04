@@ -1,21 +1,21 @@
 # import libs
 print("import libs")
-
-import numpy as np
-from initialConditions import IC_1D_UnitPulse_Aluminium
-from boundaryConditions import BC_1D_Dirichlet
-from linearSystemSolvers import Jacobi, SOR
-from crankNicolson import crankNicolson1D_Dirichlet
-from materialProperties import _lambda_Aluminium
 import sys
-sys.path.insert(0, '../tools/')
-from tools import *
+sys.path.insert(0, '../../')
+import numpy as np
+from heat_transfer.initialConditions import IC_1D_UnitPulse_Aluminium
+from heat_transfer.boundaryConditions import BC_1D_Dirichlet
+from heat_transfer.linearSystemSolvers import Jacobi, SOR
+from heat_transfer.crankNicolson import crankNicolson1D_Dirichlet
+from heat_transfer.materialProperties import _lambda_Aluminium
+
+from tools.tools import *
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters()
 
 # evolve temperature
 print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
 def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
-  directory = "../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
+  directory = "../../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_UnitPulse_Aluminium()
   for i in range(len(t)):
