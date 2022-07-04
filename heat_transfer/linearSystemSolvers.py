@@ -53,7 +53,7 @@ def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
     for Ni in range (N): # create a "for" loop
         # define x as the dot product of inverse L and B mins the dot product of U and x
         x = np.dot(np.linalg.inv(L),b-np.dot(U,xn_minus1))
-        print(x)
+        
         difference = xn_minus1 - x
         magnitude = np.linalg.norm(difference)
         residual = magnitude / len(x)
