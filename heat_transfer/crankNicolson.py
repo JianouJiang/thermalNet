@@ -111,7 +111,7 @@ def crankNicolson1D_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt): # if T=[Tb
         ai_star = 1/dt
         bi_star = (-4*k_ip1 * _lambda_i + 2*(3*k_i+k_ip1)*_lambda_ip1) / (12*(k_i+k_ip1)*dx*dx)
         ci_star = (2*(k_i+3*k_ip1)*_lambda_i-4*k_i*_lambda_ip1)/(12*(k_i+k_ip1)*dx*dx)
-        di_star = (k_ip1*_lambda_i - (3*k_i-2*k_ip1)*_lambda_ip1 )/(12*(k_i+k_ip1)*dx*dx)
+        di_star = (k_ip1*_lambda_i - (3*k_i+2*k_ip1)*_lambda_ip1 )/(12*(k_i+k_ip1)*dx*dx)
         ei_star = (-(2*k_i + 3*k_ip1)*_lambda_i + k_i*_lambda_ip1)/(12*(k_i+k_ip1)*dx*dx)
         fi_star = 1/dt
 
