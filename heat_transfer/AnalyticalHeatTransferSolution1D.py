@@ -3,18 +3,19 @@
 # importing libs:
 print("importing libs")
 import sys
-sys.path.insert(0, '../../')
+sys.path.insert(0, '../tools/')
+from tools import *
 import numpy as np
 from math import *
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 import os
-from tools.tools import *
+
 
 # setting parameters:
 print("setting parameters")
 
-parameters_directory="../../heat_transfer/parameters.txt"
+parameters_directory="../heat_transfer/parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 x = np.arange(0,L+dx,dx) 
