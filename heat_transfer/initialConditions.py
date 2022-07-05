@@ -79,7 +79,7 @@ def IC_1D_UnitPulse_Aluminium():
     k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
     _lambda = k/(Cp*rho)
 
-    return t, x, T, mask, _lambda
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
 
 def IC_1D_Linear0_TwoMaterials():
@@ -97,5 +97,5 @@ def IC_1D_Linear0_TwoMaterials():
     k = np.array([1.0 for i in range(len(T))])  # k_Aluminium(T) # thermal conductivity
     _lambda = np.array([1.0 if xi < x_interface else 0.1 for xi in x])
 
-    return t, x, T, mask, _lambda
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 

@@ -13,7 +13,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 
 # crankNicolson1D_Dirichlet
 def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
-  # print("crankNicolson1D_Dirichlet()")
+  print("crankNicolson1D_Dirichlet()")
 
   length_T = len(T)
   length_mask = len(mask)
@@ -28,7 +28,7 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
   for i in range(len(T)):
     mask_i = mask[i]
 
-    _lambda_i = _lambda[i]
+    _lambda_i = _lambda[3][i]
     
     if mask_i == 0:
       # at the ghost cell
@@ -60,7 +60,7 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
   return A, b
 
 
-# crankNicolson1D_Dirichlet
+# crankNicolson1D_Dirichlet_TwoMaterials
 def crankNicolson1D_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   # print("crankNicolson1D_Dirichlet()")
 
@@ -82,7 +82,7 @@ def crankNicolson1D_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt): # if T=[Tb
     if i == 52:
       at_interface = 1
 
-    _lambda_i = _lambda[i]
+    _lambda_i = _lambda[3][i]
 
     if mask_i == 0:
       # at the ghost cell

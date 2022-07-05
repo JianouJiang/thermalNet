@@ -57,9 +57,9 @@ def k_Aluminium(T): # W/m-K
 
   return k
 
-def _lambda_Aluminium(T):
+def _lambda_Aluminium(Ti):
 
-  return k_Aluminium(T)/(Cp_Aluminium(T)*rho_Aluminium(T))
+  return k_Aluminium(Ti)/(Cp_Aluminium(Ti)*rho_Aluminium(Ti))
 
 
 # heat transfer coefficient
