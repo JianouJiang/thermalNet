@@ -28,6 +28,29 @@ def BC_1D_Dirichlet(T, x, mask):
 	return T
 
 
+def BC_1D_Mixed(T, x, _lambda, mask):
+	Tbl = 0 # temperature at the left boundary
+	heat_flux_density = 0 # because 1D, heat flux density (W/m2) = dT/dx * k = (T[i]-T[i-1])/dx * k[i], where k is thermal conductivity
+	for i in range(len(mask)):
+		mask_i = mask[i]
+		
+		if mask_i==0: # at the ghost points
+			if x[i] < 0:
+				T[i] = Tbl
+			elif x[i] > L:
+				T[i] = heat_flux_density/_lambda[2][i] * dx + T[i-1]
+			else:
+				print("Error: shouldnt be here.")
+		else: # within the domain
+			mask_im1 = mask[i-1]
+			mask_ip1 = mask[i+1]
+			if mask_im1==0: # left boundary of the domain
+				T[i] = Tbl
+
+	return T
+
+
+
 def BC_1D_Dirichlet_Tbl1_Tbr0(T, x, mask):
 	Tbl = 1  # temperature at the left boundary
 	Tbr = 0  # temperature at the right boundary

@@ -81,6 +81,21 @@ def IC_1D_UnitPulse_Aluminium():
 
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
+def IC_1D_Sines_Aluminium(): 
+
+    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+
+    mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
+    t = np.arange(0,t_max+dt,dt)
+
+    T = sines(x) # temperature
+    
+    rho = np.array([1.0 for i in range(len(T))]) # rho_Aluminium(T) # density 
+    Cp = np.array([1.0 for i in range(len(T))]) # Cp_Aluminium(T) # specific heat capacity
+    k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
+    _lambda = k/(Cp*rho)
+
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
 def IC_1D_Linear0_TwoMaterials():
     x_interface = 0.5*L

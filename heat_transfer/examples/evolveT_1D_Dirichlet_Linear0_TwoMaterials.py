@@ -36,7 +36,7 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials():
     # getting the lambda based on the newly obtained temperature
     for i in range(len(T)):
       Ti = T[i]
-      _lambda[i] = _lambda[i] #1 #_lambda_Aluminium(Ti)
+      _lambda[3][i] = _lambda[i] #1 #_lambda_Aluminium(Ti)
   
   return
 

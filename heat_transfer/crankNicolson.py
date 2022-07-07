@@ -217,10 +217,11 @@ def crankNicolson1D_Neumann(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0
 
 
 # crankNicolson1D_Mixed
+def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+  print("crankNicolson1D_Mixed()") # left BC dirichelet T=0, right BC neumann with zero heat flux
+  Tbl = 0
+  heat_flux = 0
 
-def crankNicolson1D_Mixed(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
-  # print("crankNicolson1D_Mixed()")
-  # TODO
   length_T = len(T)
   length_mask = len(mask)
   
@@ -233,23 +234,38 @@ def crankNicolson1D_Mixed(T, mask): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 
   
   for i in range(len(T)):
     mask_i = mask[i]
-    mask_ip1 = mask[i+1]
-    mask_im1 = mask[i-1]
+
+    k_i = _lambda[2][i]
+    _lambda_i = _lambda[3][i]
     
     if mask_i == 0:
-      # at the ghost cell
-      pass
+      # at the left ghost point
+      if i == 0:
+        A[i][i] = 1
+        b[i] = Tbl
+      else: # at the right ghost point
+        A[i][i] = 1
+        b[i] = heat_flux * dx/ k_i + T[i-1]
     else:
       # in the domain
-      if mask_ip1==0 or mask_im1==0:
-        # at the boundary, but in the domain
-        pass
-      else:
-        # inside the domain
-        pass
-    
+      mask_ip1 = mask[i+1]
+      mask_im1 = mask[i-1]
+      if mask_im1==0: # at the left boundary, but in the domain
+        A[i][i] = 1
+        b[i] = Tbl
+
+      else: # inside the domain
+        ai = 1/dt + _lambda_i / (dx*dx)
+        bi = - _lambda_i/(2*dx*dx)
+        ci = - _lambda_i/(2*dx*dx)
+        fi = 1/dt - _lambda_i/(dx*dx)
+        A[i][i] = ai
+        A[i][i+1] = bi
+        A[i][i-1] = ci
+        b[i] = fi * T[i] - ci * T[i-1] - bi * T[i+1]
   
   return A, b
+
 
 
 
