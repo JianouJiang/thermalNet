@@ -79,7 +79,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				rho_i = _lambda[0][i] 
 				cp_i = _lambda[1][i] 
 				dx = x[i+1] - x[i]
-				k_br = -h_br*dx
+				k_br = h_br*dx
 				_lambda[2][i] = k_br
 				_lambda[3][i] = k_br/(cp_i*rho_i)
 	return T, _lambda

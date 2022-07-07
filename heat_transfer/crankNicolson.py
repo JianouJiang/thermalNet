@@ -60,6 +60,50 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
   return A, b
 
 
+def crankNicolson1D_Dirichlet_Convec(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+  print("crankNicolson1D_Dirichlet_Convec()") # dirichlet B.C at the left and Convection at the right with heat transfer coefficient h = ? and free stream temp of air=?
+
+  length_T = len(T)
+  length_mask = len(mask)
+  
+  A = np.zeros((length_T, length_T))
+  b = np.zeros(length_T)
+  
+  if length_T!=length_mask:
+    print("Error: len(T) must be the same as len(mask))")
+    return None
+  
+  for i in range(len(T)):
+    mask_i = mask[i]
+
+    _lambda_i = _lambda[3][i]
+    
+    if mask_i == 0:
+      # at the ghost cell
+      A[i][i] = 1
+      b[i] = T[i] 
+
+    else:
+      # in the domain
+      mask_ip1 = mask[i+1]
+      mask_im1 = mask[i-1]
+      if mask_im1==0: # at the left boundary, but in the domain
+        A[i][i] = 1
+        b[i] = T[i] 
+
+      else: # inside the domain
+        ai = 1/dt + _lambda_i / (dx*dx)
+        bi = - _lambda_i/(2*dx*dx)
+        ci = - _lambda_i/(2*dx*dx)
+        fi = 1/dt - _lambda_i/(dx*dx)
+        A[i][i] = ai
+        A[i][i+1] = bi
+        A[i][i-1] = ci
+        b[i] = fi * T[i] - ci * T[i-1] - bi * T[i+1]
+  
+  return A, b
+
+
 # crankNicolson1D_Dirichlet_TwoMaterials
 def crankNicolson1D_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   # print("crankNicolson1D_Dirichlet()")

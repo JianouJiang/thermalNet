@@ -26,9 +26,9 @@ def evolveT_1D_Dirichlet_Convec_Linear0_Aluminium():
     
     # saving Temperature at t=n to .txt under /data
     writeData(directory, ti, x, T, _lambda)
-    
-    A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)
+
+    A, b = crankNicolson1D_Dirichlet_Convec(T, mask, _lambda, dx, dt)
+    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.0)
     #print(Tn)
     
     # giving the new temperature to the old temperature for the next iteration
