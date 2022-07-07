@@ -253,6 +253,13 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
       if mask_im1==0: # at the left boundary, but in the domain
         A[i][i] = 1
         b[i] = Tbl
+      elif mask_ip1==0: # at the right boundary, but in the domain
+        ai = 1/dt + _lambda_i / (dx*dx)
+        ci = - _lambda_i/(2*dx*dx)
+        fi = 1/dt - _lambda_i/(dx*dx)
+        A[i][i] = ai
+        A[i][i-1] = ci
+        b[i] = fi * T[i] - ci * T[i-1] - 2*(_lambda_i /(2*dx*dx) * heat_flux/k_i *dx)
 
       else: # inside the domain
         ai = 1/dt + _lambda_i / (dx*dx)
@@ -263,7 +270,6 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
         A[i][i+1] = bi
         A[i][i-1] = ci
         b[i] = fi * T[i] - ci * T[i-1] - bi * T[i+1]
-  
   return A, b
 
 

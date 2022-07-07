@@ -11,9 +11,10 @@ import matplotlib.pyplot as plt
 # xiao yang: Jacobi
 # x0 = our initial guess, N = number of iterations, r = tolerance
 
-def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+def Jacobi(A, b,x0= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
     residual_list = []
-    if (x is None) :
+    x = x0
+    if (x0 is None) :
         x=zeros(len(A[0]))
     D= diag(A)
     R= A-diagflat(D)
@@ -31,7 +32,7 @@ def Jacobi(A, b,x= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of
             print("Jacobi: The number of iterations is: {}".format(Ni))
             break
         xn_minus1=x
-        
+    print("Jacobi: The final residual is: {}".format(residual_list[-1]))       
     return x, residual_list
 
 
@@ -63,7 +64,7 @@ def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
             print("LU_Decomposition: The number of iterations is: {}".format(Ni))
             break
         xn_minus1 = x
-
+    print("LU_Decomposition: The final residual is: {}".format(residual_list[-1]))   
     return x, residual_list
 
 
@@ -124,7 +125,7 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
             print("SOR: The number of iterations is: {}".format(Ni))
             break 
         x0 = x 
-        
+    print("SOR: The final residual is: {}".format(residual_list[-1]))   
     return x, residual_list
 
 
