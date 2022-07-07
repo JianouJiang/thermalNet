@@ -60,17 +60,17 @@ def FTCS_Neumann(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then m
     _lambda_i = _lambda[3][i]
     
     if mask_i == 0:
-      # at the ghost cell
+      # at the ghost points
       Tnew[i] = T[i]
 
+      if i==0:    # at the left ghost point
+        Tnew[i] = T[i+1]
+      else:    # at the right ghost point
+        Tnew[i] = T[i-1]
+
     else: # inside the domain
-      mask_ip1 = mask[i+1]
-      mask_im1 = mask[i-1]
-      if mask_ip1==0 or mask_im1==0:
-        Tnew[i] = T[i]
-      else:
-        gamma_i = _lambda_i * dt/(dx*dx)
-        Tnew[i] = gamma_i * (- 2*T[i] + T[i-1] + T[i+1]) + T[i]
+      gamma_i = _lambda_i * dt/(dx*dx)
+      Tnew[i] = gamma_i * (- 2*T[i] + T[i-1] + T[i+1]) + T[i]
   
   return Tnew
 
