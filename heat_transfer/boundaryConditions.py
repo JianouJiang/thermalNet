@@ -38,7 +38,8 @@ def BC_1D_Mixed(T, x, _lambda, mask):
 			if x[i] < 0:
 				T[i] = Tbl
 			elif x[i] > L:
-				T[i] = heat_flux_density/_lambda[2][i] * dx + T[i-1]
+				continue
+				#T[i] = T[i-1] # heat_flux_density/_lambda[2][i] * dx + T[i-1]
 			else:
 				print("Error: shouldnt be here.")
 		else: # within the domain
