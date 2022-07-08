@@ -24,10 +24,8 @@ def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number 
     Ni=0
     while (Ni<N):
         Ni = Ni+1
-        x= (b-dot(R,x))/D
-        difference= xn_minus1-x
-        magnitude= np.linalg.norm(difference)
-        residual =magnitude/len(x) 
+        x= (b-dot(R,xn_minus1))/D
+        residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if residual <r:
             print("Jacobi: The final residual is: {} with {} iterations.".format(residual, Ni))
@@ -56,10 +54,7 @@ def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
         # define x as the dot product of inverse L and B mins the dot product of U and x
         x = np.dot(np.linalg.inv(L),b-np.dot(U,xn_minus1))
         
-        difference = xn_minus1 - x
-        magnitude = np.linalg.norm(difference)
-        residual = magnitude / len(x)
-        #print(residual)
+        residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if residual < r:
             print("LU_Decomposition: The final residual is: {} with {} iterations.".format(residual, Ni))
@@ -83,17 +78,17 @@ def Gauss_Seidel(A,b,x0=None,N=1024,r=10**-6):
     Ni=0
     while (Ni<N):
         Ni = Ni+1
-        x_old  = x.copy()
+        xn_minus1  = x.copy()
         #Loop over rows
         for i in range(A.shape[0]):
-            x[i] = (b[i] - np.dot(A[i,:i], x[:i]) - np.dot(A[i,(i+1):], x_old[(i+1):])) / A[i ,i]
+            x[i] = (b[i] - np.dot(A[i,:i], x[:i]) - np.dot(A[i,(i+1):], xn_minus1[(i+1):])) / A[i ,i]
             
         #Stop condition 
-        residual = np.linalg.norm(x - x_old, ord=np.inf) / np.linalg.norm(x, ord=np.inf)
+        residual = np.linalg.norm(dot(A, x)-b)
         if  residual < r:
             print("Gauss_Seidel: The final residual is: {} with {} iterations.".format(residual, Ni))
             return x, residual_list
-            
+    print("Gauss_Seidel: The final residual is: {} with {} iterations.".format(residual, Ni))        
     return x, residual_list
 
 
@@ -117,7 +112,7 @@ def SOR(A, b, x0=None, N=1024, r=10**-6, w=1.5):
             x[i] = (b[i] - (old_values_sum + new_values_sum)) / A[i, i] 
             x[i] = dot(x[i], w) + dot(x0[i], (1 - w))  
  
-        residual = np.linalg.norm(dot(A, x)-b )
+        residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if (residual < r):
             print("SOR: The final residual is: {} with {} iterations.".format(residual, Ni))
@@ -144,8 +139,9 @@ def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
     rsnew=np.sum(r.conj()*r).real
     rs0=rsnew
     Ni=0
-    while ((Ni<N) and (rsnew>(reltol**2*rs0))):
-        residual_list.append(rsnew)
+    while ((Ni<N) and (np.linalg.norm(dot(A, x)-b)>reltol)):
+        residual = np.linalg.norm(dot(A, x)-b)
+        residual_list.append(residual)
         Ni=Ni+1
         Ad=np.dot(A,d)
         alpha=rsnew/(np.sum(d.conj()*Ad))

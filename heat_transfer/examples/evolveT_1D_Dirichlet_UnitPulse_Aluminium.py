@@ -29,21 +29,21 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
 
-    Tn, residual_list_LU = LU_Decomposition(A,b,x=T,N=1024, r=10**-12)
-    Tn, residual_list_Jacobi = Jacobi(A, b, x0=T, N=1024, r=10 **-12)
-    w = 1.1
+    Tn, residual_list_LU = LU_Decomposition(A,b,x=T,N=128, r=10**-12)
+    Tn, residual_list_Jacobi = Jacobi(A, b, x0=T, N=128, r=10 **-12)
+    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=T, N=128, r=10 **-15)
+    w = 1.5
+    Tn, residual_list_SOR = SOR(A, b, x0=T, N=128, r=10 ** -12, w=w)
+    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=T, N=128, reltol=1e-15, verbose=True) 
     
-    Tn, residual_list_SOR = SOR(A, b, x0=T, N=1024, r=10 ** -12, w=w) # Conjugate_Gradient(A, b, x0=T, N=1024, reltol=1e-12, verbose=True) 
-    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=T, N=1024, reltol=1e-12, verbose=True) 
-    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=T, N=1024, r=10 **-12)
     
 
     # plotting residual to show convergence
-    '''
-    plt.plot(residual_list_LU,"ob",label="LU-D")
-    plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
-    plt.plot(residual_list_GS,"or",label="G-S")
-    plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
+    
+    #plt.plot(residual_list_LU,"ob",label="LU-D")
+    #plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
+    #plt.plot(residual_list_GS,"or",label="G-S")
+    #plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
     plt.plot(residual_list_CG,"oy",label="C-G")
     plt.xlabel('iterations')
     plt.ylabel('Residual')
@@ -51,7 +51,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     plt.legend()
     plt.savefig("../../img/linearSystemSolverConvergence.png")
     plt.show()
-    '''
+    
 
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
