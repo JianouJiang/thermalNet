@@ -17,7 +17,12 @@ def rho_Aluminium(T): # Kg/m3
       return rho_list[0]
     elif T > T_list[-1]:
       return rho_list[-1]
-  rho = (T - T_list[index])/100 * (rho_list[index+1] - rho_list[index])
+
+  deltaT1 = T - T_list[index]
+  deltaT2 = T_list[index+1] - T
+  deltaRho = rho_list[index+1] - rho_list[index]
+
+  rho = rho_list[index] + deltaT1 * deltaRho / (deltaT1 + deltaT2)
   
   return rho
 
@@ -35,7 +40,12 @@ def Cp_Aluminium(T):  # J/Kg-K
       return Cp_list[0]
     elif T > T_list[-1]:
       return Cp_list[-1]
-  Cp = (T - T_list[index])/100 * (Cp_list[index+1] - Cp_list[index])
+
+  deltaT1 = T - T_list[index]
+  deltaT2 = T_list[index+1] - T
+  deltaCp = Cp_list[index+1] - Cp_list[index]
+
+  Cp = Cp_list[index] + deltaT1 * deltaCp / (deltaT1 + deltaT2)
 
   return Cp
 
@@ -53,11 +63,14 @@ def k_Aluminium(T): # W/m-K
       return k_list[0]
     elif T > T_list[-1]:
       return k_list[-1]
-  k = (T - T_list[index])/100 * (k_list[index+1] - k_list[index])
+  deltaT1 = T - T_list[index]
+  deltaT2 = T_list[index+1] - T
+  deltak = k_list[index+1] - k_list[index]
 
+  k = k_list[index] + deltaT1 * deltak / (deltaT1 + deltaT2)
   return k
 
-def _lambda_Aluminium(Ti):
+def lambda_Aluminium(Ti):
 
   return k_Aluminium(Ti)/(Cp_Aluminium(Ti)*rho_Aluminium(Ti))
 

@@ -30,17 +30,17 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     writeData(directory, ti, x, T, _lambda)
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=1e-6) # 4.58s
-    w = 1.5
-    Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=1e-6, w=w) # 5.6s
+    #Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=1e-6) # 4.58s
+    #w = 1.5
+    #Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=1e-6, w=w) # 5.6s
     Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
-    Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=1e-6) # 2.32s
+    #Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=1e-6) # 2.32s
     
     
     
 
     # plotting residual to show convergence
-    plot_convergence=1
+    plot_convergence=0
     if plot_convergence:
       plt.plot(residual_list_Jacobi,"*k",label="Jacobi")
       plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
@@ -61,7 +61,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     # getting the lambda based on the newly obtained temperature
     for i in range(len(T)):
       Ti = T[i]
-      _lambda[3][i] = 1 #_lambda_Aluminium(Ti)
+      _lambda[3][i] = lambda_Aluminium(Ti)
   et = time.time()
   duration = et-st
   return duration

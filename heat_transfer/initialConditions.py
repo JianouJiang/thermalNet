@@ -9,6 +9,7 @@ import os
 import sys
 sys.path.insert(0, '../../')
 from tools.tools import *
+from heat_transfer.materialProperties import *
 
 # setting parameters:
 print("setting parameters")
@@ -22,7 +23,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 print("defining initial conditions for temperature")
 
 # unit pulse function:
-m = 1 # magnitude of the unit pulse function
+m = 500 # magnitude of the unit pulse function
 def unitPulse(x): # input x is a np array
     T0 = np.zeros(len(x))
     for i in range(len(x)):
@@ -73,12 +74,17 @@ def IC_1D_UnitPulse_Aluminium():
     t = np.arange(0,t_max+dt,dt)
 
     T = unitPulse(x) # temperature
-    
-    rho = np.array([1.0 for i in range(len(T))]) # rho_Aluminium(T) # density 
-    Cp = np.array([1.0 for i in range(len(T))]) # Cp_Aluminium(T) # specific heat capacity
-    k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
+    rho = np.array([1.0 for i in range(len(T))])
+    Cp = np.array([1.0 for i in range(len(T))]) 
+    k = np.array([1.0 for i in range(len(T))])
     _lambda = k/(Cp*rho)
-
+    for i in range(len(T)):
+        Ti=T[i]
+        rho[i] = rho_Aluminium(Ti) # np.array([1.0 for i in range(len(T))]) # # density 
+        Cp[i] = Cp_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+        k[i] = k_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+        _lambda[i] = k[i] /(Cp[i] *rho[i])
+    print(_lambda)
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
 def IC_1D_Sines_Aluminium(): 
@@ -90,10 +96,16 @@ def IC_1D_Sines_Aluminium():
 
     T = sines(x) # temperature
     
-    rho = np.array([1.0 for i in range(len(T))]) # rho_Aluminium(T) # density 
-    Cp = np.array([1.0 for i in range(len(T))]) # Cp_Aluminium(T) # specific heat capacity
-    k = np.array([1.0 for i in range(len(T))]) # k_Aluminium(T) # thermal conductivity
+    rho = np.array([1.0 for i in range(len(T))])
+    Cp = np.array([1.0 for i in range(len(T))]) 
+    k = np.array([1.0 for i in range(len(T))])
     _lambda = k/(Cp*rho)
+    for i in range(len(T)):
+        Ti=T[i]
+        rho[i] = rho_Aluminium(Ti) # np.array([1.0 for i in range(len(T))]) # # density 
+        Cp[i] = Cp_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+        k[i] = k_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+        _lambda[i] = k[i] /(Cp[i] *rho[i])
 
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
