@@ -3,7 +3,7 @@
 import numpy as np
 from numpy import array, zeros, diag, diagflat, dot
 import matplotlib.pyplot as plt
-
+from scipy.linalg import solve
 
 # defining linear system solver functions
 
@@ -40,9 +40,7 @@ def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number 
 
 
 # chen nuo: LU Decomposition method
-# import libraries
-import numpy as np
-from scipy.linalg import solve
+
 
 def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
     residual_list = []

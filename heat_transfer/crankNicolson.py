@@ -253,8 +253,8 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
         b[i] = fi * T[i] - ci * T[i-1] - 2*(_lambda_i /(2*dx*dx) * heat_flux/k_i *dx)
         '''
         A[i][i] = 1
-        A[i][i-1] = -1
-        b[i] = -T[i] + T[i-1]
+        A[i][i-2] = -1
+        b[i] = -T[i] + T[i-2]
     else:
       # in the domain
       mask_ip1 = mask[i+1]

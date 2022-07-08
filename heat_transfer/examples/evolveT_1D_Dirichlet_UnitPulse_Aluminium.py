@@ -28,8 +28,8 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     writeData(directory, ti, x, T, _lambda)
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)# Conjugate_Gradient(A, b, x0=T, N=1024, reltol=1e-12, verbose=True) 
-    #print(Tn)
+    Tn, residual = SOR(A, b, x0=T, N=100, r=10 ** -9, w=1.1)# Conjugate_Gradient(A, b, x0=T, N=1024, reltol=1e-12, verbose=True) 
+    #print(Tn) # Jacobi(A, b, x0=T, N=100, r=10 **-12)
     
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
