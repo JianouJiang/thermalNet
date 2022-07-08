@@ -3,11 +3,11 @@ print("import libs")
 import sys
 sys.path.insert(0, '../../')
 import numpy as np
-from heat_transfer.initialConditions import IC_1D_UnitPulse_Aluminium
-from heat_transfer.boundaryConditions import BC_1D_Dirichlet
-from heat_transfer.linearSystemSolvers import Jacobi, SOR
-from heat_transfer.crankNicolson import crankNicolson1D_Dirichlet
-from heat_transfer.materialProperties import _lambda_Aluminium
+from heat_transfer.initialConditions import *
+from heat_transfer.boundaryConditions import *
+from heat_transfer.linearSystemSolvers import *
+from heat_transfer.crankNicolson import *
+from heat_transfer.materialProperties import *
 
 from tools.tools import *
 parameters_directory="../parameters.txt"
@@ -28,7 +28,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     writeData(directory, ti, x, T, _lambda)
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)
+    Tn, residual = SOR(A, b, x0=None, N=100, r=10 ** -6, w=1.5)# Conjugate_Gradient(A, b, x0=T, N=1024, reltol=1e-12, verbose=True) 
     #print(Tn)
     
     # giving the new temperature to the old temperature for the next iteration

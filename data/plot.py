@@ -132,8 +132,8 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-figureName = 'Temperature Evolution in with Mixed B.C in Aluminium (1D)'
-fileName1 = "exact_sines_Mixed_T.txt"
-fileName2 = "FTCS_Sines_Mixed_Aluminium_T.txt"
+figureName = 'Test Figure'
+fileName1 = "exact_unitPulse_Dirichlet_T.txt"
+fileName2 = "crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)
 print("finished plotting...")

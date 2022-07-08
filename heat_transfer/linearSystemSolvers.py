@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 # xiao yang: Jacobi
 # x0 = our initial guess, N = number of iterations, r = tolerance
 
-def Jacobi(A, b,x0= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
     residual_list = []
     x = x0
     if (x0 is None) :
@@ -21,18 +21,19 @@ def Jacobi(A, b,x0= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number o
     residual =1000
     xn_minus1=x
     #iterate for N times
-    for Ni in range(N):
-        
+    Ni=0
+    while (Ni<N):
+        Ni = Ni+1
         x= (b-dot(R,x))/D
         difference= xn_minus1-x
         magnitude= np.linalg.norm(difference)
         residual =magnitude/len(x) 
         residual_list.append(residual)
         if residual <r:
-            print("Jacobi: The number of iterations is: {}".format(Ni))
-            break
+            print("Jacobi: The final residual is: {} with {} iterations.".format(residual, Ni))
+            return x, residual_list
         xn_minus1=x
-    print("Jacobi: The final residual is: {}".format(residual_list[-1]))       
+    print("Jacobi: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))       
     return x, residual_list
 
 
@@ -43,7 +44,7 @@ def Jacobi(A, b,x0= None, N=100, r=10**-6): #Ax=b,we are finding x, N = number o
 import numpy as np
 from scipy.linalg import solve
 
-def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
+def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
     residual_list = []
     if (x is None) :
         x=zeros(len(A[0]))
@@ -51,7 +52,9 @@ def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
     L = np.tril(A) # define the lower triangular matrix (L) for A
     U = A - L # define the upper triangular matrix (U)
     residual = 1000
-    for Ni in range (N): # create a "for" loop
+    Ni=0
+    while (Ni<N):
+        Ni = Ni+1
         # define x as the dot product of inverse L and B mins the dot product of U and x
         x = np.dot(np.linalg.inv(L),b-np.dot(U,xn_minus1))
         
@@ -61,10 +64,10 @@ def LU_Decomposition(A,b,x=None,N=100, r=10**-6):
         #print(residual)
         residual_list.append(residual)
         if residual < r:
-            print("LU_Decomposition: The number of iterations is: {}".format(Ni))
-            break
+            print("LU_Decomposition: The final residual is: {} with {} iterations.".format(residual, Ni))
+            return x, residual_list
         xn_minus1 = x
-    print("LU_Decomposition: The final residual is: {}".format(residual_list[-1]))   
+    print("LU_Decomposition: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))   
     return x, residual_list
 
 
@@ -106,13 +109,15 @@ for i in range(0,25):
 # x0 = our initial guess, N = number of iterations, r = tolerance
 # w = relaxation factor, 1<w<2. If w=1, it's same as Gauss-Seidel Method
 
-def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5): 
+def SOR(A, b, x0=None, N=1024, r=10**-6, w=1.5): 
     residual_list = []
     n = b.shape
     if (x0 is None):
         x0=zeros(len(A[0]))
     x = x0
-    for Ni in range (1, N): 
+    Ni=0
+    while (Ni<N):
+        Ni = Ni+1
         for i in range(n[0]): 
             new_values_sum = dot(A[i, :i], x[:i])
             old_values_sum = dot(A[i, i+1 :], x0[ i+1: ]) 
@@ -122,18 +127,49 @@ def SOR(A, b, x0=None, N=100, r=10**-6, w=1.5):
         residual = np.linalg.norm(dot(A, x)-b )
         residual_list.append(residual)
         if (residual < r):
-            print("SOR: The number of iterations is: {}".format(Ni))
-            break 
+            print("SOR: The final residual is: {} with {} iterations.".format(residual, Ni))
+            return x, residual_list
         x0 = x 
-    print("SOR: The final residual is: {}".format(residual_list[-1]))   
+    print("SOR: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))   
     return x, residual_list
 
 
 
 # xiao yang: Conjugate Gradient
-
-
-
+def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
+    """
+    Implements conjugate gradient method to solve Ax=b for a large matrix A that is not
+    computed explicitly, but given by the linear function A. 
+    """
+    residual_list = []
+    if x0 is None:
+        x0=zeros(len(A[0]))
+    x = x0
+    # cg standard
+    r=b-np.dot(A,x)
+    d=r
+    rsnew=np.sum(r.conj()*r).real
+    rs0=rsnew
+    Ni=0
+    while ((Ni<N) and (rsnew>(reltol**2*rs0))):
+        residual_list.append(rsnew)
+        Ni=Ni+1
+        Ad=np.dot(A,d)
+        alpha=rsnew/(np.sum(d.conj()*Ad))
+        x=x+alpha*d
+        if Ni%50==0:
+            #every now and then compute exact residual to mitigate
+            # round-off errors
+            r=b-np.dot(A,x)
+            d=r
+        else:
+            r=r-alpha*Ad
+        rsold=rsnew
+        rsnew=np.sum(r.conj()*r).real
+        d=r+rsnew/rsold*d
+    if verbose:
+        print("Conjugate Gradient: The final residual is: {} with {} iterations.".format(rsnew,Ni))
+    return x, residual_list
 
 
 

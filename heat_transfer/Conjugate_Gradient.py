@@ -53,5 +53,49 @@ def LinearCG(A, b, x0, tol=1e-5):
     return np.array(curve_x)
 
 
-solution = LinearCG(A, b,[1.1,-2.9,2.1])
+#solution = LinearCG(A, b,[1.1,-2.9,2.1])
+#print(solution)
+# linear system:  5x1-x2+2x3=12
+#                 3x1+8x2-2x3=-25
+#                 x1+x2+4x3=6
+#       x1=1, x2=-3, x3= 2
+def conjugate_gradient(A, b, x=None, max_iter=512, reltol=1e-6, verbose=True):
+    """
+    Implements conjugate gradient method to solve Ax=b for a large matrix A that is not
+    computed explicitly, but given by the linear function A. 
+    """
+    if verbose:
+        print("Starting conjugate gradient...")
+    if x is None:
+        x=np.zeros_like(b)
+    # cg standard
+    r=b-np.dot(A,x)
+    d=r
+    rsnew=np.sum(r.conj()*r).real
+    rs0=rsnew
+    if verbose:
+        print("initial residual: {}".format(rsnew))
+    ii=0
+    while ((ii<max_iter) and (rsnew>(reltol**2*rs0))):
+        ii=ii+1
+        Ad=np.dot(A,d)
+        alpha=rsnew/(np.sum(d.conj()*Ad))
+        x=x+alpha*d
+        if ii%50==0:
+            #every now and then compute exact residual to mitigate
+            # round-off errors
+            r=b-np.dot(A,x)
+            d=r
+        else:
+            r=r-alpha*Ad
+        rsold=rsnew
+        rsnew=np.sum(r.conj()*r).real
+        d=r+rsnew/rsold*d
+        if verbose:
+            print("{}, residual: {}".format(ii, rsnew))
+    return x
+
+
+x0=[10,-30,20]
+solution=conjugate_gradient(A, b, x=x0, max_iter=5120, reltol=1e-12)
 print(solution)
