@@ -73,33 +73,28 @@ def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
 
 # chennuo: Gauss-Seidel method
 # By using Gauss-Seidel method, we have 3 elements - matrix a, matrix b and solution X
-def seidel (a,X,b):
-    n = len(a) # find length of matrix a(3)
-    for j in range(0,n):
-        d = b[j] #temp variable d to store b[j]
-
-        for i in range(0,n): # calculate respective xi, yi, zi
-            if(j!=i):
-                d-=a[j][i] * X[i]
-        X[j] = d / a[j][j]
-    return X # return the updated solution
-
-#input as number of variable to be solved 
-n=3
-a=[]
-b=[]
-#initial solution depending on n (n=3)
-X = [0,0,0]
-a = [[4,1,2],[3,5,1],[1,1,3]]
-b = [4,7,3]
-print(X)
-
-#loop run for m times depending on m the error value 
-for i in range(0,25):
-    X = seidel(a,X,b)
-    print(X)
-
-
+def Gauss_Seidel(A,b,x0=None,N=1024,r=10**-6):
+    residual_list = []
+    if (x0 is None) :
+        x0=zeros(len(A[0]))
+    x = x0
+    n = len(A) # find length of matrix a(3)
+    
+    Ni=0
+    while (Ni<N):
+        Ni = Ni+1
+        x_old  = x.copy()
+        #Loop over rows
+        for i in range(A.shape[0]):
+            x[i] = (b[i] - np.dot(A[i,:i], x[:i]) - np.dot(A[i,(i+1):], x_old[(i+1):])) / A[i ,i]
+            
+        #Stop condition 
+        residual = np.linalg.norm(x - x_old, ord=np.inf) / np.linalg.norm(x, ord=np.inf)
+        if  residual < r:
+            print("Gauss_Seidel: The final residual is: {} with {} iterations.".format(residual, Ni))
+            return x, residual_list
+            
+    return x, residual_list
 
 
 
