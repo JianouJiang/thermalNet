@@ -17,6 +17,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 # evolve temperature
 print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
 def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
+  st = time.time()
   directory = "../../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_UnitPulse_Aluminium()
@@ -29,29 +30,29 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     writeData(directory, ti, x, T, _lambda)
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=10 **-12)
-    w = 1.5
-    Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=10 ** -12, w=w)
-    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-12, verbose=True) 
-    #Tn, residual_list_LU = LU_Decomposition(A,b,x=None,N=64, r=10**-12)
-    Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=10 **-12)
+    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=1e-6) # 4.58s
+    w = 1.9
+    Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=1e-6, w=w) # 5.6s
+    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
+    Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=1e-6) # 2.32s
     
     
     
 
     # plotting residual to show convergence
-    
-    #plt.plot(residual_list_LU,".b",label="LU-D")
-    plt.plot(residual_list_Jacobi,"*k",label="Jacobi")
-    plt.plot(residual_list_GS,"--r",label="G-S")
-    plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
-    plt.plot(residual_list_CG,"-y",label="C-G")
-    plt.xlabel('iterations')
-    plt.ylabel('Residual')
-    plt.yscale('log')
-    plt.legend()
-    plt.savefig("../../img/linearSystemSolverConvergence.png")
-    plt.show()
+    plot_convergence=1
+    if plot_convergence:
+      plt.plot(residual_list_Jacobi,"*k",label="Jacobi")
+      plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
+      plt.plot(residual_list_GS,"-r",label="G-S")
+      plt.plot(residual_list_CG,"*y",label="C-G")
+      plt.xlabel('iterations')
+      plt.ylabel('Residual')
+      plt.ylim(1e-7, 100000)
+      plt.yscale('log')
+      plt.legend()
+      plt.savefig("../../img/linearSystemSolverConvergence.png")
+      plt.show()
     
 
     # giving the new temperature to the old temperature for the next iteration
@@ -60,8 +61,9 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     for i in range(len(T)):
       Ti = T[i]
       _lambda[3][i] = 1 #_lambda_Aluminium(Ti)
-  
-  return
+  et = time.time()
+  duration = et-st
+  return duration
 
-evolveT_1D_Dirichlet_UnitPulse_Aluminium()
-print("finished evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
+duration = evolveT_1D_Dirichlet_UnitPulse_Aluminium()
+print("finished evolveT_1D__Dirichlet_UnitPulse_Aluminium() in " + str(duration) +"s.")

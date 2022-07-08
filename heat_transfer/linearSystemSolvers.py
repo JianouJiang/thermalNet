@@ -161,7 +161,7 @@ def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
     rsnew=np.sum(r.conj()*r).real
     rs0=rsnew
     Ni=0
-    while ((Ni<N) and (np.linalg.norm(dot(A, x)-b)>reltol)):
+    while (Ni<N):
         residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         Ni=Ni+1
@@ -178,10 +178,17 @@ def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
         rsold=rsnew
         rsnew=np.sum(r.conj()*r).real
         d=r+rsnew/rsold*d
+
+        if (residual<reltol):
+            et = time.time()
+            duration = et-st
+            print("Conjugate Gradient: The final residual is: {} with {} iterations in {}s.".format(residual,Ni,duration))
+            return x, residual_list
+
     et = time.time()
     duration = et-st
     if verbose:
-        print("Conjugate Gradient: The final residual is: {} with {} iterations in {}s.".format(rsnew,Ni,duration))
+        print("Conjugate Gradient: The final residual is: {} with {} iterations in {}s.".format(residual,Ni,duration))
     return x, residual_list
 
 
