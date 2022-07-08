@@ -4,7 +4,7 @@ import numpy as np
 from numpy import array, zeros, diag, diagflat, dot
 import matplotlib.pyplot as plt
 from scipy.linalg import solve
-
+import time
 # defining linear system solver functions
 
 
@@ -12,6 +12,7 @@ from scipy.linalg import solve
 # x0 = our initial guess, N = number of iterations, r = tolerance
 
 def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number of iterations, r is the residual
+    st = time.time()
     residual_list = []
     x = x0
     if (x0 is None) :
@@ -28,10 +29,14 @@ def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number 
         residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if residual <r:
-            print("Jacobi: The final residual is: {} with {} iterations.".format(residual, Ni))
+            et = time.time()
+            duration = et-st
+            print("Jacobi: The final residual is: {} with {} iterations in {}s.".format(residual, Ni,duration))
             return x, residual_list
         xn_minus1=x
-    print("Jacobi: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))       
+    et = time.time()
+    duration = et-st
+    print("Jacobi: The final residual is: {} with {} iterations in {}s.".format(residual_list[-1], Ni,duration))       
     return x, residual_list
 
 
@@ -41,6 +46,7 @@ def Jacobi(A, b,x0= None, N=1024, r=10**-6): #Ax=b,we are finding x, N = number 
 
 
 def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
+    st = time.time()
     residual_list = []
     if (x is None) :
         x=zeros(len(A[0]))
@@ -57,10 +63,14 @@ def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
         residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if residual < r:
-            print("LU_Decomposition: The final residual is: {} with {} iterations.".format(residual, Ni))
+            et = time.time()
+            duration = et-st
+            print("LU_Decomposition: The final residual is: {} with {} iterations in {}s.".format(residual, Ni,duration))
             return x, residual_list
         xn_minus1 = x
-    print("LU_Decomposition: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))   
+    et = time.time()
+    duration = et-st
+    print("LU_Decomposition: The final residual is: {} with {} iterations in {}.".format(residual_list[-1], Ni,duration))   
     return x, residual_list
 
 
@@ -69,6 +79,7 @@ def LU_Decomposition(A,b,x=None,N=1024, r=10**-6):
 # chennuo: Gauss-Seidel method
 # By using Gauss-Seidel method, we have 3 elements - matrix a, matrix b and solution X
 def Gauss_Seidel(A,b,x0=None,N=1024,r=10**-6):
+    st = time.time()
     residual_list = []
     if (x0 is None) :
         x0=zeros(len(A[0]))
@@ -85,10 +96,15 @@ def Gauss_Seidel(A,b,x0=None,N=1024,r=10**-6):
             
         #Stop condition 
         residual = np.linalg.norm(dot(A, x)-b)
+        residual_list.append(residual)
         if  residual < r:
-            print("Gauss_Seidel: The final residual is: {} with {} iterations.".format(residual, Ni))
+            et = time.time()
+            duration = et-st
+            print("Gauss_Seidel: The final residual is: {} with {} iterations in {}s.".format(residual, Ni,duration))
             return x, residual_list
-    print("Gauss_Seidel: The final residual is: {} with {} iterations.".format(residual, Ni))        
+    et = time.time()
+    duration = et-st
+    print("Gauss_Seidel: The final residual is: {} with {} iterations in {}s.".format(residual, Ni,duration))        
     return x, residual_list
 
 
@@ -98,6 +114,7 @@ def Gauss_Seidel(A,b,x0=None,N=1024,r=10**-6):
 # w = relaxation factor, 1<w<2. If w=1, it's same as Gauss-Seidel Method
 
 def SOR(A, b, x0=None, N=1024, r=10**-6, w=1.5): 
+    st = time.time()
     residual_list = []
     n = b.shape
     if (x0 is None):
@@ -115,10 +132,14 @@ def SOR(A, b, x0=None, N=1024, r=10**-6, w=1.5):
         residual = np.linalg.norm(dot(A, x)-b)
         residual_list.append(residual)
         if (residual < r):
-            print("SOR: The final residual is: {} with {} iterations.".format(residual, Ni))
+            et = time.time()
+            duration = et-st
+            print("SOR: The final residual is: {} with {} iterations in {}s.".format(residual, Ni,duration))
             return x, residual_list
         x0 = x 
-    print("SOR: The final residual is: {} with {} iterations.".format(residual_list[-1], Ni))   
+    et = time.time()
+    duration = et-st
+    print("SOR: The final residual is: {} with {} iterations in {}s.".format(residual_list[-1], Ni,duration))   
     return x, residual_list
 
 
@@ -129,6 +150,7 @@ def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
     Implements conjugate gradient method to solve Ax=b for a large matrix A that is not
     computed explicitly, but given by the linear function A. 
     """
+    st = time.time()
     residual_list = []
     if x0 is None:
         x0=zeros(len(A[0]))
@@ -156,8 +178,10 @@ def Conjugate_Gradient(A, b, x0=None, N=1024, reltol=1e-6, verbose=True):
         rsold=rsnew
         rsnew=np.sum(r.conj()*r).real
         d=r+rsnew/rsold*d
+    et = time.time()
+    duration = et-st
     if verbose:
-        print("Conjugate Gradient: The final residual is: {} with {} iterations.".format(rsnew,Ni))
+        print("Conjugate Gradient: The final residual is: {} with {} iterations in {}s.".format(rsnew,Ni,duration))
     return x, residual_list
 
 

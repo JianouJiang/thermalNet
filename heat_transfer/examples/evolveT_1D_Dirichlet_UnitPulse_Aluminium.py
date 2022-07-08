@@ -1,5 +1,6 @@
 # import libs
 print("import libs")
+import time
 import sys
 sys.path.insert(0, '../../')
 import numpy as np
@@ -28,23 +29,23 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     writeData(directory, ti, x, T, _lambda)
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
-
-    Tn, residual_list_LU = LU_Decomposition(A,b,x=T,N=128, r=10**-12)
-    Tn, residual_list_Jacobi = Jacobi(A, b, x0=T, N=128, r=10 **-12)
-    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=T, N=128, r=10 **-15)
+    Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=10 **-12)
     w = 1.5
-    Tn, residual_list_SOR = SOR(A, b, x0=T, N=128, r=10 ** -12, w=w)
-    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=T, N=128, reltol=1e-15, verbose=True) 
+    Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=10 ** -12, w=w)
+    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-12, verbose=True) 
+    #Tn, residual_list_LU = LU_Decomposition(A,b,x=None,N=64, r=10**-12)
+    Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=10 **-12)
+    
     
     
 
     # plotting residual to show convergence
     
-    #plt.plot(residual_list_LU,"ob",label="LU-D")
-    #plt.plot(residual_list_Jacobi,"ok",label="Jacobi")
-    #plt.plot(residual_list_GS,"or",label="G-S")
-    #plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
-    plt.plot(residual_list_CG,"oy",label="C-G")
+    #plt.plot(residual_list_LU,".b",label="LU-D")
+    plt.plot(residual_list_Jacobi,"*k",label="Jacobi")
+    plt.plot(residual_list_GS,"--r",label="G-S")
+    plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
+    plt.plot(residual_list_CG,"-y",label="C-G")
     plt.xlabel('iterations')
     plt.ylabel('Residual')
     plt.yscale('log')
