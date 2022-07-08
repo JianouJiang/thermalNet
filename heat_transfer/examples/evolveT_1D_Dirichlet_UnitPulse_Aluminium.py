@@ -31,7 +31,7 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     
     A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
     Tn, residual_list_GS = Gauss_Seidel(A, b, x0=None, N=64, r=1e-6) # 4.58s
-    w = 1.9
+    w = 1.5
     Tn, residual_list_SOR = SOR(A, b, x0=None, N=64, r=1e-6, w=w) # 5.6s
     Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
     Tn, residual_list_Jacobi = Jacobi(A, b, x0=None, N=64, r=1e-6) # 2.32s
@@ -44,14 +44,15 @@ def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
     if plot_convergence:
       plt.plot(residual_list_Jacobi,"*k",label="Jacobi")
       plt.plot(residual_list_SOR,"og",label="SOR (w={})".format(w))
-      plt.plot(residual_list_GS,"-r",label="G-S")
-      plt.plot(residual_list_CG,"*y",label="C-G")
+      plt.plot(residual_list_GS,"-r",label="Gauss-Seidel")
+      plt.plot(residual_list_CG,"*y",label="Conjugate-Gradient")
       plt.xlabel('iterations')
       plt.ylabel('Residual')
       plt.ylim(1e-7, 100000)
       plt.yscale('log')
+      plt.grid()
       plt.legend()
-      plt.savefig("../../img/linearSystemSolverConvergence.png")
+      plt.savefig("../../img/linearSystemSolverConvergence.pdf")
       plt.show()
     
 
