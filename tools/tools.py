@@ -54,3 +54,24 @@ def writeData(directory, ti, x, T, _lambda): # note T and lambda here are lists,
     return
     
  
+# reading .csv data from ansys and writing to .txt for python
+import csv
+def convertCSVtoTxT(directory_read, directory_write):
+  i = 0
+  with open(directory_read, 'r') as csvfile:
+    with open(directory_write, 'a') as txtfile:
+      data = csv.reader(csvfile, skipinitialspace=True)
+      for row in data:
+        if i==0: # skipping the first line: S (m) X Coordinate (m)  Y Coordinate (m)  Z Coordinate (m)  Temperature (°C)  Time (s)
+          i = i + 1
+          continue
+        else:
+          ti = row[5]
+          xi = row[0]
+          Ti = float(row[4])
+          lambda_i = 1 # lambda_Aluminium(Ti)
+          line = ti + " " + xi + " " + str(Ti) + " " + str(lambda_i)  + "\n"
+          txtfile.write(line)
+        i = i + 1  
+  return
+    
