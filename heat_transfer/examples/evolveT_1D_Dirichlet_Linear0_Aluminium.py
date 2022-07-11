@@ -18,11 +18,12 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 print("started evolveT_1D_Dirichlet_Linear0_Aluminium().")
 def evolveT_1D_Dirichlet_Linear0_Aluminium():
   st = time.time()
-  directory = "../../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
+  directory = "../../data/crankNicolson_linear0_Dirichlet_Aluminium_T.txt"
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Linear0_Aluminium()
   for i in range(len(t)):
     ti = t[i]
+    print("t=" + str(ti) + "s; t_max="+str(t_max))
     # making boundary conditions
     T = BC_1D_Dirichlet(T, x, mask)
     

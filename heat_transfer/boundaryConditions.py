@@ -6,7 +6,7 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 # setting up boundary conditions
 
 def BC_1D_Dirichlet(T, x, mask):
-	Tbl = 0 # temperature at the left boundary
+	Tbl = 500 # temperature at the left boundary
 	Tbr = 0 # temperature at the right boundary
 	for i in range(len(mask)):
 		mask_i = mask[i]

@@ -112,9 +112,9 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
         star_color = "*" + "r"#color_list[index]
         cross_color = "x" + "b"#color_list[index]
         circle_color = "o" + "y"#color_list[index]
-        plt.plot(x_exact[index],T_exact[index],dot_color,label='analytic at t={}s'.format(ti),markersize=3)
+        plt.plot(x_exact[index],T_exact[index],dot_color,label='ansys at t={}s'.format(ti),markersize=3)
         if len(x_numerical[index])!=0:
-            plt.plot(x_numerical[index],T_numerical[index],star_color,label='numerical at t={}s'.format(ti),markersize=3)
+            plt.plot(x_numerical[index],T_numerical[index],star_color,label='FEM at t={}s'.format(ti),markersize=3)
         if len(x_ansys[index])!=0:
             plt.plot(x_ansys[index],T_ansys[index],cross_color,label='ansys at t={}s'.format(ti),markersize=3)
         if len(x_PINN[index])!=0:
@@ -132,8 +132,8 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-figureName = 'Test Figure'
-fileName1 = "exact_unitPulse_Dirichlet_T.txt"
-fileName2 = "crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
+figureName = 'Heat Transfer in 1D Aluminium Rod'
+fileName1 = "ansys_linear0_Dirichlet500_0_Aluminium_T.txt"
+fileName2 = "crankNicolson_linear0_Dirichlet_Aluminium_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)
 print("finished plotting...")
