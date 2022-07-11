@@ -15,7 +15,7 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 # evolve temperature
-print("started evolveT_1D__Dirichlet_UnitPulse_Aluminium().")
+print("started evolveT_1D_Dirichlet_UnitPulse_Aluminium().")
 def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
   st = time.time()
   directory = "../../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"

@@ -17,9 +17,9 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 # evolve temperature
-print("started evolveT_1D_Mixed_Sines_Aluminium().")
-def evolveT_1D_Mixed_Sines_Aluminium():
-  directory = "../../data/crankNicolson_Sines_Mixed_Aluminium_T.txt"
+print("started evolveT_1D_Mixed_Sines().")
+def evolveT_1D_Mixed_Sines():
+  directory = "../../data/crankNicolson_Sines_Mixed_T.txt"
 
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Sines_Aluminium()
@@ -45,5 +45,5 @@ def evolveT_1D_Mixed_Sines_Aluminium():
   
   return
 
-evolveT_1D_Mixed_Sines_Aluminium()
-print("finished evolveT_1D_Mixed_Sines_Aluminium().")
+evolveT_1D_Mixed_Sines()
+print("finished evolveT_1D_Mixed_Sines().")

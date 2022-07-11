@@ -14,9 +14,9 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 # evolve temperature
-print("started evolveT_1D_Dirichlet_Convec_Linear0_Aluminium().")
-def evolveT_1D_Dirichlet_Convec_Linear0_Aluminium():
-  directory = "../../data/crankNicolson_linear0_Dirichlet_Convec_Aluminium_T.txt"
+print("started evolveT_1D_Dirichlet_Convec_Linear0().")
+def evolveT_1D_Dirichlet_Convec_Linear0():
+  directory = "../../data/crankNicolson_linear0_Dirichlet_Convec_T.txt"
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Linear0_TwoMaterials()
   for i in range(len(t)):
@@ -40,5 +40,5 @@ def evolveT_1D_Dirichlet_Convec_Linear0_Aluminium():
   
   return
 
-evolveT_1D_Dirichlet_Convec_Linear0_Aluminium()
-print("finished evolveT_1D_Dirichlet_Convec_Linear0_Aluminium().")
+evolveT_1D_Dirichlet_Convec_Linear0()
+print("finished evolveT_1D_Dirichlet_Convec_Linear0().")
