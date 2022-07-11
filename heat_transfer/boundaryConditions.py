@@ -107,3 +107,31 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				_lambda[2][i] = k_br
 				_lambda[3][i] = k_br/(cp_i*rho_i)
 	return T, _lambda
+
+
+def BC_2D_Dirichlet(T, x, mask):
+	Tbl = 500 # temperature at the left boundary
+	Tbr = 0 # temperature at the right boundary
+
+
+    # TODO!
+
+
+	for i in range(len(mask)):
+		mask_i = mask[i]
+		
+		if mask_i==0: # at the ghost points
+			if x[i] < 0:
+				T[i] = Tbl
+			elif x[i] > L:
+				T[i] = Tbr
+			else:
+				print("Error: shouldnt be here.")
+		else: # within the domain
+			mask_im1 = mask[i-1]
+			mask_ip1 = mask[i+1]
+			if mask_im1==0: # left boundary of the domain
+				T[i] = Tbl
+			if mask_ip1==0: # right boundary of the domain
+				T[i] = Tbr
+	return T

@@ -24,7 +24,7 @@ print("defining initial conditions for temperature")
 
 # unit pulse function:
 m = 500 # magnitude of the unit pulse function
-def unitPulse(x): # input x is a np array
+def unitPulse(x,y=0): # input x is a np array
     T0 = np.zeros(len(x))
     for i in range(len(x)):
         xi = x[i]
@@ -37,7 +37,7 @@ def unitPulse(x): # input x is a np array
 
 
 # sines function: 
-def sines(x): # input x is a np array
+def sines(x,y=0): # input x is a np array
     T0 = np.zeros(len(x))
     m1 = 1 # magnitude of the 1st sine function
     m2 = 0.5 # 
@@ -51,14 +51,14 @@ def sines(x): # input x is a np array
     return T0 # output T0 is a np array
 
 # Linear function:
-def linear(x): # input x is a np array
+def linear(x,y=0): # input x is a np array
     T0 = np.zeros(len(x))
     for i in range(len(x)):
         xi = x[i]
         T0[i] = m*xi
     return T0 # output T0 is a np array    
 
-def linear0(x): # input x is a np array
+def linear0(x,y=0): # input x is a np array
     T0 = np.zeros(len(x))
     for i in range(len(x)):
         xi = x[i]
@@ -148,3 +148,39 @@ def IC_1D_Linear0_TwoMaterials():
 
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
+def IC_2D_Linear0_Aluminium(): 
+    t = np.arange(0,t_max+dt,dt)
+    num_points_x = L / dx
+    dy = dx
+    num_points_y = L / dy
+
+    x = numpy.ones((num_points_x + 2*number_of_ghost_points, num_points_y + 2*number_of_ghost_points))
+
+    mask = x
+    T = x
+    rho = x
+    Cp = x
+    k = x
+    _lambda = x
+    
+    
+    for i in range(len(T)):
+        xij = -number_of_ghost_points * dx + dx * i
+        for j in range(len(T[0])):
+            yij = -number_of_ghost_points * dy + dy * j
+
+            if (xij<0 or xij>L) and (yij<0 or yij>L):
+                mask[i][j] = 0
+            else:
+                mask[i][j] = 1
+
+            x[i][j] = [xij,yij]
+            Tij = linear0(xij,yij) 
+            T[i][j] = Tij
+            Ti=T[i]
+            rho[i][j] = rho_Aluminium(Tij) # np.array([1.0 for i in range(len(T))]) # # density 
+            Cp[i][j] = Cp_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+            k[i][j] = k_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+            _lambda[i][j] = k[i][j] /(Cp[i][j] *rho[i][j])
+            
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])

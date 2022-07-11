@@ -15,12 +15,12 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 
 # evolve temperature
-print("started evolveT_1D_Dirichlet_Linear0_Aluminium().")
-def evolveT_1D_Dirichlet_Linear0_Aluminium():
+print("started evolveT_2D_Dirichlet_Linear0_Aluminium().")
+def evolveT_2D_Dirichlet_Linear0_Aluminium():
   st = time.time()
-  directory = "../../data/crankNicolson_linear0_Dirichlet500_0_Aluminium_T.txt"
+  directory = "../../data/crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
   # importing initial conditions
-  t, x, T, mask, _lambda = IC_1D_Linear0_Aluminium()
+  t, x, T, mask, _lambda = IC_2D_Linear0_Aluminium()
   for i in range(len(t)):
     ti = t[i]
     print("t=" + str(ti) + "s; t_max="+str(t_max))
@@ -44,5 +44,5 @@ def evolveT_1D_Dirichlet_Linear0_Aluminium():
   duration = et-st
   return duration
 
-duration = evolveT_1D_Dirichlet_Linear0_Aluminium()
-print("finished evolveT_1D_Dirichlet_Linear0_Aluminium() in " + str(duration) +"s.")
+duration = evolveT_2D_Dirichlet_Linear0_Aluminium()
+print("finished evolveT_2D_Dirichlet_Linear0_Aluminium() in " + str(duration) +"s.")
