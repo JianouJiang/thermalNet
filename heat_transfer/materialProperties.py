@@ -71,7 +71,7 @@ def k_Aluminium(T): # W/m-K
   return k
 
 def lambda_Aluminium(Ti):
-
+  Ti = Ti + 273.15 # convert from celcius into kelvin, because the temmperature in ansys is in celcius
   return k_Aluminium(Ti)/(Cp_Aluminium(Ti)*rho_Aluminium(Ti))
 
 
