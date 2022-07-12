@@ -109,30 +109,40 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 	return T, _lambda
 
 
-def BC_2D_Dirichlet(T, x, mask):
+def BC_2D_Dirichlet(T, x, mask): 
 	Tbl = 500 # temperature at the left boundary
 	Tbr = 0 # temperature at the right boundary
 
-
-
-
+    '''    insulation(zero flux)  --> j, y-axis
+(0,0)--------------------------------------
+   | |                                     |
+   | |Tbl=500  zero degree initially  Tbr=0| 0.33L
+   v |                                     |
+   i --------------------------------------(0.33L,L)
+  x-axis   insulation(zero flux)
+  '''
     # TODO!
-
 	for i in range(len(mask)):
-		mask_i = mask[i]
+		for j in range(len(mask[0])):
+			xi = x[i][j][0]
+			yi = x[i][j][1]
+
+			mask_i = mask[i][j]
 		
-		if mask_i==0: # at the ghost points
-			if x[i] < 0:
-				T[i] = Tbl
-			elif x[i] > L:
-				T[i] = Tbr
-			else:
-				print("Error: shouldnt be here.")
-		else: # within the domain
-			mask_im1 = mask[i-1]
-			mask_ip1 = mask[i+1]
-			if mask_im1==0: # left boundary of the domain
-				T[i] = Tbl
-			if mask_ip1==0: # right boundary of the domain
-				T[i] = Tbr
+			if mask_i==0: # at the ghost points
+				if yi < 0:
+					T[i][j] = Tbl
+				elif yi > L:
+					T[i][j] = Tbr
+				else: # we are at the upper and bottom boundary where we have zero flux
+					  # so the value of the ghost points depends on the value of the interface point inside domain
+					continue
+
+			else: # within the domain
+				mask_ijm1 = mask[i][j-1]
+				mask_ijp1 = mask[i][j+1]
+				if mask_ijm1==0: # left boundary of the domain
+					T[i][j] = Tbl
+				if mask_ijp1==0: # right boundary of the domain
+					T[i][j] = Tbr
 	return T

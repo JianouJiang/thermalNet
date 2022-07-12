@@ -275,10 +275,64 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
 
 
 
-def crankNicolson2D():
-  # print("crankNicolson2D()")
-  # TODO
+def crankNicolson2D_Dirichlet(x):
+print("crankNicolson2D_Dirichlet(x)")
+  
+    '''    insulation(zero flux)  --> j, y-axis
+(0,0)--------------------------------------
+   | |                                     |
+   | |Tbl=500  zero degree initially  Tbr=0| 0.33L
+   v |                                     |
+   i --------------------------------------(0.33L,L)
+  x-axis   insulation(zero flux)
+  '''
+  length_Tx = len(T)
+  length_Ty = len(T[0])
+  
+  A = np.zeros((length_Tx*length_Ty, length_Tx*length_Ty))
+  b = np.zeros(length_Tx*length_Ty)
   
   
-  
-  return
+  for i in range(len(T)):
+    for j in range(len(T[0])):
+      mask_ij = mask[i][j]
+
+      _lambda_ij = _lambda[3][i][j]
+      xij = x[i][j][0]
+      yij = x[i][j][1]
+
+      if mask_ij == 0:
+      # at the ghost points
+        if yij<0 or yij>L: # at the left or right ghost points
+          A[i][i] = 1
+          b[i] = T[i] 
+        else: # at the top or bottom ghost points
+          A[i][i] = 1
+          A[i][i-2] = -1 ?
+          b[i] = -T[i] + T[i-2] ?
+
+      else:
+        # in the domain
+        mask_ijp1 = mask[i][j+1]
+        mask_ijm1 = mask[i][j-1]
+        mask_ip1j = mask[i+1][j]
+        mask_im1j = mask[i-1][j]
+        if mask_ijm1==0: # at the left boundary, but in the domain
+          A[i][i] = 1
+          b[i] = T[i] 
+
+        elif mask_ijp1==0: # at the right boundary, but in the domain
+          A[i][i] = 1
+          b[i] = T[i] 
+
+        else: # inside the domain
+          ai = 1/dt + _lambda_i / (dx*dx)
+          bi = - _lambda_i/(2*dx*dx)
+          ci = - _lambda_i/(2*dx*dx)
+          fi = 1/dt - _lambda_i/(dx*dx)
+          A[i][i] = ai
+          A[i][i+1] = bi
+          A[i][i-1] = ci
+          b[i] = fi * T[i] - ci * T[i-1] - bi * T[i+1]
+        
+  return A, b

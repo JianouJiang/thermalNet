@@ -201,7 +201,6 @@ def IC_2D_Linear0_Aluminium():
             x[i][j] = [xij,yij]
             Tij = linear0(xij,yij) 
             T[i][j] = Tij
-            Ti=T[i]
             rho[i][j] = rho_Aluminium(Tij) # np.array([1.0 for i in range(len(T))]) # # density 
             Cp[i][j] = Cp_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
             k[i][j] = k_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity

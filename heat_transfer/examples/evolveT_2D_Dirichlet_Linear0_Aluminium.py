@@ -17,6 +17,14 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 # evolve temperature
 print("started evolveT_2D_Dirichlet_Linear0_Aluminium().")
 def evolveT_2D_Dirichlet_Linear0_Aluminium():
+    '''    insulation(zero flux)  --> j, y-axis
+(0,0)--------------------------------------
+   | |                                     |
+   | |Tbl=500  zero degree initially  Tbr=0| 0.33L
+   v |                                     |
+   i --------------------------------------(0.33L,L)
+  x-axis   insulation(zero flux)
+  '''
   st = time.time()
   directory = "../../data/crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
   # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
@@ -27,12 +35,12 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
     ti = t[i]
     print("t=" + str(ti) + "s; t_max="+str(t_max))
     # making boundary conditions
-    T = BC_1D_Dirichlet(T, x, mask)
+    T = BC_2D_Dirichlet(T, x, mask)
     
     # saving Temperature at t=n to .txt under /data
-    writeData(directory, ti, x, T, _lambda)
+    writeData2D(directory, ti, x, T, _lambda)
     
-    A, b = crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt)
+    A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, dx, dt)
     Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
     
 
@@ -40,8 +48,9 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
     T = Tn
     # getting the lambda based on the newly obtained temperature
     for i in range(len(T)):
-      Ti = T[i]
-      _lambda[3][i] = lambda_Aluminium(Ti)
+      for j in range(len(T[0])):
+        Ti = T[i][j]
+        _lambda[3][i][j] = lambda_Aluminium(Ti)
   et = time.time()
   duration = et-st
   return duration

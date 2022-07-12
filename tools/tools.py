@@ -53,7 +53,21 @@ def writeData(directory, ti, x, T, _lambda): # note T and lambda here are lists,
             index = index + 1
     return
     
- 
+# open file in write mode and write data
+def writeData2D(directory, ti, x, T, _lambda): # note T and lambda here are lists, whereas time t is single value
+    isFile = os.path.isfile(directory) 
+    with open(directory, 'a') as fp:
+        for i in range(len(T)):
+            for j in range(len(T[0])):
+                xij = x[i][j][0]
+                yij = x[i][j][1]
+                Tij = T[i][j]
+                _lambda_ij = _lambda[3][i][j] # only taking out lambda, but in the future, we can take out rho, cp, and k
+              # write each ti, xi, Ti, lambda on a new line
+                line = str(ti) + " " + str(xij) + " " + str(yij) + " "  + str(Tij) + " " + str(_lambda_ij) + "\n"
+                fp.write(line)
+    return
+     
 # reading .csv data from ansys and writing to .txt for python
 import csv
 def convertCSVtoTxT(directory_read, directory_write):
