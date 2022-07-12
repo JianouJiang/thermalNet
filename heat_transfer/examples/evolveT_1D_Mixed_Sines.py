@@ -20,7 +20,8 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 print("started evolveT_1D_Mixed_Sines().")
 def evolveT_1D_Mixed_Sines():
   directory = "../../data/crankNicolson_Sines_Mixed_T.txt"
-
+  # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
+  deleteFile(directory)
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Sines_Aluminium()
 

@@ -17,6 +17,8 @@ L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_f
 print("started crankNicolson_linear0_Dirichlet_TwoMaterials_T().")
 def evolveT_1D_Dirichlet_Linear0_TwoMaterials():
   directory = "../../data/crankNicolson_linear0_Dirichlet_TwoMaterials_T.txt"
+  # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
+  deleteFile(directory)
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Linear0_TwoMaterials()
   for i in range(len(t)):

@@ -19,6 +19,8 @@ print("started evolveT_1D_Dirichlet_UnitPulse_Aluminium().")
 def evolveT_1D_Dirichlet_UnitPulse_Aluminium():
   st = time.time()
   directory = "../../data/crankNicolson_unitPulse_Dirichlet_Aluminium_T.txt"
+  # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
+  deleteFile(directory)
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_UnitPulse_Aluminium()
   for i in range(len(t)):

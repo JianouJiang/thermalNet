@@ -19,6 +19,8 @@ print("started evolveT_2D_Dirichlet_Linear0_Aluminium().")
 def evolveT_2D_Dirichlet_Linear0_Aluminium():
   st = time.time()
   directory = "../../data/crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
+  # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
+  deleteFile(directory)
   # importing initial conditions
   t, x, T, mask, _lambda = IC_2D_Linear0_Aluminium()
   for i in range(len(t)):

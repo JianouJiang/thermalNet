@@ -74,4 +74,10 @@ def convertCSVtoTxT(directory_read, directory_write):
           txtfile.write(line)
         i = i + 1  
   return
-    
+
+# deleteFile so that the data do not append to the same .txt over and over again
+def deleteFile(fileName):
+  if os.path.exists(fileName):
+    os.remove(fileName)
+
+  return

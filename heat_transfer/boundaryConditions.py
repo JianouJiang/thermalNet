@@ -77,7 +77,7 @@ def BC_1D_Dirichlet_Tbl1_Tbr0(T, x, mask):
 
 def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, rho2,...,rhon], [cp1, cp2, ..., cpn], [k1, k2, ..., kn] ....[lambda1, lambda2, ..., lambdan]]    ]
 	Tbl = 500  # temperature at the left boundary
-	Tbr = 0  # temperature at the right ghost point as the reference/free-stream temperature
+	Tbr = 150  # temperature at the right ghost point as the reference/free-stream temperature
 	# heat being convected away at the right boundary, according to the heat transfer coefficient h
 	# -K * (dT/dx) = qx = h * dT, h = -k/dx, k=-h*dx
 	h_br = 20
@@ -114,8 +114,9 @@ def BC_2D_Dirichlet(T, x, mask):
 	Tbr = 0 # temperature at the right boundary
 
 
-    # TODO!
 
+
+    # TODO!
 
 	for i in range(len(mask)):
 		mask_i = mask[i]
