@@ -68,7 +68,7 @@ def linear0(x,y=0): # input x is a np array
 # generate meshes first:
 def IC_1D_UnitPulse_Aluminium(): 
 
-    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx-10e-9,dx) 
 
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
@@ -89,7 +89,7 @@ def IC_1D_UnitPulse_Aluminium():
 
 def IC_1D_Linear0_Aluminium(): 
 
-    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx-10e-9,dx) 
 
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
@@ -108,10 +108,34 @@ def IC_1D_Linear0_Aluminium():
     #print(_lambda)
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
+def IC_1D_Linear0_Convect_Aluminium(): 
+    h_br = 20 # heat transfer coefficient at the right hand side
+    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx-10e-9,dx) 
+    mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
+    t = np.arange(0,t_max+dt,dt)
+
+    T = linear0(x) # temperature
+    rho = np.array([1.0 for i in range(len(T))])
+    Cp = np.array([1.0 for i in range(len(T))]) 
+    k = np.array([1.0 for i in range(len(T))])
+    _lambda = k/(Cp*rho)
+    for i in range(len(T)):
+        xi = x[i]
+        Ti=T[i]
+        rho[i] = rho_Aluminium(Ti) # np.array([1.0 for i in range(len(T))]) # # density 
+        Cp[i] = Cp_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+        k[i] = k_Aluminium(Ti)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+        if xi<L:
+            k[i] = k_Aluminium(Ti)
+        else:
+            k[i] = dx * h_br
+        _lambda[i] = k[i] /(Cp[i] *rho[i])
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])
+
 
 def IC_1D_Sines_Aluminium(): 
 
-    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx,dx) 
+    x = np.arange(-number_of_ghost_points*dx,L+dx + number_of_ghost_points*dx-10e-9,dx) 
 
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
@@ -134,7 +158,7 @@ def IC_1D_Sines_Aluminium():
 def IC_1D_Linear0_TwoMaterials():
     x_interface = 0.5*L
 
-    x = np.arange(-number_of_ghost_points * dx, L + dx + number_of_ghost_points * dx, dx)
+    x = np.arange(-number_of_ghost_points * dx, L + dx + number_of_ghost_points * dx-10e-9, dx)
 
     mask = np.array([1 if 0 <= xi <= L else 0 for xi in x])
     t = np.arange(0, t_max + dt, dt)

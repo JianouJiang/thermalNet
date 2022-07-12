@@ -22,7 +22,7 @@ def evolveT_1D_Dirichlet_Convec_Linear0_Aluminium():
   # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
   deleteFile(directory)
   # importing initial conditions
-  t, x, T, mask, _lambda = IC_1D_Linear0_Aluminium()
+  t, x, T, mask, _lambda = IC_1D_Linear0_Convect_Aluminium()
   for i in range(len(t)):
     ti = t[i]
     print("t=" + str(ti) + "s; t_max="+str(t_max))
