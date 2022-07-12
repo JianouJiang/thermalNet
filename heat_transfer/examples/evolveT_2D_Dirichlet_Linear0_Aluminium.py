@@ -40,7 +40,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
     # saving Temperature at t=n to .txt under /data
     writeData2D(directory, ti, x, T, _lambda)
     
-    A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, dx, dt)
+    A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt)
     Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
     
 
