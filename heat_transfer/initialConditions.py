@@ -24,46 +24,36 @@ print("defining initial conditions for temperature")
 
 # unit pulse function:
 m = 500 # magnitude of the unit pulse function
-def unitPulse(x,y=0): # input x is a np array
-    T0 = np.zeros(len(x))
-    for i in range(len(x)):
-        xi = x[i]
-        if 0.25*L<=xi<=0.75*L:
-            T0[i] = m
-        else:
-            T0[i] = 0
-    return T0 # output T0 is a np array
+def unitPulse(xi,yi=None): 
+    if 0.25*L<=xi<=0.75*L:
+        T0 = m
+    else:
+        T0 = 0
+    return T0 
 
 
 
 # sines function: 
-def sines(x,y=0): # input x is a np array
-    T0 = np.zeros(len(x))
+def sines(xi,yi=None): # input x is a np array
     m1 = 1 # magnitude of the 1st sine function
     m2 = 0.5 # 
     f1 = 1 # frequency of the 1st sine function
     f2 = 5
-    for i in range(len(x)):
-        xi = x[i]
-        sin1 = m1*np.sin(f1*np.pi*xi/L)
-        sin2 = m2*np.sin(f2*np.pi*xi/L) 
-        T0[i] = sin1 + sin2
-    return T0 # output T0 is a np array
+    sin1 = m1*np.sin(f1*np.pi*xi/L)
+    sin2 = m2*np.sin(f2*np.pi*xi/L) 
+    T0 = sin1 + sin2
+    return T0 
 
 # Linear function:
-def linear(x,y=0): # input x is a np array
-    T0 = np.zeros(len(x))
-    for i in range(len(x)):
-        xi = x[i]
-        T0[i] = m*xi
-    return T0 # output T0 is a np array    
+def linear(xi,yi=None): # input x is a np array
+    
+    xi = x[i]
+    T0 = m*xi
+    return T0 
 
-def linear0(x,y=0): # input x is a np array
-    T0 = np.zeros(len(x))
-    for i in range(len(x)):
-        xi = x[i]
-        T0[i] = 0.0
-    return T0 # output T0 is a np array
+def linear0(xi,yi=None): # input x is a np array
+    T0 = 0.0
+    return T0 
 
 # generate meshes first:
 def IC_1D_UnitPulse_Aluminium(): 
@@ -73,7 +63,10 @@ def IC_1D_UnitPulse_Aluminium():
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
 
-    T = unitPulse(x) # temperature
+    T = np.array([0 for xi in x])
+    for xi in x:
+        T[i] = unitPulse(xi) # temperature
+
     rho = np.array([1.0 for i in range(len(T))])
     Cp = np.array([1.0 for i in range(len(T))]) 
     k = np.array([1.0 for i in range(len(T))])
@@ -94,7 +87,9 @@ def IC_1D_Linear0_Aluminium():
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
 
-    T = linear0(x) # temperature
+    T = np.array([0 for xi in x])
+    for xi in x:
+        T[i] = linear0(xi) # temperature
     rho = np.array([1.0 for i in range(len(T))])
     Cp = np.array([1.0 for i in range(len(T))]) 
     k = np.array([1.0 for i in range(len(T))])
@@ -114,7 +109,10 @@ def IC_1D_Linear0_Convect_Aluminium():
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
 
-    T = linear0(x) # temperature
+    T = np.array([0 for xi in x])
+    for xi in x:
+        T[i] = linear0(xi) # temperature
+
     rho = np.array([1.0 for i in range(len(T))])
     Cp = np.array([1.0 for i in range(len(T))]) 
     k = np.array([1.0 for i in range(len(T))])
@@ -140,7 +138,9 @@ def IC_1D_Sines_Aluminium():
     mask = np.array([1 if 0<=xi<=L else 0 for xi in x])
     t = np.arange(0,t_max+dt,dt)
 
-    T = sines(x) # temperature
+    T = np.array([0 for xi in x])
+    for xi in x:
+        T[i] = sines(xi) # temperature
     
     rho = np.array([1.0 for i in range(len(T))])
     Cp = np.array([1.0 for i in range(len(T))]) 
@@ -163,7 +163,9 @@ def IC_1D_Linear0_TwoMaterials():
     mask = np.array([1 if 0 <= xi <= L else 0 for xi in x])
     t = np.arange(0, t_max + dt, dt)
 
-    T = linear0(x)  # temperature
+    T = np.array([0 for xi in x])
+    for xi in x:
+        T[i] = linear0(xi) # temperature
 
     rho = np.array([1.0 for i in range(len(T))])  # rho_Aluminium(T) # density
     Cp = np.array([1.0 for i in range(len(T))])  # Cp_Aluminium(T) # specific heat capacity
@@ -174,18 +176,18 @@ def IC_1D_Linear0_TwoMaterials():
 
 def IC_2D_Linear0_Aluminium(): 
     t = np.arange(0,t_max+dt,dt)
-    num_points_x = L / dx
+    num_points_x = L / dx + 1
     dy = dx
-    num_points_y = L / dy
+    num_points_y = L / dy + 1
+    x = np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
 
-    x = numpy.ones((num_points_x + 2*number_of_ghost_points, num_points_y + 2*number_of_ghost_points))
-
-    mask = x
-    T = x
-    rho = x
-    Cp = x
-    k = x
-    _lambda = x
+    mask = np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    T = np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    rho = np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    Cp = np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    k =np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    _lambda =np.ones(( int(num_points_x + 2*number_of_ghost_points), int(num_points_y + 2*number_of_ghost_points)))
+    x = np.array(x ,dtype = object)
     
     
     for i in range(len(T)):
@@ -193,17 +195,17 @@ def IC_2D_Linear0_Aluminium():
         for j in range(len(T[0])):
             yij = -number_of_ghost_points * dy + dy * j
 
-            if (xij<0 or xij>L) and (yij<0 or yij>L):
+            if (xij<0 or xij>L):
+                mask[i][j] = 0
+            elif (yij<0 or yij>L):
                 mask[i][j] = 0
             else:
                 mask[i][j] = 1
-
             x[i][j] = [xij,yij]
-            Tij = linear0(xij,yij) 
+            Tij = linear0(xij,yij) # temperature
             T[i][j] = Tij
             rho[i][j] = rho_Aluminium(Tij) # np.array([1.0 for i in range(len(T))]) # # density 
             Cp[i][j] = Cp_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
             k[i][j] = k_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
             _lambda[i][j] = k[i][j] /(Cp[i][j] *rho[i][j])
-            
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])

@@ -108,20 +108,16 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				_lambda[3][i] = k_br/(cp_i*rho_i)
 	return T, _lambda
 
-
-def BC_2D_Dirichlet(T, x, mask): 
-	Tbl = 500 # temperature at the left boundary
-	Tbr = 0 # temperature at the right boundary
-
-    '''    insulation(zero flux)  --> j, y-axis
+'''    insulation(zero flux)  --> j, y-axis
 (0,0)--------------------------------------
    | |                                     |
    | |Tbl=500  zero degree initially  Tbr=0| 0.33L
    v |                                     |
    i --------------------------------------(0.33L,L)
-  x-axis   insulation(zero flux)
-  '''
-    # TODO!
+  x-axis   insulation(zero flux) '''
+def BC_2D_Dirichlet(T, x, mask):
+	Tbl = 500 # temperature at the left boundary
+	Tbr = 0 # temperature at the right boundary
 	for i in range(len(mask)):
 		for j in range(len(mask[0])):
 			xi = x[i][j][0]

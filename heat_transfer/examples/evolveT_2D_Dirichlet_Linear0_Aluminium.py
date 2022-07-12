@@ -25,35 +25,42 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
    i --------------------------------------(0.33L,L)
   x-axis   insulation(zero flux)
   '''
-  st = time.time()
-  directory = "../../data/crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
-  # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
-  deleteFile(directory)
-  # importing initial conditions
-  t, x, T, mask, _lambda = IC_2D_Linear0_Aluminium()
-  for i in range(len(t)):
-    ti = t[i]
-    print("t=" + str(ti) + "s; t_max="+str(t_max))
-    # making boundary conditions
-    T = BC_2D_Dirichlet(T, x, mask)
-    
-    # saving Temperature at t=n to .txt under /data
-    writeData2D(directory, ti, x, T, _lambda)
-    
-    A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt)
-    Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
-    
 
-    # giving the new temperature to the old temperature for the next iteration
-    T = Tn
-    # getting the lambda based on the newly obtained temperature
-    for i in range(len(T)):
-      for j in range(len(T[0])):
-        Ti = T[i][j]
-        _lambda[3][i][j] = lambda_Aluminium(Ti)
-  et = time.time()
-  duration = et-st
-  return duration
+    st = time.time()
+    directory = "../../data/crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
+    # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
+    deleteFile(directory)
+    # importing initial conditions
+    t, x, T, mask, _lambda = IC_2D_Linear0_Aluminium()
+    for i in range(len(t)):
+        ti = t[i]
+        print("t=" + str(ti) + "s; t_max="+str(t_max))
+        # making boundary conditions
+        T = BC_2D_Dirichlet(T, x, mask)
+        
+        # saving Temperature at t=n to .txt under /data
+        writeData2D(directory, ti, x, T, _lambda)
+        
+        A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt)
+        Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=None, N=64, reltol=1e-6, verbose=True) # 2.08s
+        
+        # giving the new temperature to the old temperature for the next iteration
+        # also, converting Tn in a vector to a 2d.array matrix T
+        index = 0
+        for i in range(len(T)):
+            for j in range(len(T[0])):
+                T[i][j] = Tn[index]
+                index = index + 1
+
+        # getting the lambda based on the newly obtained temperature
+        for i in range(len(T)):
+            for j in range(len(T[0])):
+                Tij = T[i][j]
+                _lambda[3][i][j] = lambda_Aluminium(Tij)
+
+    et = time.time()
+    duration = et-st
+    return duration
 
 duration = evolveT_2D_Dirichlet_Linear0_Aluminium()
 print("finished evolveT_2D_Dirichlet_Linear0_Aluminium() in " + str(duration) +"s.")

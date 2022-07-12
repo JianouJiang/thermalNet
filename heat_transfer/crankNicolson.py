@@ -286,11 +286,7 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
 
 
 
-
-def crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt):
-print("crankNicolson2D_Dirichlet(x)")
-  
-    '''    insulation(zero flux)  --> j, y-axis
+'''    insulation(zero flux)  --> j, y-axis
 (0,0)--------------------------------------
    | |                                     |
    | |Tbl=500  zero degree initially  Tbr=0| 0.33L
@@ -298,6 +294,9 @@ print("crankNicolson2D_Dirichlet(x)")
    i --------------------------------------(0.33L,L)
   x-axis   insulation(zero flux)
   '''
+def crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt):
+  print("crankNicolson2D_Dirichlet(x)")
+
   length_Tx = len(T)
   length_Ty = len(T[0])
   
@@ -349,12 +348,12 @@ print("crankNicolson2D_Dirichlet(x)")
           b[index] = T[i][j] 
 
         else: # inside the domain
-          ai = 1/dt + 2 * _lambda_i / (dx*dx)
+          ai = 1/dt + 2 * _lambda_ij / (dx*dx)
           bi = - _lambda_ijp1/(2*dx*dx)
           ci = - _lambda_ijm1/(2*dx*dx)
           di = - _lambda_ip1j/(2*dx*dx)
           ei = - _lambda_im1j/(2*dx*dx)
-          fi = 1/dt - 2*_lambda_i/(dx*dx)
+          fi = 1/dt - 2*_lambda_ij/(dx*dx)
           A[index][index] = ai
           A[index][index+1] = bi
           A[index][index-1] = ci
