@@ -73,16 +73,16 @@ def plot_2D(plot_times, figureName, fileName):
             except IndexError: # reaching the last line
                 continue     
         
-    fig, axes = plt.subplots(nrows=4, ncols=1)
+    fig, axes = plt.subplots(nrows=len_t_plot, ncols=1)
      
     index = 0
     for i in range(len_t_plot):
         ti = plot_times[i]
         fig.set_figheight(15)
         fig.set_figwidth(5)
-        plt.subplot(4, 1, index+1)
-        T = Ts[index][0]
-        T_min, T_max = -np.abs(T).max(), np.abs(T).max() # TODO
+        plt.subplot(len_t_plot, 1, index+1)
+        T = Ts[index]
+        T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
         plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
         plt.title('T at t={}s'.format(ti))
         # set the limits of the plot to the limits of the data

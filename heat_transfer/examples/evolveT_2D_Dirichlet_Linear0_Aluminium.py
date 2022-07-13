@@ -13,7 +13,8 @@ from heat_transfer.materialProperties import *
 from tools.tools import *
 parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
-
+dt_for_plotting = t_max / num_of_timeSteps_for_plotting
+plot_times = np.arange(0.0,t_max,dt_for_plotting)
 # evolve temperature
 print("started evolveT_2D_Dirichlet_Linear0_Aluminium().")
 def evolveT_2D_Dirichlet_Linear0_Aluminium():
@@ -39,7 +40,8 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
         T = BC_2D_Dirichlet(T, x, mask)
         #print(np.array_str(T, precision=1, suppress_small=True))
         # saving Temperature at t=n to .txt under /data
-        writeData2D(directory, ti, x, T, _lambda)
+        if ti in plot_times:
+            writeData2D(directory, ti, x, T, _lambda)
         
         A, b = crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt)
         
@@ -59,7 +61,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
             for j in range(len(T[0])):
                 T[i][j] = Tn[index]
                 index = index + 1
-        print(np.array_str(T, precision=1, suppress_small=True))
+        #print(np.array_str(T, precision=1, suppress_small=True))
         # getting the lambda based on the newly obtained temperature
         for i in range(len(T)):
             for j in range(len(T[0])):
