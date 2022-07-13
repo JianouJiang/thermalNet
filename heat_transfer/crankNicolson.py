@@ -295,7 +295,7 @@ def crankNicolson1D_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tb
   x-axis   insulation(zero flux)
   '''
 def crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt):
-  print("crankNicolson2D_Dirichlet(x)")
+  print("crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt)")
 
   length_Tx = len(T)
   length_Ty = len(T[0])
@@ -312,54 +312,45 @@ def crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt):
       xij = x[i][j][0]
       yij = x[i][j][1]
 
-      if mask_ij == 0:
-      # at the ghost points
-        if yij<0 or yij>L: # at the left or right ghost points, should be fixed temp, dirichlet
-          A[index][index] = 1
-          b[index] = T[i][j] 
-        else: # at the top or bottom ghost points, should be zero flux
-          if xij < 0: # at the upper ghost points
-            A[index][index] = 1
-            A[index+2][index] = -1
-            b[index] = -T[i][j] + T[i+2][j]
-          else: # at the lower ghost points
-            A[index][index] = 1
-            A[index-2][index] = -1
-            b[index] = -T[i][j] + T[i-2][j]
+      if yij<=0+10e-9: # at the left ghost points and left interface 
+        A[index][index] = 1
+        b[index] = T[i][j] 
+      elif yij>=(L-10e-9): # at the right ghost points and right interface 
+        A[index][index] = 1
+        b[index] = T[i][j] 
+      elif xij < 0:# at the upper ghost points and upper interface
+        A[index][index] = 1
+        A[index+2*length_Ty][index] = -1
+        b[index] = -T[i][j] + T[i+2][j]
+      elif xij > L: # at the lower ghost points and lower interface
+        A[index][index] = 1
+        A[index-2*length_Ty][index] = -1
+        b[index] = -T[i][j] + T[i-2][j]
 
-      else:
-        # in the domain
-        mask_ijp1 = mask[i][j+1]
-        mask_ijm1 = mask[i][j-1]
-        mask_ip1j = mask[i+1][j]
-        mask_im1j = mask[i-1][j]
 
+      else: # in the domain
         _lambda_ijp1 = _lambda[3][i][j+1]
         _lambda_ijm1 = _lambda[3][i][j-1]
         _lambda_ip1j = _lambda[3][i+1][j]
         _lambda_im1j = _lambda[3][i-1][j]
         
-        if mask_ijm1==0: # at the left boundary, but in the domain
-          A[index][index] = 1
-          b[index] = T[i][j] 
-
-        elif mask_ijp1==0: # at the right boundary, but in the domain
-          A[index][index] = 1
-          b[index] = T[i][j] 
-
-        else: # inside the domain
-          ai = 1/dt + 2 * _lambda_ij / (dx*dx)
-          bi = - _lambda_ijp1/(2*dx*dx)
-          ci = - _lambda_ijm1/(2*dx*dx)
-          di = - _lambda_ip1j/(2*dx*dx)
-          ei = - _lambda_im1j/(2*dx*dx)
-          fi = 1/dt - 2*_lambda_ij/(dx*dx)
-          A[index][index] = ai
-          A[index][index+1] = bi
-          A[index][index-1] = ci
-          A[index][index+length_Ty] = di
-          A[index][index-length_Ty] = ei
-          
-          b[index] = fi * T[i][j] - bi * T[i][j+1] - ci * T[i][j-1] - di * T[i+1][j] - ei * T[i-1][j]
+        ai = 1/dt + 2 * _lambda_ij / (dx*dx)
+        bi = - _lambda_ijp1/(2*dx*dx)
+        ci = - _lambda_ijm1/(2*dx*dx)
+        di = - _lambda_ip1j/(2*dx*dx)
+        ei = - _lambda_im1j/(2*dx*dx)
+        fi = 1/dt - 2*_lambda_ij/(dx*dx)
+        A[index][index] = ai
+        A[index][index+1] = bi
+        A[index][index-1] = ci
+        A[index][index+length_Ty] = di
+        A[index][index-length_Ty] = ei
+        
+        b[index] = fi * T[i][j] - bi * T[i][j+1] - ci * T[i][j-1] - di * T[i+1][j] - ei * T[i-1][j]
       index = index + 1    
+  #print("---------A---------")
+  #for i in range(len(A)):
+    #print(A[i])
+  #print("---------A---------")
+  #print(np.array_str(b, precision=1, suppress_small=True))
   return A, b

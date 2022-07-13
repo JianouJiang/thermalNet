@@ -125,15 +125,14 @@ def BC_2D_Dirichlet(T, x, mask):
 
 			mask_i = mask[i][j]
 		
-			if mask_i==0: # at the ghost points
-				if yi < 0:
-					T[i][j] = Tbl
-				elif yi > L:
-					T[i][j] = Tbr
-				else: # we are at the upper and bottom boundary where we have zero flux
-					  # so the value of the ghost points depends on the value of the interface point inside domain
-					continue
-
+			if yi <= 0+10e-9:
+				T[i][j] = Tbl
+			elif yi >= L-10e-9:
+				T[i][j] = Tbr
+			else: # we are at the upper and bottom boundary where we have zero flux
+				  # so the value of the ghost points depends on the value of the interface point inside domain
+				continue
+			'''	
 			else: # within the domain
 				mask_ijm1 = mask[i][j-1]
 				mask_ijp1 = mask[i][j+1]
@@ -141,4 +140,5 @@ def BC_2D_Dirichlet(T, x, mask):
 					T[i][j] = Tbl
 				if mask_ijp1==0: # right boundary of the domain
 					T[i][j] = Tbr
+			'''
 	return T

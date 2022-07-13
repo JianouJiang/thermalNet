@@ -137,3 +137,4 @@ fileName1 = "ansys_linear0_Dirichlet500_0_Aluminium_T.txt"
 fileName2 = "crankNicolson_linear0_Dirichlet500_Convec_Aluminium_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)
 print("finished plotting...")
+
