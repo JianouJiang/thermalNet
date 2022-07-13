@@ -318,11 +318,11 @@ def crankNicolson2D_Dirichlet(T, mask, _lambda, x, dt):
       elif yij>=(L-10e-9): # at the right ghost points and right interface 
         A[index][index] = 1
         b[index] = T[i][j] 
-      elif xij < 0:# at the upper ghost points and upper interface
+      elif xij < 0:# at the upper ghost points
         A[index][index] = 1
         A[index+2*length_Ty][index] = -1
         b[index] = -T[i][j] + T[i+2][j]
-      elif xij > L: # at the lower ghost points and lower interface
+      elif xij > L: # at the lower ghost points
         A[index][index] = 1
         A[index-2*length_Ty][index] = -1
         b[index] = -T[i][j] + T[i-2][j]

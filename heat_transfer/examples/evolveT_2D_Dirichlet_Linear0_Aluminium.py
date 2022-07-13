@@ -49,7 +49,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
         #print(np.array_str(T_flat, precision=1, suppress_small=True))
 
         #Tn, residual_list_CG = Conjugate_Gradient(A, b, x0=T_flat, N=1024, reltol=1e-6, verbose=True) 
-        Tn, residual_list_Jacobi = Jacobi(A, b, x0=T_flat, N=128, r=1e-9)
+        Tn, residual_list_Jacobi = Jacobi(A, b, x0=T_flat, N=128, r=1e-6)
         #Tn, residual_list_GS = Gauss_Seidel(A, b, x0=T_flat, N=512, r=1e-6) # 4.58s
         #print(np.array_str(Tn, precision=1, suppress_small=True))
         # giving the new temperature to the old temperature for the next iteration
