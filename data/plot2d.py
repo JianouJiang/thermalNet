@@ -24,7 +24,6 @@ def plot_2D(plot_times, figureName, fileName):
     T = x + y
     # x and y are bounds, so z should be the value *inside* those bounds.
     # Therefore, remove the last value from the z array.
-    Ts = [[]] * len_t_plot # that contains len_t_plot of T
     r_plotting = 10*-6
     fig, axes = plt.subplots(nrows=len_t_plot, ncols=1)
     with open(fileName, 'r+') as fp:
@@ -58,8 +57,6 @@ def plot_2D(plot_times, figureName, fileName):
                         fig.set_figheight(15)
                         fig.set_figwidth(5)
                         plt.subplot(len_t_plot, 1, t_index)
-                        #T = Ts[index]
-                        print(T)
 
                         T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
                         plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
@@ -72,8 +69,6 @@ def plot_2D(plot_times, figureName, fileName):
                         plt.ylabel("y (m)")
 
 
-
-                    
                     # appending data
                     if x_temp == xi_next:
                         #print("ti_index_temp:"+str(ti_index_temp)+" ti:" +str(ti)+" x_index:" +str(x_index) +" xi:"+str(xi) +  " y_index:" + str(y_index) + " yi:"+str(yi) + " Ti:"+str(Ti))
@@ -92,16 +87,12 @@ def plot_2D(plot_times, figureName, fileName):
                         x_index = x_index + 1  
                         y_index = 0
                     
-                    Ts[t_index] = T
             except IndexError: # reaching the last line
                 fig.set_figheight(15)
                 fig.set_figwidth(5)
                 plt.subplot(len_t_plot, 1, len_t_plot)
-                #T = Ts[index]
-                print(T)
                 T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
                 plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
-
                 plt.title('T at t={}s'.format(ti))
                 # set the limits of the plot to the limits of the data
                 plt.axis([x.min(), x.max(), y.min(), y.max()])
@@ -110,30 +101,7 @@ def plot_2D(plot_times, figureName, fileName):
                 plt.xlabel("x (m)")
                 plt.ylabel("y (m)")    
 
-    
-    
-    ''' 
-    index = 0
-    for i in range(len_t_plot):
-        ti = plot_times[i]
-        fig.set_figheight(15)
-        fig.set_figwidth(5)
-        plt.subplot(len_t_plot, 1, index+1)
-        T = Ts[index]
-        print(T)
-        T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
-        plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
-        plt.title('T at t={}s'.format(ti))
-        # set the limits of the plot to the limits of the data
-        plt.axis([x.min(), x.max(), y.min(), y.max()])
-        plt.colorbar()
-        fig.tight_layout()
-        plt.xlabel("x (m)")
-        plt.ylabel("y (m)")
-        index = index + 1
-    '''    
-    #plt.title(figureName)
-    save_directory = "../img/" + figureName + ".png"
+    save_directory = "../img/" + figureName + ".pdf"
     plt.savefig(save_directory)
     plt.show()
 
