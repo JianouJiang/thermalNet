@@ -57,6 +57,7 @@ def plot_2D(plot_times, figureName, fileName):
                         fig.set_figheight(15)
                         fig.set_figwidth(5)
                         plt.subplot(len_t_plot, 1, t_index)
+                        #print(T)
 
                         T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
                         plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
@@ -88,6 +89,7 @@ def plot_2D(plot_times, figureName, fileName):
                         y_index = 0
                     
             except IndexError: # reaching the last line
+                #print(T)
                 fig.set_figheight(15)
                 fig.set_figwidth(5)
                 plt.subplot(len_t_plot, 1, len_t_plot)
