@@ -21,9 +21,9 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
     '''    insulation(zero flux)  --> j, y-axis
 (0,0)--------------------------------------
    | |                                     |
-   | |Tbl=500  zero degree initially  Tbr=0| 0.33L
+   | |Tbl=500  zero degree initially  Tbr=0| L
    v |                                     |
-   i --------------------------------------(0.33L,L)
+   i --------------------------------------(L,L)
   x-axis   insulation(zero flux)
   '''
 
@@ -61,7 +61,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium():
             for j in range(len(T[0])):
                 T[i][j] = Tn[index]
                 index = index + 1
-        print(np.array_str(T, precision=1, suppress_small=True))
+        # print(np.array_str(T, precision=1, suppress_small=True))
         # getting the lambda based on the newly obtained temperature
         for i in range(len(T)):
             for j in range(len(T[0])):
