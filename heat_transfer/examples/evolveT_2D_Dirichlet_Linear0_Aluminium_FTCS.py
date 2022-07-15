@@ -37,6 +37,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_FTCS():
 
   for i in range(len(t)):
     ti = t[i]
+    print("t=" + str(ti) + "s; t_max=" + str(t_max))
     # making boundary conditions
     T = BC_2D_Dirichlet(T, x, mask)
     
