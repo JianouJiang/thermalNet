@@ -112,6 +112,6 @@ def plot_2D(plot_times, figureName, fileName):
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
 figureName = 'Heat Transfer in 2D Aluminium'
-fileName = "crankNicolson2D_linear0_Dirichlet500_0_Aluminium_T.txt"
+fileName = "FTCS_2D_linear0_Dirichlet500_0_Aluminium_T.txt"
 plot_2D(plot_times, figureName, fileName)
 print("finished plotting 2d...")

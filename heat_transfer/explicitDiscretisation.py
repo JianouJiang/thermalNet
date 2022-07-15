@@ -106,3 +106,44 @@ def FTCS_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mas
   
   return Tnew
 
+
+# Explicit forward time centred space (FTCS), first-order in time and second order convergence in space
+def FTCS_Dirichlet_2D(T, mask, _lambda, x, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+  print("FTCS_Dirichlet_2D()")  # left dirichlet right neumann (zero flux)
+  '''   
+   insulation(zero flux)  --> j, y-axis
+(0,0)--------------------------------------
+ | |                                     |
+ | |Tbl=500  zero degree initially  Tbr=0| 0.33L
+ v |                                     |
+ i --------------------------------------(0.33L,L)
+x-axis   insulation(zero flux)
+ '''
+
+  Tnew = T
+
+  for i in range(len(T)):
+    for j in range(len(T[0])):
+      mask_ij = mask[i][j]
+
+      _lambda_ij = _lambda[3][i][j]
+      xij = x[i][j][0]
+      yij = x[i][j][1]
+
+      if yij <= 0 + 10e-9:  # at the left ghost points and left interface
+        Tnew[i][j] = T[i][j]
+      elif yij >= (L - 10e-9):  # at the right ghost points and right interface
+        Tnew[i][j] = T[i][j]
+      elif xij < 0:  # at the upper ghost points
+        Tnew[i][j]= T[i+1][j]
+      elif xij > L:  # at the lower ghost points
+        Tnew[i][j]= T[i-1][j]
+
+      else:  # in the domain
+        gamma_ij = _lambda_ij * dt / (dx * dx)
+        Tnew[i][j] = gamma_ij * (- 4 * T[i][j] + T[i - 1][j] + T[i + 1][j] + T[i][j-1] + T[i][j + 1] ) + T[i][j]
+
+
+  return Tnew
+
+
