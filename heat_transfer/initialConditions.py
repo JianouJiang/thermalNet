@@ -164,8 +164,10 @@ def IC_1D_Linear0_TwoMaterials():
     t = np.arange(0, t_max + dt, dt)
 
     T = np.array([0 for xi in x])
+    i=0
     for xi in x:
         T[i] = linear0(xi) # temperature
+        i=i+1
 
     rho = np.array([1.0 for i in range(len(T))])  # rho_Aluminium(T) # density
     Cp = np.array([1.0 for i in range(len(T))])  # Cp_Aluminium(T) # specific heat capacity

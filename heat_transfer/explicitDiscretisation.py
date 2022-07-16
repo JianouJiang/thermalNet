@@ -15,8 +15,8 @@ def FTCS_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then
 
   length_T = len(T)
   length_mask = len(mask)
-  
-  Tnew = T
+
+  Tnew = np.zeros(len(T))
   
   if length_T!=length_mask:
     print("Error: len(T) must be the same as len(mask))")
@@ -42,6 +42,39 @@ def FTCS_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then
   return Tnew
 
 
+def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+  print("FTCS_Dirichlet_TwoMaterials()")
+
+  Tnew = np.zeros(len(T))
+
+  for i in range(len(T)):
+    at_interface = 0
+    if i == 52:
+      at_interface = 1
+    mask_i = mask[i]
+    _lambda_i = _lambda[3][i]
+    if mask_i==0:
+      continue
+    else: # within the domain
+      if at_interface:
+        k_ip1 =0.1# _lambda[2][i+1]  # k[i+i]
+        k_im1 =1# _lambda[2][i-1]  # k[i]
+        _lambda_im1 =1# _lambda[3][i-1]
+        _lambda_ip1 =0.1# _lambda[3][i+1]  # _lambda[i+1]
+
+        bi_star = (-4 * k_ip1 * _lambda_im1 + 2 * (3 * k_im1 + k_ip1) * _lambda_ip1)
+        ci_star = (2 * (k_im1 + 3 * k_ip1) * _lambda_im1 - 4 * k_im1 * _lambda_ip1)
+        di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
+        ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
+
+        gamma_i = - dt / (12 * (k_ip1 + k_im1) * dx * dx)
+        Tnew[i] = gamma_i * (ci_star * T[i - 1] + bi_star * T[i + 1] + ei_star * T[i - 2] + di_star * T[i + 2]) + T[i]
+      else:
+        gamma_i = _lambda_i * dt / (dx * dx)
+        Tnew[i] = gamma_i * (- 2 * T[i] + T[i - 1] + T[i + 1]) + T[i]
+  return Tnew
+
+
 # Explicit forward time centred space (FTCS), first-order in time and second order convergence in space
 def FTCS_Neumann(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   print("FTCS_Neumann()") # zero heat flux at both sides
@@ -49,7 +82,7 @@ def FTCS_Neumann(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then m
   length_T = len(T)
   length_mask = len(mask)
   
-  Tnew = T
+  Tnew = np.zeros(len(T))
   
   if length_T!=length_mask:
     print("Error: len(T) must be the same as len(mask))")
@@ -81,7 +114,7 @@ def FTCS_Mixed(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mas
   length_T = len(T)
   length_mask = len(mask)
   
-  Tnew = T
+  Tnew = np.zeros(len(T))
   
   if length_T!=length_mask:
     print("Error: len(T) must be the same as len(mask))")
@@ -120,7 +153,7 @@ def FTCS_Dirichlet_2D(T, mask, _lambda, x, dt):  # if T=[Tbl, T1, T2, T3, Tbr] t
 x-axis   insulation(zero flux)
  '''
 
-  Tnew = T
+  Tnew = np.zeros((len(T), len(T[0])))  # Tnew = np.zeros(len(T))?
 
   for i in range(len(T)):
     for j in range(len(T[0])):
