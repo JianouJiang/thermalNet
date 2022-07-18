@@ -211,3 +211,48 @@ def IC_2D_Linear0_Aluminium():
             k[i][j] = k_Aluminium(Tij)#np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
             _lambda[i][j] = k[i][j] /(Cp[i][j] *rho[i][j])
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
+
+
+def IC_2D_Linear0_TwoMaterials():
+    t = np.arange(0, t_max + dt, dt)
+    num_points_x = L / dx + 1
+    dy = dx
+    num_points_y = L / dy + 1
+    x = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+
+    mask = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    T = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    rho = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    Cp = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    k = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    _lambda = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    x = np.array(x, dtype=object)
+
+    for i in range(len(T)):
+        xij = -number_of_ghost_points * dx + dx * i
+        for j in range(len(T[0])):
+            yij = -number_of_ghost_points * dy + dy * j
+
+            if (xij < 0 or xij > L):
+                mask[i][j] = 0
+            elif (yij < 0 or yij > L):
+                mask[i][j] = 0
+            else:
+                x[i][j] = [xij, yij]
+                Tij = linear0(xij, yij)  # temperature
+                T[i][j] = Tij
+                if yij > 0.5*L: # aluminium
+                    mask[i][j] = 1
+                    rho[i][j] = rho_Aluminium(Tij)  # np.array([1.0 for i in range(len(T))]) # # density
+                    Cp[i][j] = Cp_Aluminium(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+                    k[i][j] = k_Aluminium(Tij)  # np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+                    _lambda[i][j] = k[i][j] / (Cp[i][j] * rho[i][j])
+                else: # Inconel800HT
+                    mask[i][j] = 2
+                    rho[i][j] = rho_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) # # density
+                    Cp[i][j] = Cp_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+                    k[i][j] = k_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+                    _lambda[i][j] = k[i][j] / (Cp[i][j] * rho[i][j])
+
+
+    return t, x, T, mask, np.array([rho, Cp, k, _lambda])
