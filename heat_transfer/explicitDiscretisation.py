@@ -49,7 +49,7 @@ def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt):  # if T=[Tbl, T1, T2,
 
   for i in range(len(T)):
     at_interface = 0
-    if i == 52:
+    if i == int(len(T) /2):
       at_interface = 1
     mask_i = mask[i]
     _lambda_i = _lambda[3][i]
@@ -67,7 +67,7 @@ def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt):  # if T=[Tbl, T1, T2,
         di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
         ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
 
-        gamma_i = - dt / (12 * (k_ip1 + k_im1) * dx * dx)
+        gamma_i = - dt*2 / (12 * (k_ip1 + k_im1) * dx * dx)
         Tnew[i] = gamma_i * (ci_star * T[i - 1] + bi_star * T[i + 1] + ei_star * T[i - 2] + di_star * T[i + 2]) + T[i]
       else:
         gamma_i = _lambda_i * dt / (dx * dx)
@@ -180,10 +180,6 @@ x-axis   insulation(zero flux)
   return Tnew
 
 
-
-# Explicit forward time centred space (FTCS), first-order in time and second order convergence in space
-def FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
-  print("FTCS_Dirichlet_2D_TwoMaterials()")  # left dirichlet right neumann (zero flux)
 '''    insulation(zero flux)  --> j, y-axis
   (0,0)--------------------------------------
      | |  Inconel800HT |         Alu         |
@@ -192,6 +188,10 @@ def FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_
      i --------------------------------------(L,L)
     x-axis   insulation(zero flux)
 '''
+# Explicit forward time centred space (FTCS), first-order in time and second order convergence in space
+def FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+  print("FTCS_Dirichlet_2D_TwoMaterials()")  # left dirichlet right neumann (zero flux)
+
   Tnew = np.zeros((len(T), len(T[0])))
   Tnew_fine = np.zeros(( int(len(T)*2-1), int(len(T[0])*2-1) )) # 2 times finer of the resolution
 

@@ -17,6 +17,8 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+plot_times = np.array([0.0, 0.001,0.05,1.0])
+
 # evolve temperature
 print("started evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS().")
 def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
@@ -33,6 +35,7 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
 
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
+      print("writing data at "+str(ti))
       writeData(directory, ti, x, T, _lambda)
     
     Tn = FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt)
@@ -40,9 +43,14 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
     # getting the lambda based on the newly obtained temperature
+    x_interface = 0.5*L
     for i in range(len(T)):
       Ti = T[i]
-      _lambda[3][i] = 1 #_lambda_Aluminium(Ti)
+      xi = x[i]
+      if xi<x_interface:
+        _lambda[3][i] = 1.0 #_lambda_Aluminium(Ti)
+      else:
+        _lambda[3][i] = 0.1
   
   return
 

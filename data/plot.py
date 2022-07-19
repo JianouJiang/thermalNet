@@ -132,7 +132,8 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-figureName = 'Heat Transfer in 1D Aluminium Rod'
+plot_times = np.array([0.0,0.001,0.05,1.0])
+figureName = 'Heat Transfer in Two Materials (1D)'
 fileName1 = "FTCS_linear0_Dirichlet_TwoMaterials_Continuity_T.txt"
 fileName2 = "FTCS_linear0_Dirichlet_TwoMaterials_Continuity_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)
