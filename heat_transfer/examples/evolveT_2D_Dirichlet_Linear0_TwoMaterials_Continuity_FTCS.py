@@ -33,7 +33,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
   # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
   deleteFile(directory)
   # importing initial conditions
-  t, x, T, mask, _lambda = IC_2D_Linear0_TwoMaterials()
+  t, x, x_fine, T, T_fine, mask, _lambda, _lambda_fine = IC_2D_Linear0_TwoMaterials()
 
   for i in range(len(t)):
     ti = t[i]
@@ -45,11 +45,12 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
     if ti in plot_times:
       writeData2D(directory, ti, x, T, _lambda)
 
-    Tn = FTCS_Dirichlet_2D_TwoMaterials(T, mask, _lambda, x, dt)
+    Tn, Tn_fine = FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt)
     
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
-    # getting the lambda based on the newly obtained temperature
+    T_fine = Tn_fine
+    # getting the lambda based on the newly obtained temperature for the coarse mesh
     for i in range(len(T)):
       for j in range(len(T[0])):
         Tij = T[i][j]
@@ -62,6 +63,31 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
           _lambda[3][i][j] = lambda_Inconel800HT(Tij)
         else:
           continue # this is at the ghost point, only matters if there is convective B.C
+
+    # getting the lambda based on the newly obtained temperature for the fine mesh
+    for i_f in range(len(T_fine)):
+      for j_f in range(len(T_fine[0])):
+        if i_f%2==0 and j_f%2==0: # at the coarse point
+          # getting the indexes for the coarse mesh
+          i=int(i_f/2)
+          j=int(j_f/2)
+          _lambda_fine[2][i_f][j_f] = _lambda[2][i][j]
+          _lambda_fine[3][i_f][j_f] = _lambda[3][i][j]
+        elif i_f%2==0 and j_f%2!=0: # point right in between T[i][j] and T[i][j+1]
+          i = int(i_f / 2)
+          j = int(j_f / 2)
+          _lambda_fine[2][i_f][j_f] = (_lambda[2][i][j-1] + _lambda[2][i][j])/2
+          _lambda_fine[3][i_f][j_f] = (_lambda[3][i][j-1] + _lambda[3][i][j])/2
+        elif i_f%2!=0 and j_f%2==0: # point right in between T[i][j] and T[i+1][j]
+          i = int(i_f / 2)
+          j = int(j_f / 2)
+          _lambda_fine[2][i_f][j_f] = (_lambda[2][i][j] + _lambda[2][i-1][j])/2
+          _lambda_fine[3][i_f][j_f] = (_lambda[3][i][j] + _lambda[3][i-1][j])/2
+        else: # this point is at the centre of four coarse points, so should be the avg of those four
+          i = int(i_f / 2)
+          j = int(j_f / 2)
+          _lambda_fine[2][i_f][j_f] = (_lambda[2][i][j] + _lambda[2][i-1][j] +_lambda[2][i][j-1] + _lambda[2][i-1][j-1] ) / 4
+          _lambda_fine[3][i_f][j_f] = (_lambda[3][i][j] + _lambda[3][i-1][j] +_lambda[3][i][j-1] + _lambda[3][i-1][j-1] ) / 4
 
   et = time.time()
   duration = et - st
