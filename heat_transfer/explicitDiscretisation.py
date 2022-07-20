@@ -200,99 +200,108 @@ def FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_
       # iterating at the fine mesh
       xij = x_fine[i_f][j_f][0]
       yij = x_fine[i_f][j_f][1]
+      i = int(i_f / 2)
+      j = int(j_f / 2)
       if yij <= 0 + 10e-9:  # at the left ghost points and left interface
-        Tnew_fine[i][j] = T_fine[i_f][j_f]
+        Tnew_fine[i_f][j_f] = T_fine[i_f][j_f]
       elif yij >= (L - 10e-9):  # at the right ghost points and right interface
-        Tnew_fine[i][j] = T_fine[i_f][j_f]
+        Tnew_fine[i_f][j_f] = T_fine[i_f][j_f]
       elif xij < 0:  # at the upper ghost points
-        Tnew_fine[i][j] = T_fine[i_f + 1][j_f]
+        Tnew_fine[i_f][j_f] = T_fine[i_f + 1][j_f]
       elif xij > L:  # at the lower ghost points
-        Tnew_fine[i][j] = T_fine[i_f - 1][j_f]
+        Tnew_fine[i_f][j_f] = T_fine[i_f - 1][j_f]
       else:  # in the domain
-        _lambda_ij = _lambda_fine[3][i_f][j_f]
-        gamma_ij = _lambda_ij * dt / (dx * dx * 4) # because dx=dx/2 here in the fine mesh
-        T_fine_ij = gamma_ij * (- 4 * T_fine[i_f][j_f] + T_fine[i_f - 1][j_f] + T_fine[i_f + 1][j_f] + T_fine[i_f][j_f - 1] + T_fine[i_f][j_f + 1]) + T_fine[i_f][j_f]
-        Tnew_fine[i_f][j_f] = T_fine_ij
-        if i_f%2==0 and j_f%2==0: # at the coarse point
-          # getting the indexes for the coarse mesh
-          i=int(i_f/2)
-          j=int(j_f/2)
-
-          Tnew[i][j] = T_fine_ij # put the fine value to the coarse mesh
-
+        # maybe at the interface:
+        if j_f % 2 != 0:
+          i = int(i_f / 2)
+          j = int(j_f / 2)
           mask_ij = mask[i][j]
+          mask_ijp1 = mask[i][j + 1]
 
-          _lambda_ij = _lambda[3][i][j]
-          xij = x[i][j][0]
-          yij = x[i][j][1]
+          if mask_ij != 0 and mask_ijp1 != 0 and mask_ij != mask_ijp1:  # right at the point of the vertical interface
 
-          if yij <= 0 + 10e-9:  # at the left ghost points and left interface
-            Tnew[i][j] = T[i][j]
-          elif yij >= (L - 10e-9):  # at the right ghost points and right interface
-            Tnew[i][j] = T[i][j]
-          elif xij < 0:  # at the upper ghost points
-            Tnew[i][j]= T[i+1][j]
-          elif xij > L:  # at the lower ghost points
-            Tnew[i][j]= T[i-1][j]
-          else:  # in the domain
+            k_jp1 =  _lambda_fine[2][i_f][j_f + 1]  # k[i+i]
+            k_jm1 = _lambda_fine[2][i_f][j_f -1]  # k[i]
+            _lambda_jm1 = _lambda_fine[3][i_f][j_f-1]
+            _lambda_jp1 = _lambda_fine[3][i_f][j_f + 1]  # _lambda[i+1]
 
-            mask_ijp1 = mask[i][j + 1]
-            mask_ijm1 = mask[i][j - 1]
-            mask_ip1j = mask[i + 1][j]
-            mask_im1j = mask[i - 1][j]
+            T_ij = T_fine[i_f][j_f]
+            T_ijm1 = T_fine[i_f][j_f-1]  # T[i][j]
+            T_ijp1 = T_fine[i_f][j_f + 1]  # T[i ][j+ 1]
+            T_ijm2 = T_fine[i_f][j_f - 2]  # (T[i][j] + T[i][j - 1]) / 2
+            T_ijp2 = T_fine[i_f][j_f + 2]  # (T[i ][j+ 1] + T[i ][j+ 2]) / 2
 
-            #gamma_ij = _lambda_ij * dt / (dx * dx)
-            #Tnew[i][j] = gamma_ij * (- 4 * T[i][j] + T[i - 1][j] + T[i + 1][j] + T[i][j - 1] + T[i][j + 1]) + T[i][j]
+            bi_star = (-4 * k_jp1 * _lambda_jm1 + 2 * (3 * k_jm1 + k_jp1) * _lambda_jp1)
+            ci_star = (2 * (k_jm1 + 3 * k_jp1) * _lambda_jm1 - 4 * k_jm1 * _lambda_jp1)
+            di_star = (k_jp1 * _lambda_jm1 - (3 * k_jm1 + 2 * k_jp1) * _lambda_jp1)
+            ei_star = (-(2 * k_jm1 + 3 * k_jp1) * _lambda_jm1 + k_jm1 * _lambda_jp1)
 
-            if mask_ij != mask_ijp1: # vertical interface:  T[i][j-1] @(T[i][j]) | T[i][j+1] T[i][j+2]
-              # at the interface between two materials:     T       T   T        T  T       T  T    # fine mesh
+            dx_fine = dx / 2  # because we are operating on the fine mesh
 
-              k_jp1 = _lambda_fine[2][i_f][j_f + 2]  # k[i+i]
-              k_jm1 = _lambda_fine[2][i_f][j_f]  # k[i]
-              _lambda_jm1 = _lambda_fine[3][i_f][j_f]
-              _lambda_jp1 = _lambda_fine[3][i_f][j_f+ 2]  # _lambda[i+1]
+            gamma_i = - dt * 2 / (12 * (k_jp1 + k_jm1) * dx_fine * dx_fine)
+            Tnew_fine_ij = gamma_i * (ci_star * T_ijm1 + bi_star * T_ijp1 + ei_star * T_ijm2 + di_star * T_ijp2) + \
+                           T_ij
+            Tnew_fine[i_f][j_f] = Tnew_fine_ij
+          else: # not at the interface
+            _lambda_ij = _lambda_fine[3][i_f][j_f]
+            dx_fine = dx / 2
+            gamma_ij = _lambda_ij * dt / (dx_fine * dx_fine)  # because dx=dx/2 here in the fine mesh
+            T_fine_ij = gamma_ij * (
+                      - 4 * T_fine[i_f][j_f] + T_fine[i_f - 1][j_f] + T_fine[i_f + 1][j_f] + T_fine[i_f][j_f - 1] +
+                      T_fine[i_f][j_f + 1]) + T_fine[i_f][j_f]
+            Tnew_fine[i_f][j_f] = T_fine_ij
 
-              T_ijm1 = T_fine[i_f][j_f]#T[i][j]
-              T_ijp1 = T_fine[i_f][j_f+2] #T[i ][j+ 1]
-              T_ijm2 = T_fine[i_f][j_f-1]#(T[i][j] + T[i][j - 1]) / 2
-              T_ijp2 = T_fine[i_f][j_f+3]#(T[i ][j+ 1] + T[i ][j+ 2]) / 2
+        # maybe at the interface
+        elif i_f % 2 != 0:
+          i = int(i_f / 2)
+          j = int(j_f / 2)
+          mask_ij = mask[i][j]
+          mask_ip1j = mask[i+1][j]
 
-              bi_star = (-4 * k_jp1 * _lambda_jm1 + 2 * (3 * k_jm1 + k_jp1) * _lambda_jp1)
-              ci_star = (2 * (k_jm1 + 3 * k_jp1) * _lambda_jm1 - 4 * k_jm1 * _lambda_jp1)
-              di_star = (k_jp1 * _lambda_jm1 - (3 * k_jm1 + 2 * k_jp1) * _lambda_jp1)
-              ei_star = (-(2 * k_jm1 + 3 * k_jp1) * _lambda_jm1 + k_jm1 * _lambda_jp1)
+          if mask_ij != 0 and mask_ip1j != 0 and mask_ij != mask_ip1j: # right at the hori interface
+            k_ip1 = _lambda_fine[2][i_f + 1][j_f]  # k[i+i]
+            k_im1 = _lambda_fine[2][i_f-1][j_f]  # k[i]
+            _lambda_im1 = _lambda_fine[3][i_f-1][j_f]
+            _lambda_ip1 = _lambda_fine[3][i_f + 1][j_f]  # _lambda[i+1]
 
-              dx_fine = dx / 2  # because we are operating on the fine mesh
+            T_ij = T_fine[i_f][j_f]
+            T_im1j = T_fine[i_f-1][j_f]  # T[i][j]
+            T_ip1j = T_fine[i_f + 1][j_f]  # T[i+1][j]
+            T_im2j = T_fine[i_f - 2][j_f]  # (T[i][j]+T[i-1][j])/2
+            T_ip2j = T_fine[i_f + 2][j_f]  # (T[i+1][j] + T[i +2][j]) / 2
 
-              gamma_i = - dt / (12 * (k_jp1 + k_jm1) * dx_fine * dx_fine)
-              Tnew_fine_ij = gamma_i * (ci_star * T_ijm1 + bi_star * T_ijp1 + ei_star * T_ijm2 + di_star * T_ijp2) +T_fine[i_f ][j_f+ 1]
-              Tnew_fine[i_f][j_f + 1] = Tnew_fine_ij
+            bi_star = (-4 * k_ip1 * _lambda_im1 + 2 * (3 * k_im1 + k_ip1) * _lambda_ip1)
+            ci_star = (2 * (k_im1 + 3 * k_ip1) * _lambda_im1 - 4 * k_im1 * _lambda_ip1)
+            di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
+            ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
 
-            if mask_ij != mask_ip1j: # horizontal interface: T[i-1][j] @(T[i][j]) | T[i+1][j] T[i+2][j]
-              # at the interface between two materials:      T       T   T        T  T       T   T    # fine mesh
+            dx_fine = dx / 2
 
-              k_ip1 =  _lambda_fine[2][i_f+2][j_f]  # k[i+i]
-              k_im1 = _lambda_fine[2][i_f][j_f]  # k[i]
-              _lambda_im1 = _lambda_fine[3][i_f][j_f]
-              _lambda_ip1 = _lambda_fine[3][i_f+2][j_f]  # _lambda[i+1]
-
-              T_im1j = T_fine[i_f][j_f] #T[i][j]
-              T_ip1j = T_fine[i_f+2][j_f] #T[i+1][j]
-              T_im2j = T_fine[i_f-1][j_f]#(T[i][j]+T[i-1][j])/2
-              T_ip2j = T_fine[i_f+3][j_f]#(T[i+1][j] + T[i +2][j]) / 2
-
-              bi_star = (-4 * k_ip1 * _lambda_im1 + 2 * (3 * k_im1 + k_ip1) * _lambda_ip1)
-              ci_star = (2 * (k_im1 + 3 * k_ip1) * _lambda_im1 - 4 * k_im1 * _lambda_ip1)
-              di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
-              ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
-
-              dx_fine = dx / 2
-
-              gamma_i = - dt / (12 * (k_ip1 + k_im1) * dx_fine * dx_fine)
-              Tnew_fine_ij =gamma_i*(ci_star * T_im1j + bi_star *T_ip1j+ ei_star *T_im2j+ di_star *T_ip2j) +T_fine[i_f+1][j_f]
-              Tnew_fine[i_f + 1][j_f] = Tnew_fine_ij
-
+            gamma_i = - dt * 2 / (12 * (k_ip1 + k_im1) * dx_fine * dx_fine)
+            Tnew_fine_ij = gamma_i * (ci_star * T_im1j + bi_star * T_ip1j + ei_star * T_im2j + di_star * T_ip2j) + \
+                           T_ij
+            Tnew_fine[i_f][j_f] = Tnew_fine_ij
+          else: # not at the interface
+            _lambda_ij = _lambda_fine[3][i_f][j_f]
+            dx_fine = dx / 2
+            gamma_ij = _lambda_ij * dt / (dx_fine * dx_fine)  # because dx=dx/2 here in the fine mesh
+            T_fine_ij = gamma_ij * (
+                      - 4 * T_fine[i_f][j_f] + T_fine[i_f - 1][j_f] + T_fine[i_f + 1][j_f] + T_fine[i_f][j_f - 1] +
+                      T_fine[i_f][j_f + 1]) + T_fine[i_f][j_f]
+            Tnew_fine[i_f][j_f] = T_fine_ij
 
 
+        else: # definitely not at the interface, and should be at the coarse point, calculate as usual
+          _lambda_ij = _lambda_fine[3][i_f][j_f]
+          dx_fine = dx/2
+          gamma_ij = _lambda_ij * dt / (dx_fine * dx_fine) # because dx=dx/2 here in the fine mesh
+          T_fine_ij = gamma_ij * (- 4 * T_fine[i_f][j_f] + T_fine[i_f - 1][j_f] + T_fine[i_f + 1][j_f] + T_fine[i_f][j_f - 1] + T_fine[i_f][j_f + 1]) + T_fine[i_f][j_f]
+          Tnew_fine[i_f][j_f] = T_fine_ij
+          Tnew[i][j] = T_fine_ij
+
+
+  #for i in range(len(Tnew_fine[5])):
+    #print(Tnew_fine[5][i])
+  #print(np.array_str(Tnew, precision=3, suppress_small=True))
   return Tnew, Tnew_fine
 

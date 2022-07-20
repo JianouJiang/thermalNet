@@ -14,7 +14,7 @@ def rho_Aluminium(T): # Kg/m3
       index = i
       break
     elif T < T_list[0]:
-      return rho_list[0]
+      return 1#rho_list[0]
     elif T > T_list[-1]:
       return rho_list[-1]
 
@@ -37,7 +37,7 @@ def Cp_Aluminium(T):  # J/Kg-K
       index = i
       break
     elif T < T_list[0]:
-      return Cp_list[0]
+      return 1#Cp_list[0]
     elif T > T_list[-1]:
       return Cp_list[-1]
 
@@ -60,7 +60,7 @@ def k_Aluminium(T): # W/m-K
       index = i
       break
     elif T < T_list[0]:
-      return k_list[0]
+      return 0.1 # k_list[0]
     elif T > T_list[-1]:
       return k_list[-1]
   deltaT1 = T - T_list[index]
@@ -94,7 +94,7 @@ def rho_Inconel800HT(T): # Ref: The story of the "Incoloy alloys series," from 8
       index = i
       break
     elif T < T_list[0]:
-      return rho_list[0]
+      return 1#rho_list[0]
     elif T > T_list[-1]:
       return rho_list[-1]
 
@@ -115,7 +115,7 @@ def Cp_Inconel800HT(T): # Ref: The story of the "Incoloy alloys series," from 80
       index = i
       break
     elif T < T_list[0]:
-      return Cp_list[0]
+      return 1#Cp_list[0]
     elif T > T_list[-1]:
       return Cp_list[-1]
 
@@ -138,7 +138,7 @@ def k_Inconel800HT(T): # Ref:The story of the "Incoloy alloys series," from 800 
       index = i
       break
     elif T < T_list[0]:
-      return k_list[0]
+      return 1#k_list[0]
     elif T > T_list[-1]:
       return k_list[-1]
   deltaT1 = T - T_list[index]

@@ -17,6 +17,7 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
+plot_times = np.array([0.0, 0.001,0.05,1.0])
 # evolve temperature
 print("started evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS().")
 '''    insulation(zero flux)  --> j, y-axis
@@ -39,21 +40,26 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
     ti = t[i]
     print("t=" + str(ti) + "s; t_max=" + str(t_max))
     # making boundary conditions
-    T = BC_2D_Dirichlet(T, x, mask)
-    
+    T, T_fine = BC_2D_Dirichlet(T, T_fine, x, x_fine, mask)
+    #print(np.array_str(T, precision=2, suppress_small=True))
+    #print(np.array_str(T, precision=1, suppress_small=True))
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
       writeData2D(directory, ti, x, T, _lambda)
 
     Tn, Tn_fine = FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt)
-    
+
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
     T_fine = Tn_fine
+    valid = 1
     # getting the lambda based on the newly obtained temperature for the coarse mesh
     for i in range(len(T)):
       for j in range(len(T[0])):
         Tij = T[i][j]
+        # check if temp seems valid
+        if Tij>10e6 or Tij<-10e3:
+          valid=0
         mask_ij = mask[i][j]
         if mask_ij == 1:
           _lambda[2][i][j] = k_Aluminium(Tij)
@@ -63,6 +69,9 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
           _lambda[3][i][j] = lambda_Inconel800HT(Tij)
         else:
           continue # this is at the ghost point, only matters if there is convective B.C
+    if valid==0:
+      print("temperature unstable, breaking the simulation...")
+      break
 
     # getting the lambda based on the newly obtained temperature for the fine mesh
     for i_f in range(len(T_fine)):
@@ -93,7 +102,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
   duration = et - st
   return duration
 
-duration = evolveT_2D_Dirichlet_Linear0_Aluminium_FTCS()
+duration = evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS()
 
-print("finished evolveT_2D_Dirichlet_Linear0_Aluminium_FTCS() in " + str(duration) +"s.")
+print("finished evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS() in " + str(duration) +"s.")
 

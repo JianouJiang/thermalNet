@@ -94,6 +94,7 @@ def plot_2D(plot_times, figureName, fileName):
                 fig.set_figwidth(5)
                 plt.subplot(len_t_plot, 1, len_t_plot)
                 T_min, T_max = np.abs(T).min(), np.abs(T).max() # TODO
+                print(i)
                 plt.pcolor(x, y, T, cmap='RdBu_r', vmin=T_min, vmax=T_max)
                 plt.title('T at t={}s'.format(ti))
                 # set the limits of the plot to the limits of the data
@@ -111,7 +112,8 @@ def plot_2D(plot_times, figureName, fileName):
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-figureName = 'Heat Transfer in 2D Aluminium'
-fileName = "FTCS_2D_linear0_Dirichlet500_0_Aluminium_T.txt"
+plot_times = np.array([0.0, 0.001,0.05,1.0])
+figureName = 'Heat Transfer in 2D Two Materials'
+fileName = "FTCS_2D_linear0_Dirichlet500_0_TwoMaterials_T.txt"
 plot_2D(plot_times, figureName, fileName)
 print("finished plotting 2d...")
