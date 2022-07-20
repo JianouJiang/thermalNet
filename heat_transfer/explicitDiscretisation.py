@@ -163,15 +163,8 @@ x-axis   insulation(zero flux)
       xij = x[i][j][0]
       yij = x[i][j][1]
 
-      if yij <= 0 + 10e-9:  # at the left ghost points and left interface
+      if mask_ij ==0:
         Tnew[i][j] = T[i][j]
-      elif yij >= (L - 10e-9):  # at the right ghost points and right interface
-        Tnew[i][j] = T[i][j]
-      elif xij < 0:  # at the upper ghost points
-        Tnew[i][j]= T[i+1][j]
-      elif xij > L:  # at the lower ghost points
-        Tnew[i][j]= T[i-1][j]
-
       else:  # in the domain
         gamma_ij = _lambda_ij * dt / (dx * dx)
         Tnew[i][j] = gamma_ij * (- 4 * T[i][j] + T[i - 1][j] + T[i + 1][j] + T[i][j-1] + T[i][j + 1] ) + T[i][j]

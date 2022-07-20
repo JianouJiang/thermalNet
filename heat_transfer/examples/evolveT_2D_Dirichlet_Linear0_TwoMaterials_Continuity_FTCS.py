@@ -42,7 +42,7 @@ def evolveT_2D_Dirichlet_Linear0_Aluminium_TwoMaterials_Continuity_FTCS():
     # making boundary conditions
     T, T_fine = BC_2D_Dirichlet(T, T_fine, x, x_fine, mask)
     #print(np.array_str(T, precision=2, suppress_small=True))
-    #print(np.array_str(T, precision=1, suppress_small=True))
+
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
       writeData2D(directory, ti, x, T, _lambda)

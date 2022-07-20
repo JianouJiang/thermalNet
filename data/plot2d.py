@@ -112,8 +112,8 @@ def plot_2D(plot_times, figureName, fileName):
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-plot_times = np.array([0.0, 0.001,0.05,1.0])
-figureName = 'Heat Transfer in 2D Two Materials'
-fileName = "FTCS_2D_linear0_Dirichlet500_0_TwoMaterials_T.txt"
+#plot_times = np.array([0.0, 0.001,0.05,1.0])
+figureName = 'Heat Transfer in 2D Inconel800HT'
+fileName = "FTCS_2D_linear0_Periodic_Inconel800HT_T.txt"
 plot_2D(plot_times, figureName, fileName)
 print("finished plotting 2d...")
