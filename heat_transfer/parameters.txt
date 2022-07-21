@@ -1,8 +1,8 @@
 # L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting
-1.0
+10000
+200
+150
 0.1
-1.5
-0.0001
 1.0
 1.0
 1

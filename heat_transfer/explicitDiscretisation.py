@@ -168,7 +168,9 @@ x-axis   insulation(zero flux)
       else:  # in the domain
         gamma_ij = _lambda_ij * dt / (dx * dx)
         Tnew[i][j] = gamma_ij * (- 4 * T[i][j] + T[i - 1][j] + T[i + 1][j] + T[i][j-1] + T[i][j + 1] ) + T[i][j]
-
+      
+        if Tnew[i][j] > 10e9 or Tnew[i][j] < -10e3:
+          return None
 
   return Tnew
 

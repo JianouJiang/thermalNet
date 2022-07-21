@@ -195,6 +195,40 @@ def BC_2D_Dirichlet(T,x,  mask):  # TODO! check later
 
 	return T
 
+'''	T=30					       T=10000 if y>=0.75L      --> j, y-axis
+(0,0)-----------------------------------------------------
+   | |                                     					|
+   | |Tbl=30  thirty degree initially  Tbr=reflective BC | L
+   v |                                     					|
+   i ----------------------------------------------------|(L,L)
+  x-axis   T=30 '''
+
+def BC_2D_Crater(T,x,  mask):  # TODO! check later
+	Tamb = 303  # ambient temperature = 303 kelvin : ref
+	T_crater = 10000  # temperature at the upper boundary if y>=0.75L : ref
+	for i in range(len(mask)):
+		for j in range(len(mask[0])):
+
+			xi = x[i][j][0]
+			yi = x[i][j][1]
+
+			mask_i = mask[i][j]
+
+			if yi <= 0 + 10e-9:
+				T[i][j] = Tamb
+			elif yi > L:
+				T[i][j] = T[i][j-2]
+			elif xi <= 0+10e-9:  
+				if yi<0.75*L:
+					T[i][j]=Tamb
+				else:
+					T[i][j]=T_crater
+			elif xi >= L-10e-9:
+				T[i][j] = Tamb
+			else:
+				continue
+
+	return T
 
 '''    insulation(zero flux)  --> j, y-axis
 (0,0)--------------------------------------
