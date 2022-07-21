@@ -42,23 +42,24 @@ def FTCS_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then
   return Tnew
 
 
-def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt, x_interface=0.5*L):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface=0.5*L):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   print("FTCS_Dirichlet_TwoMaterials()")
 
-  Tnew = np.zeros(len(T))
+  #Tnew = np.zeros(len(T))
+  Tnew = BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask)
 
   for i in range(len(T)):
     mask_i = mask[i]
     
     _lambda_i = _lambda[3][i]
     if mask_i==0:
-      Tnew[i] = T[i]
+      continue
     else: # within the domain
       mask_ip1 = mask[i+1]
       mask_im1 = mask[i-1]
 
       if mask_ip1==0 or mask_im1==0: # we are at the left or right boundary, do not calculate here 
-        Tnew[i] = T[i]               # because they were obtained in the B.C function
+        continue               # because they were obtained in the B.C function
       else:
         at_interface = 0
         mask_ip1 = mask[i+1]
