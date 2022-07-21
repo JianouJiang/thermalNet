@@ -131,7 +131,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				T[i] = a_i*T[i]+ c_i*T[i-1] + b_i*Tbr 
 				print(T[i])
 
-	return T, _lambda
+	return T
 
 
 '''                           periodic  --> j, y-axis
