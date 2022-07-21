@@ -34,17 +34,16 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
     ti = t[i]
     print("t=" + str(ti) + "s; t_max=" + str(t_max))
     # making boundary conditions
-    T, _lambda = BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask)
-    print(T)
+    # put it in the FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface)
+    
     #print(mask)
-
 
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
       print("writing data at "+str(ti))
       writeData(directory, ti, x, T, _lambda)
     
-    Tn = FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt, x_interface)
+    Tn = FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface)
 
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
