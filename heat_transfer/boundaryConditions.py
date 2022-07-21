@@ -1,3 +1,4 @@
+import numpy as np
 import sys
 sys.path.insert(0, '../../')
 from tools.tools import *
@@ -100,14 +101,15 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 	# heat being convected away at the right boundary, according to the heat transfer coefficient h
 	# -K * (dT/dx) = qx = h * dT, h = -k/dx, k=-h*dx
 	h_br = 20
+	T_bc =  np.zeros(len(T))
 	for i in range(len(mask)):
 		mask_i = mask[i]
 
 		if mask_i == 0:  # at the ghost points
 			if x[i] < 0:
-				T[i] = Tbl
+				T_bc[i] = Tbl
 			elif x[i] > L:
-				T[i] = Tbr # assigning free stream temperature here, e.g. temperature of air
+				T_bc[i] = Tbr # assigning free stream temperature here, e.g. temperature of air
 			else:
 				print("Error: shouldnt be here.")
 				break
@@ -115,7 +117,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 			mask_im1 = mask[i - 1]
 			mask_ip1 = mask[i + 1]
 			if mask_im1 == 0:  # left boundary of the domain
-				T[i] = Tbl
+				T_bc[i] = Tbl
 			if mask_ip1 == 0:  # right boundary of the domain
 				
 				rho_i = _lambda[0][i] 
@@ -123,15 +125,15 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				k_i = _lambda[2][i] 
 				dx = x[i+1] - x[i]
 
-				a_i = 1+ ( 2*k_i*dt/(rho_i*cp_i*dx*dx) - 2*h_br*dt/(rho_i*cp_i*dx)  ) # is it minus here?
+				a_i = 1+ ( -2*k_i*dt/(rho_i*cp_i*dx*dx) - 2*h_br*dt/(rho_i*cp_i*dx)  ) # is it minus here?
 				b_i = (2*h_br*dt/(rho_i*cp_i*dx)) # is it plus here?
-				c_i = -2*k_i*dt/(rho_i*cp_i*dx*dx) 
-				print(str(a_i)+" "+str(c_i)+" "+str(b_i))
+				c_i = 2*k_i*dt/(rho_i*cp_i*dx*dx)
+				print(str(a_i*T[i])+" "+str(c_i*T[i-1])+" "+str(b_i*Tbr))
 
-				T[i] = a_i*T[i]+ c_i*T[i-1] + b_i*Tbr 
-				print(T[i])
+				T_bc[i] = a_i*T[i]+ c_i*T[i-1] + b_i*Tbr
+				print(T_bc[i])
 
-	return T
+	return T_bc
 
 
 '''                           periodic  --> j, y-axis

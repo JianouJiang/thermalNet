@@ -29,14 +29,14 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
   x_interface=0.8*L
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Linear0_TwoMaterials(x_interface)
-  print(_lambda[2])
+
   for i in range(len(t)):
     ti = t[i]
     print("t=" + str(ti) + "s; t_max=" + str(t_max))
     # making boundary conditions
     # put it in the FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface)
-    
-    #print(mask)
+
+    print(T)
 
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
@@ -44,6 +44,7 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
       writeData(directory, ti, x, T, _lambda)
     
     Tn = FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface)
+
 
     # giving the new temperature to the old temperature for the next iteration
     T = Tn

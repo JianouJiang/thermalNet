@@ -66,7 +66,7 @@ def crankNicolson1D_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3
 
 def crankNicolson1D_Dirichlet_Convec(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   print("crankNicolson1D_Dirichlet_Convec()") # dirichlet B.C at the left and Convection at the right with heat transfer coefficient h = ? and free stream temp of air=?
-
+  h_br = 20 # heat transfer coefficient
   length_T = len(T)
   length_mask = len(mask)
   
@@ -98,6 +98,18 @@ def crankNicolson1D_Dirichlet_Convec(T, mask, _lambda, dx, dt): # if T=[Tbl, T1,
       if mask_im1==0: # at the left boundary, but in the domain
         A[i][i] = 1
         b[i] = T[i] 
+      elif mask_ip1 ==0: # at the right boundary, so convective B.C: TODO!
+        #rho_i = _lambda[0][i]
+        #cp_i = _lambda[1][i]
+        #k_i = _lambda[2][i]
+        #ai =  (2 * k_i * dt / (rho_i * cp_i * dx * dx) - 2 * h_br * dt / (rho_i * cp_i * dx))  # is it minus here?
+        #bi = (2 * h_br * dt / (rho_i * cp_i * dx))  # is it plus here?
+        #ci = -2 * k_i * dt / (rho_i * cp_i * dx * dx)
+        #print(str(ai) + " " + str(ci) + " " + str(bi))
+        A[i][i] =1# ai
+        #A[i][i + 1] = bi
+        #A[i][i - 1] = ci
+        b[i] = T[i]  # a_i*T[i]+ c_i*T[i-1] + b_i*Tbr
 
       else: # inside the domain
         ai = 1/dt + _lambda_i / (dx*dx)

@@ -27,7 +27,7 @@ def evolveT_1D_Dirichlet_Convec_Linear0_Aluminium():
     ti = t[i]
     print("t=" + str(ti) + "s; t_max="+str(t_max))
     # making boundary conditions
-    T, _lambda = BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask)
+    T = BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask)
     
     # saving Temperature at t=n to .txt under /data
     writeData(directory, ti, x, T, _lambda)

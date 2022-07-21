@@ -59,7 +59,7 @@ def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, x, dt, x_interface=0.5*L):  # 
       mask_im1 = mask[i-1]
 
       if mask_ip1==0 or mask_im1==0: # we are at the left or right boundary, do not calculate here 
-        continue               # because they were obtained in the B.C function
+        continue                     # because they were obtained in the B.C function
       else:
         at_interface = 0
         mask_ip1 = mask[i+1]
