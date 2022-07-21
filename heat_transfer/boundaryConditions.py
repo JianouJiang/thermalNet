@@ -170,6 +170,32 @@ def BC_2D_Periodic_Dirichlet(T,  x,  mask):
 	return T
 
 
+def BC_2D_Dirichlet(T,x,  mask):  # TODO! check later
+	Tbl = 1  # 500 # temperature at the left boundary
+	Tbr = 0  # temperature at the right boundary
+	for i in range(len(mask)):
+		for j in range(len(mask[0])):
+
+			xi = x[i][j][0]
+			yi = x[i][j][1]
+
+			mask_i = mask[i][j]
+
+			if yi <= 0 + 10e-9:
+				T[i][j] = Tbl
+			elif yi >= L - 10e-9:
+				T[i][j] = Tbr
+			elif xi < 0:  # we are at the upper and bottom boundary where we have zero flux
+				# so the value of the ghost points depends on the value of the interface point inside domain
+				T[i][j] = T[i + 1][j]
+			elif xi > L:
+				T[i][j] = T[i - 1][j]
+			else:
+				continue
+
+	return T
+
+
 '''    insulation(zero flux)  --> j, y-axis
 (0,0)--------------------------------------
    | |                                     |
@@ -177,7 +203,7 @@ def BC_2D_Periodic_Dirichlet(T,  x,  mask):
    v |                                     |
    i --------------------------------------(0.33L,L)
   x-axis   insulation(zero flux) '''
-def BC_2D_Dirichlet(T, T_fine, x, x_fine, mask):# TODO! check later
+def BC_2D_Dirichlet_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
 	Tbl = 1#500 # temperature at the left boundary
 	Tbr = 0 # temperature at the right boundary
 	for i in range(len(mask)):
