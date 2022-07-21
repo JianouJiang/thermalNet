@@ -34,7 +34,7 @@ def FTCS_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then
       mask_ip1 = mask[i+1]
       mask_im1 = mask[i-1]
       if mask_ip1==0 or mask_im1==0:
-        Tnew[i] = T[i]
+        Tnew[i] = T[i] # this is because we set the values in the B.C function
       else:
         gamma_i = _lambda_i * dt/(dx*dx)
         Tnew[i] = gamma_i * (- 2*T[i] + T[i-1] + T[i+1]) + T[i]
@@ -42,36 +42,44 @@ def FTCS_Dirichlet(T, mask, _lambda, dx, dt): # if T=[Tbl, T1, T2, T3, Tbr] then
   return Tnew
 
 
-def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
+def FTCS_Dirichlet_TwoMaterials(T, mask, _lambda, dx, dt, x_interface=0.5*L):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
   print("FTCS_Dirichlet_TwoMaterials()")
 
   Tnew = np.zeros(len(T))
 
   for i in range(len(T)):
-    at_interface = 0
-    if i == int(len(T) /2):
-      at_interface = 1
     mask_i = mask[i]
+    
     _lambda_i = _lambda[3][i]
     if mask_i==0:
-      continue
+      Tnew[i] = T[i]
     else: # within the domain
-      if at_interface:
-        k_ip1 =0.1# _lambda[2][i+1]  # k[i+i]
-        k_im1 =1# _lambda[2][i-1]  # k[i]
-        _lambda_im1 =1# _lambda[3][i-1]
-        _lambda_ip1 =0.1# _lambda[3][i+1]  # _lambda[i+1]
+      mask_ip1 = mask[i+1]
+      mask_im1 = mask[i-1]
 
-        bi_star = (-4 * k_ip1 * _lambda_im1 + 2 * (3 * k_im1 + k_ip1) * _lambda_ip1)
-        ci_star = (2 * (k_im1 + 3 * k_ip1) * _lambda_im1 - 4 * k_im1 * _lambda_ip1)
-        di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
-        ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
-
-        gamma_i = - dt*2 / (12 * (k_ip1 + k_im1) * dx * dx)
-        Tnew[i] = gamma_i * (ci_star * T[i - 1] + bi_star * T[i + 1] + ei_star * T[i - 2] + di_star * T[i + 2]) + T[i]
+      if mask_ip1==0 or mask_im1==0: # we are at the left or right boundary, do not calculate here 
+        Tnew[i] = T[i]               # because they were obtained in the B.C function
       else:
-        gamma_i = _lambda_i * dt / (dx * dx)
-        Tnew[i] = gamma_i * (- 2 * T[i] + T[i - 1] + T[i + 1]) + T[i]
+        at_interface = 0
+        mask_ip1 = mask[i+1]
+        if mask_i!=mask_ip1 and mask_ip1!=0:
+          at_interface = 1
+        if at_interface:
+          k_ip1 =_lambda[2][i+1]  # k[i+i] # 0.1
+          k_im1 = _lambda[2][i-1]  # k[i] # 1
+          _lambda_im1 = _lambda[3][i-1] # 1
+          _lambda_ip1 = _lambda[3][i+1]  # _lambda[i+1] # 0.1
+
+          bi_star = (-4 * k_ip1 * _lambda_im1 + 2 * (3 * k_im1 + k_ip1) * _lambda_ip1)
+          ci_star = (2 * (k_im1 + 3 * k_ip1) * _lambda_im1 - 4 * k_im1 * _lambda_ip1)
+          di_star = (k_ip1 * _lambda_im1 - (3 * k_im1 + 2 * k_ip1) * _lambda_ip1)
+          ei_star = (-(2 * k_im1 + 3 * k_ip1) * _lambda_im1 + k_im1 * _lambda_ip1)
+
+          gamma_i = - dt*2 / (12 * (k_ip1 + k_im1) * dx * dx)
+          Tnew[i] = gamma_i * (ci_star * T[i - 1] + bi_star * T[i + 1] + ei_star * T[i - 2] + di_star * T[i + 2]) + T[i]
+        else:
+          gamma_i = _lambda_i * dt / (dx * dx)
+          Tnew[i] = gamma_i * (- 2 * T[i] + T[i - 1] + T[i + 1]) + T[i]
   return Tnew
 
 

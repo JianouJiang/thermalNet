@@ -14,7 +14,7 @@ def rho_Aluminium(T): # Kg/m3
       index = i
       break
     elif T < T_list[0]:
-      return 1#rho_list[0]
+      return rho_list[0] #1#
     elif T > T_list[-1]:
       return rho_list[-1]
 
@@ -37,7 +37,7 @@ def Cp_Aluminium(T):  # J/Kg-K
       index = i
       break
     elif T < T_list[0]:
-      return 1#Cp_list[0]
+      return Cp_list[0] #1#
     elif T > T_list[-1]:
       return Cp_list[-1]
 
@@ -60,7 +60,7 @@ def k_Aluminium(T): # W/m-K
       index = i
       break
     elif T < T_list[0]:
-      return 0.1 # k_list[0]
+      return  k_list[0] #0.1 #
     elif T > T_list[-1]:
       return k_list[-1]
   deltaT1 = T - T_list[index]
@@ -94,7 +94,7 @@ def rho_Inconel800HT(T): # Ref: The story of the "Incoloy alloys series," from 8
       index = i
       break
     elif T < T_list[0]:
-      return 1#rho_list[0]
+      return rho_list[0]
     elif T > T_list[-1]:
       return rho_list[-1]
 
@@ -115,7 +115,7 @@ def Cp_Inconel800HT(T): # Ref: The story of the "Incoloy alloys series," from 80
       index = i
       break
     elif T < T_list[0]:
-      return 1#Cp_list[0]
+      return Cp_list[0]
     elif T > T_list[-1]:
       return Cp_list[-1]
 
@@ -138,7 +138,7 @@ def k_Inconel800HT(T): # Ref:The story of the "Incoloy alloys series," from 800 
       index = i
       break
     elif T < T_list[0]:
-      return 1#k_list[0]
+      return k_list[0]
     elif T > T_list[-1]:
       return k_list[-1]
   deltaT1 = T - T_list[index]
@@ -226,19 +226,24 @@ def lambda_Sandstone(Ti):
 # TODO
 # material 3: Ethane Coke
 
-def rho_EthaneCoke(T):
+def rho_EthaneCoke(T): # "Kinetics of coke deposition in the thermal cracking of propane", page 641, Table 4
   
-  return
+  return 1600 # kg/m3
 
-def Cp_EthaneCoke(T):
-  
-  return
+def Cp_EthaneCoke(T): # J/Kg-K
+  # https://ask.okorder.com/questions/how-many-degrees-of-coke-ignition-temperature-can-ignite-coke_134612.html
+  # The average specific heat capacity is 0.808kj/ (KGK) (100 DEG C), 1.465kj/ (KGK) (1000 DEG C)
+
+  return 0.73*T + 53571/100
 
 
-def k_EthaneCoke(T):
+def k_EthaneCoke(T): # Dylan: Ethane coke: the conductivity increases from 8.6 to 9.6 W m−1 K−1 for a temperature increase from 973 to 1273 K
   
-  
-  return
+  return 0.0033333*T+5.35667
+
+def lambda_EthaneCoke(Ti):
+  Ti = Ti + 273.15 # convert from celcius into kelvin, because the temmperature in ansys is in celcius
+  return k_EthaneCoke(Ti)/(Cp_EthaneCoke(Ti)*rho_EthaneCoke(Ti))
 
 def h_EthaneCoke(T):
   
@@ -251,18 +256,23 @@ def h_EthaneCoke(T):
 # material 4: Naphtha Coke
 
 def rho_NaphthaCoke(T):
-  
-  return
+   # "Kinetics of coke deposition in the thermal cracking of propane", page 641, Table 4
+  return 1600 # kg/m3
 
 def Cp_NaphthaCoke(T):
-  
-  return
+# https://ask.okorder.com/questions/how-many-degrees-of-coke-ignition-temperature-can-ignite-coke_134612.html
+  # The average specific heat capacity is 0.808kj/ (KGK) (100 DEG C), 1.465kj/ (KGK) (1000 DEG C)
+
+  return 0.73*T + 53571/100
 
 
-def k_NaphthaCoke(T):
+def k_NaphthaCoke(T): # Dylan: Naphtha coke: it increases from 8.1 to 8.6 W m−1 K−1 for a temperature increase from 973 to 1273 K
   
-  
-  return
+  return 0.001666667*T+6.47833
+
+def lambda_EthaneCoke(Ti):
+  Ti = Ti + 273.15 # convert from celcius into kelvin, because the temmperature in ansys is in celcius
+  return k_NaphthaCoke(Ti)/(Cp_NaphthaCoke(Ti)*rho_NaphthaCoke(Ti))
 
 def h_NaphthaCoke(T):
   

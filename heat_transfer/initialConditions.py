@@ -155,24 +155,43 @@ def IC_1D_Sines_Aluminium():
 
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 
-def IC_1D_Linear0_TwoMaterials():
-    x_interface = 0.5*L
+def IC_1D_Linear0_TwoMaterials(x_interface=0.5*L):
+    #x_interface = 0.5*L
 
     x = np.arange(-number_of_ghost_points * dx, L + dx + number_of_ghost_points * dx-10e-9, dx)
 
-    mask = np.array([1 if 0 <= xi <= L else 0 for xi in x])
+    mask = np.array([1 if (0-10e-9) <= xi <= (L+10e-9) else 0 for xi in x])
     t = np.arange(0, t_max + dt, dt)
 
     T = np.array([0 for xi in x])
-    i=0
-    for xi in x:
-        T[i] = linear0(xi) # temperature
-        i=i+1
-
     rho = np.array([1.0 for i in range(len(T))])  # rho_Aluminium(T) # density
     Cp = np.array([1.0 for i in range(len(T))])  # Cp_Aluminium(T) # specific heat capacity
-    k = np.array([1.0 for i in range(len(T))])  # k_Aluminium(T) # thermal conductivity
+    k = np.array([1.0 if xi < x_interface else 0.1 for xi in x])  # k_Aluminium(T) # thermal conductivity
     _lambda = np.array([1.0 if xi < x_interface else 0.1 for xi in x])
+    
+    for i in range(len(x)):
+        xi = x[i]
+        T[i] = linear0(xi) # temperature
+        mask_i = mask[i]
+        if mask_i!=0:
+            if xi<x_interface: # material 1
+                mask[i] = 1
+            else: # material 2
+                mask[i] = 2
+
+        if xi<x_interface: # material 1: deposited coke
+            rho[i] = rho_EthaneCoke(T[i]) #1
+            Cp[i] = Cp_EthaneCoke(T[i]) #1
+            k[i] = k_EthaneCoke(T[i]) #1
+            _lambda[i] = lambda_EthaneCoke(T[i]) #1
+                
+        else: # material 2: Inconel800HT wall
+            rho[i] = rho_Inconel800HT(T[i]) #1
+            Cp[i] = Cp_Inconel800HT(T[i]) #1
+            k[i] = k_Inconel800HT(T[i]) #1
+            _lambda[i] = lambda_Inconel800HT(T[i]) #0.1    
+
+
 
     return t, x, T, mask, np.array([rho, Cp, k, _lambda])
 

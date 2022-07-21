@@ -74,14 +74,32 @@ def BC_1D_Dirichlet_Tbl1_Tbr0(T, x, mask):
 				T[i] = Tbr
 	return T
 
-
+# Solve 2D Transient Heat Conduction Problem with Convection BCs using FTCS Finite Difference Method: https://www.youtube.com/watch?v=Ip47nsJOQqs
+# make the energy equation balance, as in how much energy in should be equal to how much out...in a sense
+'''                                      |     |----->y-axis, j
+(0,0)------------------------------------*-----*(i-1,j)
+   |                                  dx |  ---|             h=20
+   |------------------------------(i,j-1)*--+--*(i,j)	     Tinf = 150
+   |                                  dx |  L--| 
+   --------------------------------------*-----*(i+1,j)
+   v                                     |  dy |
+   i 
+  x-axis                            '''
+# consider a finite volume with the centre at T[i][j], then this volume is a rectangle with height dx and width dy/2
+# then the net heat flux from the left hand side dx, the upper wall dy/2, the lower wall dy/2, and the right hand side dx
+# should be equal to
+# the heat flux change over the period of dt of this rectangle
+# k*A*dT/dy + k*A'*dT/dx + k*A'*dT/dx + h*A*(Tinf-T[i][j]) = rho*Cp*A'*A*dT/dt
+# discretisation:
+# k*dx*(T[i][j]-T[i][j-1])/dy + k*dy/2*(T[i][j]-T[i-1][j])/dx + k*dy/2*(T[i+1][j]-T[i][j])/dx + h*dx*(Tinf-T[i][j])=rho*Cp*dy/2*dx*(Tnew[i][j]-T[i][j])/dt
+# obviously, we are doing a 1D situation, so we can assume  that the net heat flux in the x-direction is zero
+# k*dT/dy + h*(Tinf-T[i][j]) = rho*Cp*A'*dT/dt
 def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, rho2,...,rhon], [cp1, cp2, ..., cpn], [k1, k2, ..., kn] ....[lambda1, lambda2, ..., lambdan]]    ]
 	Tbl = 500  # temperature at the left boundary
 	Tbr = 150  # temperature at the right ghost point as the reference/free-stream temperature
 	# heat being convected away at the right boundary, according to the heat transfer coefficient h
 	# -K * (dT/dx) = qx = h * dT, h = -k/dx, k=-h*dx
 	h_br = 20
-	
 	for i in range(len(mask)):
 		mask_i = mask[i]
 
@@ -102,10 +120,17 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				
 				rho_i = _lambda[0][i] 
 				cp_i = _lambda[1][i] 
+				k_i = _lambda[2][i] 
 				dx = x[i+1] - x[i]
-				k_br = h_br*dx
-				_lambda[2][i] = k_br
-				_lambda[3][i] = k_br/(cp_i*rho_i)
+
+				a_i = 1+ ( 2*k_i*dt/(rho_i*cp_i*dx*dx) - 2*h_br*dt/(rho_i*cp_i*dx)  ) # is it minus here?
+				b_i = (2*h_br*dt/(rho_i*cp_i*dx)) # is it plus here?
+				c_i = -2*k_i*dt/(rho_i*cp_i*dx*dx) 
+				print(str(a_i)+" "+str(c_i)+" "+str(b_i))
+
+				T[i] = a_i*T[i]+ c_i*T[i-1] + b_i*Tbr 
+				print(T[i])
+
 	return T, _lambda
 
 

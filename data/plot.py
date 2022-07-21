@@ -123,7 +123,7 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
         index = index + 1
         
     plt.xlabel('x (m)',fontsize=12)
-    plt.ylabel('T (k)',fontsize=12)
+    plt.ylabel('T (°C)',fontsize=12)
     plt.title(figureName)
     save_directory = "../img/" + figureName + ".png"
     plt.savefig(save_directory)
@@ -132,10 +132,11 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
 
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-plot_times = np.array([0.0,0.001,0.05,1.0])
-figureName = 'Heat Transfer in Two Materials (1D)'
-fileName1 = "FTCS_linear0_Dirichlet_TwoMaterials_Continuity_T.txt"
-fileName2 = "FTCS_linear0_Dirichlet_TwoMaterials_Continuity_T.txt"
+#plot_times = np.array([0.0,0.001,0.05,1.0])
+plot_times = np.array([0.0, 50, 100,150])
+figureName = 'Heat Transfer in Ethane Coke (0.8cm) and Inconel800HT (0.2cm)'
+fileName1 = "FTCS_linear0_Dirichlet_Convec_CokeInconel800HT_Continuity_T.txt"
+fileName2 = "FTCS_linear0_Dirichlet_Convec_CokeInconel800HT_Continuity_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)
 print("finished plotting...")
 
