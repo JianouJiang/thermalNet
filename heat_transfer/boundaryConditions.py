@@ -94,7 +94,8 @@ def BC_1D_Dirichlet_Tbl1_Tbr0(T, x, mask):
 # discretisation:
 # k*dx*(T[i][j]-T[i][j-1])/dy + k*dy/2*(T[i][j]-T[i-1][j])/dx + k*dy/2*(T[i+1][j]-T[i][j])/dx + h*dx*(Tinf-T[i][j])=rho*Cp*dy/2*dx*(Tnew[i][j]-T[i][j])/dt
 # obviously, we are doing a 1D situation, so we can assume  that the net heat flux in the x-direction is zero
-# k*dT/dy + h*(Tinf-T[i][j]) = rho*Cp*A'*dT/dt
+# k*dT/dy + h*(Tinf-T[j]) = rho*Cp*A'*dT/dt
+# k*(T[j-1] - T[j])/dy + h*(Tinf-T[j]) = rho*Cp*dy/2*(Tnew[j]-T[j])
 def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, rho2,...,rhon], [cp1, cp2, ..., cpn], [k1, k2, ..., kn] ....[lambda1, lambda2, ..., lambdan]]    ]
 	Tbl = 500  # temperature at the left boundary
 	Tbr = 150  # temperature at the right ghost point as the reference/free-stream temperature
@@ -128,7 +129,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 				a_i = 1+ ( -2*k_i*dt/(rho_i*cp_i*dx*dx) - 2*h_br*dt/(rho_i*cp_i*dx)  ) # is it minus here?
 				b_i = (2*h_br*dt/(rho_i*cp_i*dx)) # is it plus here?
 				c_i = 2*k_i*dt/(rho_i*cp_i*dx*dx)
-				print(str(a_i*T[i])+" "+str(c_i*T[i-1])+" "+str(b_i*Tbr))
+				#print(str(a_i*T[i])+" "+str(c_i*T[i-1])+" "+str(b_i*Tbr))
 
 				T_bc[i] = a_i*T[i]+ c_i*T[i-1] + b_i*Tbr
 				print(T_bc[i])
