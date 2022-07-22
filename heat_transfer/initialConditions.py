@@ -393,3 +393,102 @@ def IC_2D_Linear0_TwoMaterials():
     print(_lambda_fine)
     print(mask)
     return t, x, x_fine, T, T_fine, mask, np.array([rho, Cp, k, _lambda]), np.array([rho_fine, Cp_fine, k_fine, _lambda_fine])
+
+def IC_2D_Linear0_CokeInconel800HT():
+    t = np.arange(0, t_max + dt, dt)
+    num_points_x = L / dx + 1
+    dy = dx
+    num_points_y = L / dy + 1
+    x = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    x_fine = np.ones((int( (num_points_x + 2 * number_of_ghost_points)*2-1 ), int( (num_points_y + 2 * number_of_ghost_points) *2-1) ))
+    mask = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    T = np.zeros((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    T_fine = np.zeros((int((num_points_x + 2 * number_of_ghost_points) * 2 - 1),
+                      int((num_points_y + 2 * number_of_ghost_points) * 2 - 1)))
+    rho = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    rho_fine = np.ones((int((num_points_x + 2 * number_of_ghost_points) * 2 - 1),
+                      int((num_points_y + 2 * number_of_ghost_points) * 2 - 1)))
+    Cp = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    Cp_fine = np.ones((int((num_points_x + 2 * number_of_ghost_points) * 2 - 1),
+                      int((num_points_y + 2 * number_of_ghost_points) * 2 - 1)))
+    k = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    k_fine = np.ones((int((num_points_x + 2 * number_of_ghost_points) * 2 - 1),
+                      int((num_points_y + 2 * number_of_ghost_points) * 2 - 1)))
+    _lambda = np.ones((int(num_points_x + 2 * number_of_ghost_points), int(num_points_y + 2 * number_of_ghost_points)))
+    _lambda_fine = np.ones((int((num_points_x + 2 * number_of_ghost_points) * 2 - 1),
+                      int((num_points_y + 2 * number_of_ghost_points) * 2 - 1)))
+    x = np.array(x, dtype=object)
+    x_fine = np.array(x_fine, dtype=object)
+
+    for i_f in range(len(T_fine)):
+        x_f_ij = -number_of_ghost_points*2 * dx/2 + dx/2 * i_f
+        for j_f in range(len(T_fine[0])):
+            y_f_ij = -number_of_ghost_points*2 * dy/2 + dy/2 * j_f
+
+            # append data into fine mesh
+            if (x_f_ij < 0 or x_f_ij > L):
+                x_fine[i_f][j_f] = [x_f_ij, y_f_ij]
+                T_f_ij = linear0(x_f_ij, y_f_ij)  # temperature
+                T_fine[i_f][j_f] = T_f_ij
+            elif (y_f_ij < 0 or y_f_ij > L):
+                x_fine[i_f][j_f] = [x_f_ij, y_f_ij]
+                T_f_ij = linear0(x_f_ij, y_f_ij)  # temperature
+                T_fine[i_f][j_f] = T_f_ij
+            else:
+                x_fine[i_f][j_f] = [x_f_ij, y_f_ij]
+                T_f_ij = linear0(x_f_ij, y_f_ij)  # temperature
+                T_fine[i_f][j_f] = T_f_ij
+
+                if x_f_ij < 0.3*L: # Inconel800HT
+                    rho_fine[i_f][j_f] = rho_Inconel800HT(T_f_ij)  # density
+                    Cp_fine[i_f][j_f] = Cp_Inconel800HT(T_f_ij)  # specific heat capacity
+                    k_fine[i_f][j_f] = k_Inconel800HT(T_f_ij)    # thermal conductivity
+                    _lambda_fine[i_f][j_f] = k_fine[i_f][j_f] / (Cp_fine[i_f][j_f] * rho_fine[i_f][j_f])
+                else: # Coke
+                    rho_fine[i_f][j_f] = rho_EthaneCoke(T_f_ij)  # density
+                    Cp_fine[i_f][j_f] = Cp_EthaneCoke(T_f_ij)    # specific heat capacity
+                    k_fine[i_f][j_f] = k_EthaneCoke(T_f_ij)    # thermal conductivity
+                    _lambda_fine[i_f][j_f] = k_fine[i_f][j_f] / (Cp_fine[i_f][j_f] * rho_fine[i_f][j_f])
+
+            if i_f % 2 == 0 and j_f % 2 == 0:  # at the coarse point
+                # getting the indexes for the coarse mesh
+                i = int(i_f / 2)
+                j = int(j_f / 2)
+                xij = x_f_ij
+                yij = y_f_ij
+                Lr=0.5*L
+                L_inconel=0.3*L
+                a=L/(Lr-L)
+                b=-L^2/(Lr-L)
+                if (xij < 0 or xij > L):
+                    mask[i][j] = 0
+                    x[i][j] = [xij, yij]
+                elif (yij < 0 or yij > L):
+                    mask[i][j] = 0
+                    x[i][j] = [xij, yij]
+                else:
+                    x[i][j] = [xij, yij]
+                    Tij = linear0(xij, yij)  # temperature
+                    T[i][j] = Tij
+                    if (yij<L_inconel): #at Inconel
+                        mask[i][j] = 2
+                        rho[i][j] = rho_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) # # density
+                        Cp[i][j] = Cp_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+                        k[i][j] = k_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+                        _lambda[i][j] = k[i][j] / (Cp[i][j] * rho[i][j])
+                    else: #below Inconel
+                        if (yij<a*xij+b) :#at Coke
+                            mask[i][j] = 1
+                            rho[i][j] = rho_EthaneCoke(Tij)  # np.array([1.0 for i in range(len(T))]) # # density
+                            Cp[i][j] = Cp_EthaneCoke(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+                            k[i][j] = k_EthaneCoke(Tij)  # np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+                            _lambda[i][j] = k[i][j] / (Cp[i][j] * rho[i][j])
+                        else  :#ghost point
+                             mask[i][j] = 0
+                             rho[i][j] = rho_EthaneCoke(Tij)
+                             Cp[i][j] = Cp_EthaneCoke(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity
+                             k[i][j] = k_EthaneCoke(Tij)  # np.array([1.0 for i in range(len(T))]) #  # thermal conductivity
+                             _lambda[i][j] = k[i][j] / (Cp[i][j] * rho[i][j])
+    print(_lambda_fine)
+    print(mask)
+    return t, x, x_fine, T, T_fine, mask, np.array([rho, Cp, k, _lambda]), np.array([rho_fine, Cp_fine, k_fine, _lambda_fine])
