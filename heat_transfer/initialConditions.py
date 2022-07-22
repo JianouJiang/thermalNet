@@ -444,6 +444,7 @@ def IC_2D_Linear0_CokeInconel800HT():
                     Cp_fine[i_f][j_f] = Cp_Inconel800HT(T_f_ij)  # specific heat capacity
                     k_fine[i_f][j_f] = k_Inconel800HT(T_f_ij)    # thermal conductivity
                     _lambda_fine[i_f][j_f] = k_fine[i_f][j_f] / (Cp_fine[i_f][j_f] * rho_fine[i_f][j_f])
+                    print(_lambda_fine[i_f][j_f])
                 else: # Coke
                     rho_fine[i_f][j_f] = rho_EthaneCoke(T_f_ij)  # density
                     Cp_fine[i_f][j_f] = Cp_EthaneCoke(T_f_ij)    # specific heat capacity
@@ -459,7 +460,7 @@ def IC_2D_Linear0_CokeInconel800HT():
                 Lr=0.5*L
                 L_inconel=0.3*L
                 a=L/(Lr-L)
-                b=-L^2/(Lr-L)
+                b=-L*L/(Lr-L)
                 if (xij < 0 or xij > L):
                     mask[i][j] = 0
                     x[i][j] = [xij, yij]

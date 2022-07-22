@@ -40,14 +40,14 @@ def evolveT_2D_Dirichlet_Linear0_CokeInconel800HT_Continuity_FTCS():
     ti = t[i]
     print("t=" + str(ti) + "s; t_max=" + str(t_max))
     # making boundary conditions
-    T, T_fine = BC_2D_Dirichlet_2Layers(T, T_fine, x, x_fine, mask)
+    T, T_fine = BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask)
     #print(np.array_str(T, precision=2, suppress_small=True))
 
     # saving Temperature at t=n to .txt under /data
     if ti in plot_times:
       writeData2D(directory, ti, x, T, _lambda)
 
-    Tn, Tn_fine = FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt)
+    Tn, Tn_fine = FTCS_Dirichlet_2D_CokeInconel800HT(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt)
 
     # giving the new temperature to the old temperature for the next iteration
     T = Tn
