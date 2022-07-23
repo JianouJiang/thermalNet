@@ -30,15 +30,12 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
             Ti = float(values[2])
             _lambda_i = float(values[3])
 
-
-
             if ti in plot_times:
 
                 index = plot_times.tolist().index(ti)
                 x_exact[index].append(xi)
                 T_exact[index].append(Ti)
                 _lambda_exact[index].append(_lambda_i)
-                
 
     x_numerical = [[]] * len_t_plot
     T_numerical = [[]] * len_t_plot

@@ -145,7 +145,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
    i --------------------------------------(0.33L,L)
   x-axis          periodic '''
 def BC_2D_Periodic_Dirichlet(T,  x,  mask):
-	T1 = 3.5  # 500 # temperature at the left boundary
+	T1 = 3.5  # 500 # tempBC_2D_Dirichlet_Convec_2Layererature at the left boundary
 	x1 = 0.2*L
 	y1 = 0.2*L
 	T2 = 4  # temperature at the right boundary
@@ -317,8 +317,13 @@ def BC_2D_Dirichlet_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
   x-axis   T=500 degree
 '''
 def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
+
 	Tamb=150  #degree  ambient air temperature 
 	Tbot=500 #degree   bottom temperature
+
+	T_bc = np.zeros((len(T), len(T[0])))
+	T_fine_bc = np.zeros((len(T_fine), len(T_fine[0])))
+
 	for i in range(len(mask)):
 		for j in range(len(mask[0])):
 
@@ -326,33 +331,47 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 			yi = x[i][j][1]
 
 			mask_i = mask[i][j]
-		
-			if yi < 0:
-				T[i][j] = T[i][j+1]
-			elif yi > L:
-				T[i][j] = T[i][j-1]
+			mask_ip1 = mask[i+1][j]
+
+			if yi < 0: # at the left wall
+				T_bc[i][j] = T[i][j+1] # zero heat flux
+			elif yi > L: # at the right wall
+				T_bc[i][j] = T[i][j-1] # zero heat flux
 			elif xi<0: # we are at the upper and bottom boundary where we have zero flux
 				  # so the value of the ghost points depends on the value of the interface point inside domain
-				T[i][j] = Tamb
-			elif (mask[i][j]==1 and mask[i+1][j]==0) :
-				T[i][j] = Tbot
-			else:
-				continue
+				T_bc[i][j] = Tamb
+			elif mask_i!=0: # inside the domain
+				if mask_ip1==0: # at the bottom boundary
+					T_bc[i][j] = Tbot
+				else: # just inside the domain, no need to add B.C
+					T_bc[i][j] = T[i][j]
+			else: # not at the boundary, we are at the domain, so dont add B.C
+				T_bc[i][j] = T[i][j]
 
-	for i in range(len(T_fine)):
-		for j in range(len(T_fine[0])):
-			xi = x_fine[i][j][0]
-			yi = x_fine[i][j][1]
+	for i_f in range(len(T_fine)):
+		for j_f in range(len(T_fine[0])):
+			xi = x_fine[i_f][j_f][0]
+			yi = x_fine[i_f][j_f][1]
 
-			if yi <= 0:
-				T_fine[i][j] = T[i][j+1]
-			elif yi >= L:
-				T_fine[i][j] = T[i][j-1]
-			elif xi < 0:  # we are at the upper and bottom boundary where we have zero flux
-				# so the value of the ghost points depends on the value of the interface point inside domain
-				T_fine[i][j] = Tamb
-			elif (mask[i][j]==1 and mask[i+1][j]==0) :
-				T[i][j] = Tbot
-			else:
-				continue
+			if yi < 0: # at the left wall
+				T_fine_bc[i_f][j_f] = T[i_f][j_f+1] # zero heat flux
+			elif yi > L: # at the right wall
+				T_fine_bc[i_f][j_f] = T[i_f][j_f-1] # zero heat flux
+			elif xi<0: # we are at the upper and bottom boundary where we have zero flux
+				  # so the value of the ghost points depends on the value of the interface point inside domain
+				T_fine_bc[i_f][j_f] = Tamb
+			else: # inside the domain or at the bottom ghost points
+				T_fine_bc[i_f][j_f] = T_fine[i_f][j_f]
+
+				if i_f % 2 == 0 and j_f % 2 == 0:  # at the coarse point
+					# getting the indexes for the coarse mesh
+					i = int(i_f / 2)
+					j = int(j_f / 2)
+					mask_i = mask[i][j]
+					mask_ip1 = mask[i + 1][j]
+
+					if mask_i != 0:  # inside the domain
+						if mask_ip1 == 0:  # at the bottom boundary
+							T_fine_bc[i_f][j_f] = Tbot
+
 	return T, T_fine

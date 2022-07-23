@@ -40,7 +40,7 @@ def integral(x, f, x_start=0, x_end=L): # by default
     return sum_fx
     
 # open file in write mode and write data
-def writeData(directory, ti, x, T, _lambda): # note T and lambda here are lists, whereas time t is single value
+def writeData(directory, ti, x, T, _lambda, mask=None): # note T and lambda here are lists, whereas time t is single value
     isFile = os.path.isfile(directory) 
     with open(directory, 'a') as fp:
         index = 0
@@ -48,13 +48,19 @@ def writeData(directory, ti, x, T, _lambda): # note T and lambda here are lists,
             xi = x[index]
             _lambda_i = _lambda[3][index] # only taking out lambda, but in the future, we can take out rho, cp, and k
             # write each ti, xi, Ti, lambda on a new line
-            line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + "\n"
-            fp.write(line)
+            if mask==None:
+                line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + "\n"
+                fp.write(line)
+            else:
+                mask_i = mask[index]
+                line = str(ti) + " " + str(xi) + " " + str(Ti) + " " + str(_lambda_i) + " "+str(mask_i)+ "\n"
+                fp.write(line)
+
             index = index + 1
     return
     
 # open file in write mode and write data
-def writeData2D(directory, ti, x, T, _lambda): # note T and lambda here are lists, whereas time t is single value
+def writeData2D(directory, ti, x, T, _lambda,mask=None): # note T and lambda here are lists, whereas time t is single value
     isFile = os.path.isfile(directory) 
     with open(directory, 'a') as fp:
         for i in range(len(T)):
@@ -63,9 +69,15 @@ def writeData2D(directory, ti, x, T, _lambda): # note T and lambda here are list
                 yij = x[i][j][1]
                 Tij = T[i][j]
                 _lambda_ij = _lambda[3][i][j] # only taking out lambda, but in the future, we can take out rho, cp, and k
-              # write each ti, xi, Ti, lambda on a new line
-                line = str(ti) + " " + str(xij) + " " + str(yij) + " "  + str(Tij) + " " + str(_lambda_ij) + "\n"
-                fp.write(line)
+                if mask==None:
+                    # write each ti, xi, Ti, lambda on a new line
+                    line = str(ti) + " " + str(xij) + " " + str(yij) + " " + str(Tij) + " " + str(_lambda_ij) + "\n"
+                    fp.write(line)
+                else:
+                    mask_ij = mask[i][j]
+                  # write each ti, xi, Ti, lambda on a new line
+                    line = str(ti) + " " + str(xij) + " " + str(yij) + " "  + str(Tij) + " " + str(_lambda_ij) + " " + str(mask_ij)+"\n"
+                    fp.write(line)
     return
      
 # reading .csv data from ansys and writing to .txt for python
