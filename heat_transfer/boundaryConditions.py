@@ -318,7 +318,7 @@ def BC_2D_Dirichlet_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
 '''
 def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
 
-	Tamb=150  #degree  ambient air temperature 
+	Tamb=150  #degree  ambient air temperature
 	Tbot=500 #degree   bottom temperature
 
 	T_bc = np.zeros((len(T), len(T[0])))
@@ -331,7 +331,6 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 			yi = x[i][j][1]
 
 			mask_i = mask[i][j]
-			mask_ip1 = mask[i+1][j]
 
 			if yi < 0: # at the left wall
 				T_bc[i][j] = T[i][j+1] # zero heat flux
@@ -340,7 +339,9 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 			elif xi<0: # we are at the upper and bottom boundary where we have zero flux
 				  # so the value of the ghost points depends on the value of the interface point inside domain
 				T_bc[i][j] = Tamb
+				print("here")
 			elif mask_i!=0: # inside the domain
+				mask_ip1 = mask[i + 1][j]
 				if mask_ip1==0: # at the bottom boundary
 					T_bc[i][j] = Tbot
 				else: # just inside the domain, no need to add B.C
@@ -354,9 +355,9 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 			yi = x_fine[i_f][j_f][1]
 
 			if yi < 0: # at the left wall
-				T_fine_bc[i_f][j_f] = T[i_f][j_f+1] # zero heat flux
+				T_fine_bc[i_f][j_f] = T_fine[i_f][j_f+1] # zero heat flux
 			elif yi > L: # at the right wall
-				T_fine_bc[i_f][j_f] = T[i_f][j_f-1] # zero heat flux
+				T_fine_bc[i_f][j_f] = T_fine[i_f][j_f-1] # zero heat flux
 			elif xi<0: # we are at the upper and bottom boundary where we have zero flux
 				  # so the value of the ghost points depends on the value of the interface point inside domain
 				T_fine_bc[i_f][j_f] = Tamb
@@ -368,10 +369,16 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 					i = int(i_f / 2)
 					j = int(j_f / 2)
 					mask_i = mask[i][j]
-					mask_ip1 = mask[i + 1][j]
-
 					if mask_i != 0:  # inside the domain
+						mask_ip1 = mask[i + 1][j]
 						if mask_ip1 == 0:  # at the bottom boundary
 							T_fine_bc[i_f][j_f] = Tbot
-
-	return T, T_fine
+	#print(T_fine_bc)
+	# this T_fine_bc is problematic, because it does not take into consideration of the points
+	# in between horizontal coarse points, this makes a problem in the inclined bottom B.C...
+	# Now, the very reason for such a fine mesh is that the interface between two materials
+	# should be an individual point, however, as examined in the evolveT_1D_Dirichlet_Convec_Linear0_CokeInconel800HT_Continuity_FTCS.py
+	# we can use a different structure that just assumes the interface point lies on the edge of one material.
+	# this still produces very good result with the error of the interface being maximum dx/2
+	# in conclusion, let's ignore the T_fine_bc here, just let it be (maybe completely delete it in the future to avoid any confusions)
+	return T_bc, T_fine_bc

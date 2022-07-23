@@ -310,10 +310,19 @@ def FTCS_Dirichlet_2D_TwoMaterials(T, T_fine, mask, _lambda, _lambda_fine, x, x_
   return Tnew, Tnew_fine
 
 
-
+'''    Converctive B.C h=20 W/m2/k --> j, y-axis
+(0,0)--------------------------------------------------------
+   | |               Inconel 800HT                          | L=3mm
+   ----------------------------------------------------------
+   | |zero heat flux   zero degree initially  zero heat flux| L_total= 0.01 m
+   v |                Coke                                  |                     
+                             -------------------------------        y=ax+b   (  a=L/(Lr-L), b=-L^2/(Lr-L)  )
+   i -------------------------           T=500 degree        (L,L)
+  x-axis   T=500 degree
+'''
 def FTCS_Dirichlet_2D_CokeInconel800HT(T, T_fine, mask, _lambda, _lambda_fine, x, x_fine, dt):  # if T=[Tbl, T1, T2, T3, Tbr] then mask=[0, 1, 1, 1, 0]
-  print("FTCS_Dirichlet_2D_CokeInconel800HT()")  # left dirichlet right neumann (zero flux)
-  h=120
+  print("FTCS_Dirichlet_2D_CokeInconel800HT()")
+  h=20
   Tamb=150
   Tnew = np.zeros((len(T), len(T[0])))
   Tnew_fine = np.zeros(( int(len(T)*2-1), int(len(T[0])*2-1) )) # 2 times finer of the resolution

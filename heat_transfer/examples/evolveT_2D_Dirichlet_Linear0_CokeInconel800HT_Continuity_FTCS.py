@@ -35,7 +35,7 @@ def evolveT_2D_Dirichlet_Linear0_CokeInconel800HT_Continuity_FTCS():
   deleteFile(directory)
   # importing initial conditions
   t, x, x_fine, T, T_fine, mask, _lambda, _lambda_fine = IC_2D_Linear0_CokeInconel800HT()
-
+  print(mask)
   for i in range(len(t)):
     ti = t[i]
     print("t=" + str(ti) + "s; t_max=" + str(t_max))

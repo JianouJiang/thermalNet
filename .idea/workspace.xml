@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1987432e-e82b-4176-89ba-213c36a33df4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/plot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heat_transfer/boundaryConditions.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/boundaryConditions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heat_transfer/initialConditions.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/initialConditions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heat_transfer/examples/evolveT_2D_Dirichlet_Linear0_CokeInconel800HT_Continuity_FTCS.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/examples/evolveT_2D_Dirichlet_Linear0_CokeInconel800HT_Continuity_FTCS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heat_transfer/explicitDiscretisation.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/explicitDiscretisation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heat_transfer/parameters.txt" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/parameters.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/tools.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
