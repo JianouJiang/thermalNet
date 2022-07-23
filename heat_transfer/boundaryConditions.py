@@ -101,7 +101,7 @@ def BC_1D_Dirichlet_Tbl500_Convection(T, x, _lambda, mask): # _lambda= [ [rho1, 
 	Tbr = 150  # temperature at the right ghost point as the reference/free-stream temperature
 	# heat being convected away at the right boundary, according to the heat transfer coefficient h
 	# -K * (dT/dx) = qx = h * dT, h = -k/dx, k=-h*dx
-	h_br = 20
+	h_br = 20 # W/(m2*K)
 	T_bc =  np.zeros(len(T))
 	for i in range(len(mask)):
 		mask_i = mask[i]

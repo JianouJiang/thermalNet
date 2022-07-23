@@ -11,8 +11,6 @@
       <change beforePath="$PROJECT_DIR$/heat_transfer/boundaryConditions.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/boundaryConditions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heat_transfer/examples/evolveT_1D_Dirichlet_Convec_Linear0_CokeInconel800HT_Continuity_FTCS.py" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/examples/evolveT_1D_Dirichlet_Convec_Linear0_CokeInconel800HT_Continuity_FTCS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/heat_transfer/parameters.txt" beforeDir="false" afterPath="$PROJECT_DIR$/heat_transfer/parameters.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Heat Transfer in Ethane Coke (0.8cm) and Inconel800HT (0.2cm).png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Heat Transfer in Ethane Coke (0.8cm) and Inconel800HT (0.2cm).png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Heat Transfer in Ethane Coke (1.8cm) and Inconel800HT (0.2cm).png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Heat Transfer in Ethane Coke (1.8cm) and Inconel800HT (0.2cm).png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

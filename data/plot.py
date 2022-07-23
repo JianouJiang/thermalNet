@@ -133,8 +133,8 @@ def plot_1D(plot_times, figureName, fileName1, fileName2=None, fileName3=None, f
 
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
 #plot_times = np.array([0.0,0.001,0.05,1.0])
-plot_times = np.array([0.0, 0.1, 0.5,20])
-figureName = 'Heat Transfer in Ethane Coke (0.2cm) and Inconel800HT (0.2cm)'
+plot_times = np.array([0.0, 5, 15,300])
+figureName = 'Heat Transfer in Ethane Coke (0.7cm) and Inconel800HT (0.3cm)'
 fileName1 = "FTCS_linear0_Dirichlet_Convec_CokeInconel800HT_Continuity_T.txt"
 fileName2 = "FTCS_linear0_Dirichlet_Convec_CokeInconel800HT_Continuity_T.txt"
 plot_1D(plot_times, figureName, fileName1, fileName2)

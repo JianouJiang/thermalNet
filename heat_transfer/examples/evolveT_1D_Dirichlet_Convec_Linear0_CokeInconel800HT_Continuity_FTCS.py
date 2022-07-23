@@ -15,7 +15,7 @@ parameters_directory="../parameters.txt"
 L, dx, t_max, dt, _lambda1, _lambda2, number_of_ghost_points, num_of_timeSteps_for_plotting = readParameters(parameters_directory)
 dt_for_plotting = t_max / num_of_timeSteps_for_plotting
 plot_times = np.arange(0.0,t_max,dt_for_plotting)
-plot_times = np.array([0.0, 0.1, 0.5,20])
+plot_times = np.array([0.0, 5, 15,300])
 
 # evolve temperature
 print("started evolveT_1D_Dirichlet_Convec_Linear0_CokeInconel800HT_Continuity_FTCS().")
@@ -24,7 +24,7 @@ def evolveT_1D_Dirichlet_Linear0_TwoMaterials_Continuity_FTCS():
   directory = "../../data/FTCS_linear0_Dirichlet_Convec_CokeInconel800HT_Continuity_T.txt"
   # if the file (i.e. directory) exists, delete it first, then we add new data to a brand new .txt file
   deleteFile(directory)
-  x_interface=0.5*L
+  x_interface=0.7*L
   # importing initial conditions
   t, x, T, mask, _lambda = IC_1D_Linear0_TwoMaterials(x_interface)
 
