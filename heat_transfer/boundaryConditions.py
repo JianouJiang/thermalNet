@@ -305,3 +305,54 @@ def BC_2D_Dirichlet_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
 			else:
 				continue
 	return T, T_fine
+
+'''    Converctive B.C h=20 W/m2/k --> j, y-axis
+(0,0)--------------------------------------------------------
+   | |               Inconel 800HT                          | L=3mm
+   ----------------------------------------------------------
+   | |zero heat flux   zero degree initially  zero heat flux| L_total= 0.01 m
+   v |                Coke                                  |                     
+                             -------------------------------        y=ax+b   (  a=L/(Lr-L), b=-L^2/(Lr-L)  )
+   i -------------------------           T=500 degree        (L,L)
+  x-axis   T=500 degree
+'''
+def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check later
+	Tamb=150  #degree  ambient air temperature 
+	Tbot=500 #degree   bottom temperature
+	for i in range(len(mask)):
+		for j in range(len(mask[0])):
+
+			xi = x[i][j][0]
+			yi = x[i][j][1]
+
+			mask_i = mask[i][j]
+		
+			if yi < 0:
+				T[i][j] = T[i][j+1]
+			elif yi > L:
+				T[i][j] = T[i][j-1]
+			elif xi<0: # we are at the upper and bottom boundary where we have zero flux
+				  # so the value of the ghost points depends on the value of the interface point inside domain
+				T[i][j] = Tamb
+			elif (mask[i][j]==1 and mask[i+1][j]==0) :
+				T[i][j] = Tbot
+			else:
+				continue
+
+	for i in range(len(T_fine)):
+		for j in range(len(T_fine[0])):
+			xi = x_fine[i][j][0]
+			yi = x_fine[i][j][1]
+
+			if yi <= 0:
+				T_fine[i][j] = T[i][j+1]
+			elif yi >= L:
+				T_fine[i][j] = T[i][j-1]
+			elif xi < 0:  # we are at the upper and bottom boundary where we have zero flux
+				# so the value of the ghost points depends on the value of the interface point inside domain
+				T_fine[i][j] = Tamb
+			elif (mask[i][j]==1 and mask[i+1][j]==0) :
+				T[i][j] = Tbot
+			else:
+				continue
+	return T, T_fine
