@@ -471,7 +471,7 @@ def IC_2D_Linear0_CokeInconel800HT():
                     x[i][j] = [xij, yij]
                     Tij = linear0(xij, yij)  # temperature
                     T[i][j] = Tij
-                    if (yij<L_inconel): #at Inconel
+                    if (xij<L_inconel): #at Inconel
                         mask[i][j] = 2
                         rho[i][j] = rho_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) # # density
                         Cp[i][j] = Cp_Inconel800HT(Tij)  # np.array([1.0 for i in range(len(T))]) #  # specific heat capacity

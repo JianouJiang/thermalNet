@@ -345,9 +345,9 @@ def BC_2D_Dirichlet_Convec_2Layers(T, T_fine, x, x_fine, mask):# TODO! check lat
 			yi = x_fine[i][j][1]
 
 			if yi <= 0:
-				T_fine[i][j] = T[i][j+1]
+				T_fine[i][j] = T_fine[i][j+1]
 			elif yi >= L:
-				T_fine[i][j] = T[i][j-1]
+				T_fine[i][j] = T_fine[i][j-1]
 			elif xi < 0:  # we are at the upper and bottom boundary where we have zero flux
 				# so the value of the ghost points depends on the value of the interface point inside domain
 				T_fine[i][j] = Tamb
